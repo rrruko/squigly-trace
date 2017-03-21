@@ -1,0 +1,18 @@
+Configuring bmp-1.2.6.3...
+Building bmp-1.2.6.3...
+Preprocessing library bmp-1.2.6.3...
+[ 1 of 12] Compiling Codec.BMP.Compression ( Codec\BMP\Compression.hs, .stack-work\dist\ca59d0ab\build\Codec\BMP\Compression.o )
+[ 2 of 12] Compiling Codec.BMP.Error  ( Codec\BMP\Error.hs, .stack-work\dist\ca59d0ab\build\Codec\BMP\Error.o )
+[ 3 of 12] Compiling Codec.BMP.CIEXYZ ( Codec\BMP\CIEXYZ.hs, .stack-work\dist\ca59d0ab\build\Codec\BMP\CIEXYZ.o )
+[ 4 of 12] Compiling Codec.BMP.BitmapInfoV3 ( Codec\BMP\BitmapInfoV3.hs, .stack-work\dist\ca59d0ab\build\Codec\BMP\BitmapInfoV3.o )
+[ 5 of 12] Compiling Codec.BMP.BitmapInfoV4 ( Codec\BMP\BitmapInfoV4.hs, .stack-work\dist\ca59d0ab\build\Codec\BMP\BitmapInfoV4.o )
+[ 6 of 12] Compiling Codec.BMP.BitmapInfoV5 ( Codec\BMP\BitmapInfoV5.hs, .stack-work\dist\ca59d0ab\build\Codec\BMP\BitmapInfoV5.o )
+[ 7 of 12] Compiling Codec.BMP.FileHeader ( Codec\BMP\FileHeader.hs, .stack-work\dist\ca59d0ab\build\Codec\BMP\FileHeader.o )
+[ 8 of 12] Compiling Codec.BMP.BitmapInfo ( Codec\BMP\BitmapInfo.hs, .stack-work\dist\ca59d0ab\build\Codec\BMP\BitmapInfo.o )
+[ 9 of 12] Compiling Codec.BMP.Base   ( Codec\BMP\Base.hs, .stack-work\dist\ca59d0ab\build\Codec\BMP\Base.o )
+[10 of 12] Compiling Codec.BMP.Pack   ( Codec\BMP\Pack.hs, .stack-work\dist\ca59d0ab\build\Codec\BMP\Pack.o )
+[11 of 12] Compiling Codec.BMP.Unpack ( Codec\BMP\Unpack.hs, .stack-work\dist\ca59d0ab\build\Codec\BMP\Unpack.o )
+[12 of 12] Compiling Codec.BMP        ( Codec\BMP.hs, .stack-work\dist\ca59d0ab\build\Codec\BMP.o )
+Installing library in
+C:\sr\snapshots\b201cfe6\lib\x86_64-windows-ghc-8.0.2\bmp-1.2.6.3-43OLkH0uuwm831pBFpx2PZ
+Registering bmp-1.2.6.3...

@@ -1,0 +1,57 @@
+Configuring matrix-0.3.5.0...
+Building matrix-0.3.5.0...
+Preprocessing library matrix-0.3.5.0...
+[1 of 1] Compiling Data.Matrix      ( Data\Matrix.hs, .stack-work\dist\ca59d0ab\build\Data\Matrix.o )
+
+Data\Matrix.hs:80:1: warning: [-Wunused-imports]
+    The import of ‘Data.Traversable’ is redundant
+      except perhaps to import instances from ‘Data.Traversable’
+    To import instances alone, use: import Data.Traversable()
+
+Data\Matrix.hs:88:1: warning: [-Wunused-imports]
+    The import of ‘Data.Maybe’ is redundant
+      except perhaps to import instances from ‘Data.Maybe’
+    To import instances alone, use: import Data.Maybe()
+
+Data\Matrix.hs:1323:1: warning: [-Winline-rule-shadowing]
+    Rule "matrix/traceOfSum" may never fire
+      because ‘trace’ might inline first
+    Probable fix: add an INLINE[n] or NOINLINE[n] pragma for ‘trace’
+
+Data\Matrix.hs:1323:1: warning: [-Winline-rule-shadowing]
+    Rule "matrix/traceOfSum" may never fire
+      because rule "Class op +" for ‘+’ might fire first
+    Probable fix: add phase [n] or [~n] to the competing rule
+
+Data\Matrix.hs:1326:1: warning: [-Winline-rule-shadowing]
+    Rule "matrix/traceOfScale" may never fire
+      because ‘trace’ might inline first
+    Probable fix: add an INLINE[n] or NOINLINE[n] pragma for ‘trace’
+
+Data\Matrix.hs:1326:1: warning: [-Winline-rule-shadowing]
+    Rule "matrix/traceOfScale" may never fire
+      because ‘scaleMatrix’ might inline first
+    Probable fix: add an INLINE[n] or NOINLINE[n] pragma for ‘scaleMatrix’
+
+Data\Matrix.hs:1351:1: warning: [-Winline-rule-shadowing]
+    Rule "matrix/detLaplaceProduct" may never fire
+      because ‘detLaplace’ might inline first
+    Probable fix: add an INLINE[n] or NOINLINE[n] pragma for ‘detLaplace’
+
+Data\Matrix.hs:1351:1: warning: [-Winline-rule-shadowing]
+    Rule "matrix/detLaplaceProduct" may never fire
+      because rule "Class op *" for ‘*’ might fire first
+    Probable fix: add phase [n] or [~n] to the competing rule
+
+Data\Matrix.hs:1354:1: warning: [-Winline-rule-shadowing]
+    Rule "matrix/detLUProduct" may never fire
+      because ‘detLU’ might inline first
+    Probable fix: add an INLINE[n] or NOINLINE[n] pragma for ‘detLU’
+
+Data\Matrix.hs:1354:1: warning: [-Winline-rule-shadowing]
+    Rule "matrix/detLUProduct" may never fire
+      because rule "Class op *" for ‘*’ might fire first
+    Probable fix: add phase [n] or [~n] to the competing rule
+Installing library in
+C:\sr\snapshots\b201cfe6\lib\x86_64-windows-ghc-8.0.2\matrix-0.3.5.0-eFZR6K8Lax4OrNeuTQF4y
+Registering matrix-0.3.5.0...

@@ -1,0 +1,17 @@
+Configuring tar-0.5.0.3...
+Building tar-0.5.0.3...
+Preprocessing library tar-0.5.0.3...
+[ 1 of 11] Compiling Codec.Archive.Tar.Types ( Codec\Archive\Tar\Types.hs, .stack-work\dist\ca59d0ab\build\Codec\Archive\Tar\Types.o )
+[ 2 of 11] Compiling Codec.Archive.Tar.Write ( Codec\Archive\Tar\Write.hs, .stack-work\dist\ca59d0ab\build\Codec\Archive\Tar\Write.o )
+[ 3 of 11] Compiling Codec.Archive.Tar.Read ( Codec\Archive\Tar\Read.hs, .stack-work\dist\ca59d0ab\build\Codec\Archive\Tar\Read.o )
+[ 4 of 11] Compiling Codec.Archive.Tar.Pack ( Codec\Archive\Tar\Pack.hs, .stack-work\dist\ca59d0ab\build\Codec\Archive\Tar\Pack.o )
+[ 5 of 11] Compiling Codec.Archive.Tar.Index.StringTable ( Codec\Archive\Tar\Index\StringTable.hs, .stack-work\dist\ca59d0ab\build\Codec\Archive\Tar\Index\StringTable.o )
+[ 6 of 11] Compiling Codec.Archive.Tar.Index.IntTrie ( Codec\Archive\Tar\Index\IntTrie.hs, .stack-work\dist\ca59d0ab\build\Codec\Archive\Tar\Index\IntTrie.o )
+[ 7 of 11] Compiling Codec.Archive.Tar.Index ( Codec\Archive\Tar\Index.hs, .stack-work\dist\ca59d0ab\build\Codec\Archive\Tar\Index.o )
+[ 8 of 11] Compiling Codec.Archive.Tar.Entry ( Codec\Archive\Tar\Entry.hs, .stack-work\dist\ca59d0ab\build\Codec\Archive\Tar\Entry.o )
+[ 9 of 11] Compiling Codec.Archive.Tar.Check ( Codec\Archive\Tar\Check.hs, .stack-work\dist\ca59d0ab\build\Codec\Archive\Tar\Check.o )
+[10 of 11] Compiling Codec.Archive.Tar.Unpack ( Codec\Archive\Tar\Unpack.hs, .stack-work\dist\ca59d0ab\build\Codec\Archive\Tar\Unpack.o )
+[11 of 11] Compiling Codec.Archive.Tar ( Codec\Archive\Tar.hs, .stack-work\dist\ca59d0ab\build\Codec\Archive\Tar.o )
+Installing library in
+C:\sr\snapshots\b201cfe6\lib\x86_64-windows-ghc-8.0.2\tar-0.5.0.3-60pC6grTbvG2zWoTgfDWBJ
+Registering tar-0.5.0.3...
