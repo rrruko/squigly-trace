@@ -42,6 +42,13 @@
   (major1) == 0 && (major2) <  3 || \
   (major1) == 0 && (major2) == 3 && (minor) <= 5)
 
+/* package random-1.1 */
+#define VERSION_random "1.1"
+#define MIN_VERSION_random(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  1 || \
+  (major1) == 1 && (major2) == 1 && (minor) <= 0)
+
 /* package vector-0.11.0.0 */
 #define VERSION_vector "0.11.0.0"
 #define MIN_VERSION_vector(major1,major2,minor) (\
@@ -105,7 +112,7 @@
   (major1) == 2 && (major2) <  25 || \
   (major1) == 2 && (major2) == 25 && (minor) <= 0)
 
-#define CURRENT_COMPONENT_ID "raytrace-0.1.0.0-LUeNFmvjCrO22AISZpuFVX"
+#define CURRENT_COMPONENT_ID "raytrace-0.1.0.0-LqVbAl3QgT32j0Uy1FQn8n"
 
-#define CURRENT_PACKAGE_KEY "raytrace-0.1.0.0-LUeNFmvjCrO22AISZpuFVX"
+#define CURRENT_PACKAGE_KEY "raytrace-0.1.0.0-LqVbAl3QgT32j0Uy1FQn8n"
 

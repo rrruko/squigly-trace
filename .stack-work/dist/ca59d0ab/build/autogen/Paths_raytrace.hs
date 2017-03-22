@@ -30,7 +30,7 @@ version = Version [0,1,0,0] []
 bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath
 
 bindir     = "C:\\Users\\Ethan\\Programming\\Haskell\\raytracer3\\raytrace\\.stack-work\\install\\65995373\\bin"
-libdir     = "C:\\Users\\Ethan\\Programming\\Haskell\\raytracer3\\raytrace\\.stack-work\\install\\65995373\\lib\\x86_64-windows-ghc-8.0.2\\raytrace-0.1.0.0-LUeNFmvjCrO22AISZpuFVX"
+libdir     = "C:\\Users\\Ethan\\Programming\\Haskell\\raytracer3\\raytrace\\.stack-work\\install\\65995373\\lib\\x86_64-windows-ghc-8.0.2\\raytrace-0.1.0.0-LqVbAl3QgT32j0Uy1FQn8n"
 dynlibdir  = "C:\\Users\\Ethan\\Programming\\Haskell\\raytracer3\\raytrace\\.stack-work\\install\\65995373\\lib\\x86_64-windows-ghc-8.0.2"
 datadir    = "C:\\Users\\Ethan\\Programming\\Haskell\\raytracer3\\raytrace\\.stack-work\\install\\65995373\\share\\x86_64-windows-ghc-8.0.2\\raytrace-0.1.0.0"
 libexecdir = "C:\\Users\\Ethan\\Programming\\Haskell\\raytracer3\\raytrace\\.stack-work\\install\\65995373\\libexec"
