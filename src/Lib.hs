@@ -23,22 +23,33 @@ type ImageBuffer = B.ByteString
 --data Camera = Camera { vertex :: V3 Float, rotation :: V3 Float, depth :: Float}
 
 data Ray = Ray { vertex :: V3 Float, direction :: V3 Float, bounces :: Int } deriving (Show)
+data Scene = Scene { tris :: [Triangle] }
 
-
-data Scene = Scene { tris :: [Triangle], lights :: [Light] }
-
--- im pretty sure setting any members of a triangle's material value greater than 1 will make it glow
--- but not independently emit light
-data Triangle = Triangle { a :: V3 Float, b :: V3 Float, c :: V3 Float, color :: RGB Float } deriving (Show)
-
-data Light = Light { lightVert :: V3 Float, lightColor :: RGB Float } deriving (Show)
+data Triangle = Triangle { 
+    a :: V3 Float, 
+    b :: V3 Float, 
+    c :: V3 Float, 
+    material :: Material Float 
+} deriving (Show)
 
 data RGB a = RGB a a a
+
+addRGB  (RGB r1 g1 b1) (RGB r2 g2 b2) = RGB (r1+r2) (g1+g2) (b1+b2)
+multRGB (RGB r1 g1 b1) (RGB r2 g2 b2) = RGB (r1*r2) (g1*g2) (b1*b2)
 
 instance Functor RGB where
     fmap f (RGB r g b) = RGB (f r) (f g) (f b)
 instance Show a => Show (RGB a) where
     show (RGB r g b) = unwords ["RGB", show r, show g, show b]
+
+data Material a = Mat { color :: RGB a, emittance :: RGB a } deriving (Show)
+
+data TraceData = Trace { 
+    intersectPoint :: V3 Float, 
+    dist :: Float, 
+    mat :: Material Float, 
+    surfNorm :: V3 Float
+}
 
 normal :: Triangle -> V3 Float
 normal (Triangle a b c _) = (b ^-^ a) `cross` (c ^-^ a)
@@ -58,12 +69,17 @@ v6 = testSceneVerts !! 5
 
 red = RGB 1 0 0 
 yellow = RGB 1 0.75 0
-lime = RGB 0.5 1 0
+lime = fmap (/0.5) (RGB 0.5 1 0)
 green = RGB 0 1 0.25
 cyan = RGB 0 1 1
 blue = RGB 0 0.25 1
 purple = RGB 0.5 0 1
 pink = RGB 1 0 0.75
+
+black = RGB 0 0 0
+white = RGB 1 1 1
+
+noEmission = black
 
 testSceneVerts :: [V3 Float]
 testSceneVerts = map ((+ (V3 1 0 0)) . (`rotVert` testRotMatrix))
@@ -82,18 +98,17 @@ rotVert vert mat = toV3 (fromV3 vert * mat)
 
 testScene :: Scene
 testScene = Scene
-    [ Triangle v2 v1 v5 lime
-    , Triangle v3 v2 v5 lime
-    , Triangle v4 v3 v5 lime
-    , Triangle v1 v4 v5 lime
-    , Triangle v1 v2 v6 lime
-    , Triangle v2 v3 v6 lime
-    , Triangle v3 v4 v6 lime
-    , Triangle v4 v1 v6 lime
-    , Triangle (V3 10 10 (-2)) (V3 10 (-10) (-2)) (V3 (-10) 0 (-2)) (RGB 1 1 1)
-    , Triangle (V3 10 10 (-2)) (V3 10 (-10) (-2)) (V3 10    0 10  ) (RGB 1 1 1)
-    ]
-    [ Light (V3 0 0 14) (RGB 100 100 100)
+    [ Triangle v2 v1 v5 (Mat lime noEmission)
+    , Triangle v3 v2 v5 (Mat lime noEmission)
+    , Triangle v4 v3 v5 (Mat lime noEmission)
+    , Triangle v1 v4 v5 (Mat lime noEmission)
+    , Triangle v1 v2 v6 (Mat lime noEmission)
+    , Triangle v2 v3 v6 (Mat lime noEmission)
+    , Triangle v3 v4 v6 (Mat lime noEmission)
+    , Triangle v4 v1 v6 (Mat lime noEmission)
+    , Triangle (V3 10 10 (-2)) (V3 10 (-10) (-2)) (V3 (-10) 0 (-2)) (Mat white noEmission)
+    , Triangle (V3 10 10 (-2)) (V3 10 (-10) (-2)) (V3 10    0 10  ) (Mat white noEmission)
+    , Triangle (V3 (-1) 0 2) (V3 1 (-1) 2) (V3 1 1 2) (Mat white (RGB 100 100 100))
     ]
 
 testRotMatrix :: Matrix Float
@@ -113,8 +128,6 @@ rotMatrixRads alp bet gam = foldl1 (*) . map (fromList 3 3) $
       0,        cos gam,  -sin gam,
       0,        sin gam,  cos gam]]
 
-data TraceData = Trace { intersectPoint :: V3 Float, dist :: Float, col :: RGB Float, surfNorm :: V3 Float }
-
 -- maybe Intersectable a => Ray -> a -> Maybe (v3 Float) but thats probs overkill
 getIntersect :: Ray -> Triangle -> Maybe TraceData
 getIntersect ray tri@(Triangle a b c _)
@@ -123,8 +136,8 @@ getIntersect ray tri@(Triangle a b c _)
         let rayDist = ((a - vertex ray) `dot` normal tri) 
                       / (direction ray `dot` normal tri)
             intersectPoint = vertex ray + ((rayDist *) <$> (direction ray))
-        in  if rayDist > 0 && pointInTriangle intersectPoint tri then
-                Just (Trace intersectPoint rayDist (color tri) (normal tri))
+        in  if rayDist > 0.1 && pointInTriangle intersectPoint tri then
+                Just (Trace intersectPoint rayDist (material tri) (normal tri))
             else
                 Nothing
 
@@ -150,8 +163,41 @@ makeRays w h camera = [rayFromVerts (V3 (-1.5) 0.0 0.0) ((V3 camera 0 0) + V3 0.
 -- this is in reverse order due to list comprehension evaluation nonsense
 
 resultImage :: StdGen -> Scene -> Int -> Int -> Float -> ImageBuffer
-resultImage randGenerator scene w h camera = B.pack $ concatMap (colorToPixel . resultOfRay randGenerator scene) (makeRays w h camera)
-    where colorToPixel (RGB r g b) = map (floor . (*255) . (*(2/pi)) . atan) [r, g, b, 255]
+resultImage randgen scene w h camera = 
+    let rays = makeRays w h camera
+    in  B.pack . concat $ zipWith (rayToPixel scene) rays (replicateStdGen randgen)--[rayToPixel r g | r <- rays, g <- take (length rays) (replicateStdGen randgen)]
+
+colorToPixel :: RGB Float -> [Word8]
+colorToPixel (RGB r g b) = map (floor . (*255) . (*(2/pi)) . atan) [r, g, b, 255]
+
+rayToPixel :: Scene -> Ray -> StdGen -> [Word8]
+rayToPixel scene ray g = colorToPixel . averageOfRaySamples g scene $ ray --colorToPixel . resultOfRay g scene $ ray
+
+desiredSamples :: Num a => a
+desiredSamples = 20
+
+averageOfRaySamples :: StdGen -> Scene -> Ray -> RGB Float
+averageOfRaySamples g s r = averageColors (map (\gen -> resultOfRay gen s r) (take desiredSamples $ replicateStdGen g))
+
+averageColors :: [RGB Float] -> RGB Float
+averageColors cs = fmap (/(fromIntegral $ length cs)) (foldl1 addRGB cs)
+
+
+{-
+resultImage :: StdGen -> Scene -> Int -> Int -> Float -> ImageBuffer
+resultImage randgen scene w h camera =
+    B.pack . average $ samples
+    where samples = [makeImage gen scene (makeRays w h camera) | gen <- sampleSeeds]
+          sampleSeeds = take 10 (replicateStdGen randgen)
+makeImage :: StdGen -> Scene -> [Ray] -> [Word8]
+makeImage gen scene rays = concatMap (colorToPixel . resultOfRay gen scene) rays
+-}
+
+replicateStdGen :: StdGen -> [StdGen]
+replicateStdGen gen = 
+    let (g1,g2) = split gen
+    in  g1 : replicateStdGen g2
+
 
 {-
 resultOfRay' :: StdGen -> Scene -> Ray -> Color
@@ -174,13 +220,35 @@ resultOfRay' gen scene ray =
 -}
 
 resultOfRay :: StdGen -> Scene -> Ray -> RGB Float
-resultOfRay gen scene ray =
-    let intersect = getIntersectInScene gen scene ray
-    in  case intersect of
-            Just x ->
-                flatShade (intersectPoint x) (col x) (surfNorm x) (V3 (2) 0 (-1.9)) 
-            Nothing ->
-                RGB 0 0 0
+resultOfRay gen scene ray
+    | bounces ray >= maxBounces = RGB 0 0 0
+    | otherwise = 
+        let intersect = getIntersectInScene gen scene ray
+            newDirection = randomVector gen
+            newGen = snd (next gen)
+        in  case intersect of
+                Just x ->
+                    let oldRayDotSurfNormSignum = signum $ direction ray `dot` surfNorm x
+                        newRayDotSurfNormSignum = signum $ newDirection `dot` surfNorm x
+                        newRay = if oldRayDotSurfNormSignum == newRayDotSurfNormSignum then
+                                        Ray (intersectPoint x) (-newDirection) (bounces ray + 1) -- flip the direction
+                                 else
+                                        Ray (intersectPoint x) (newDirection) (bounces ray + 1)
+                        lightIntensity = 1 / (dist x)^2
+                    in  ((color $ mat x) `multRGB`
+                        (resultOfRay newGen scene newRay)) `addRGB`
+                        (fmap (*lightIntensity) . emittance $ mat x)
+                Nothing ->
+                    RGB 0 0 0
+    where maxBounces = 3
+
+randomVector :: StdGen -> V3 Float
+randomVector gen = 
+    let (u, gen2) = randomR (0,1) gen
+        (v, _)    = randomR (0,1) gen2
+        th = 2 * pi * u
+        ph = acos (2 * v - 1)
+    in  V3 (cos th * sin ph) (sin th * sin ph) (cos ph)
 
 -- you should stop representing light color as [Word8]
 -- during raytracing, treat light color as an unbounded (though strictly positive) rgb _float_ triple
@@ -205,6 +273,7 @@ resultOfRay gen scene ray =
 --     make three of those, and average resultOfRay of each of them, and that's the color for a ray that hasn't hit maxBounce.
 -- ****
 
+{-
 flatShade :: V3 Float -> RGB Float -> V3 Float -> V3 Float -> RGB Float
 flatShade position color faceNormal lightPosition =
     let lightIntensity = 10 -- lol, should get this from the actual light
@@ -213,6 +282,7 @@ flatShade position color faceNormal lightPosition =
         cosAngle = abs (faceNormal `dot` distanceVector) / (magnitude faceNormal * magnitude distanceVector)
     in  fmap ((*intensity) . (*cosAngle)) color
     -- fluxish gives bad results because the dot product is not the same as angle
+-}
 
 {-
 divRGB :: Color -> Float -> Color
@@ -291,7 +361,7 @@ type Camera = Float
 
 render :: Camera -> Scene -> Int -> Int -> Maybe String -> IO ()
 render cam scene w h path = do 
-    let randGenerator = undefined
+    randGenerator <- getStdGen
     let bmp = packRGBA32ToBMP w h (resultImage randGenerator scene w h cam)
     writeBMP savePath bmp
         where savePath = case path of
