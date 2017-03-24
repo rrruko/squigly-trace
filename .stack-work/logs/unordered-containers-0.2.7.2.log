@@ -1,0 +1,22 @@
+Configuring unordered-containers-0.2.7.2...
+Building unordered-containers-0.2.7.2...
+Preprocessing library unordered-containers-0.2.7.2...
+[1 of 8] Compiling Data.HashMap.UnsafeShift ( Data\HashMap\UnsafeShift.hs, .stack-work\dist\ca59d0ab\build\Data\HashMap\UnsafeShift.o )
+[2 of 8] Compiling Data.HashMap.Unsafe ( Data\HashMap\Unsafe.hs, .stack-work\dist\ca59d0ab\build\Data\HashMap\Unsafe.o )
+[3 of 8] Compiling Data.HashMap.PopCount ( Data\HashMap\PopCount.hs, .stack-work\dist\ca59d0ab\build\Data\HashMap\PopCount.o )
+[4 of 8] Compiling Data.HashMap.Array ( Data\HashMap\Array.hs, .stack-work\dist\ca59d0ab\build\Data\HashMap\Array.o )
+[5 of 8] Compiling Data.HashMap.Base ( Data\HashMap\Base.hs, .stack-work\dist\ca59d0ab\build\Data\HashMap\Base.o )
+[6 of 8] Compiling Data.HashMap.Lazy ( Data\HashMap\Lazy.hs, .stack-work\dist\ca59d0ab\build\Data\HashMap\Lazy.o )
+[7 of 8] Compiling Data.HashSet     ( Data\HashSet.hs, .stack-work\dist\ca59d0ab\build\Data\HashSet.o )
+[8 of 8] Compiling Data.HashMap.Strict ( Data\HashMap\Strict.hs, .stack-work\dist\ca59d0ab\build\Data\HashMap\Strict.o )
+[1 of 8] Compiling Data.HashMap.UnsafeShift ( Data\HashMap\UnsafeShift.hs, .stack-work\dist\ca59d0ab\build\Data\HashMap\UnsafeShift.p_o )
+[2 of 8] Compiling Data.HashMap.Unsafe ( Data\HashMap\Unsafe.hs, .stack-work\dist\ca59d0ab\build\Data\HashMap\Unsafe.p_o )
+[3 of 8] Compiling Data.HashMap.PopCount ( Data\HashMap\PopCount.hs, .stack-work\dist\ca59d0ab\build\Data\HashMap\PopCount.p_o )
+[4 of 8] Compiling Data.HashMap.Array ( Data\HashMap\Array.hs, .stack-work\dist\ca59d0ab\build\Data\HashMap\Array.p_o )
+[5 of 8] Compiling Data.HashMap.Base ( Data\HashMap\Base.hs, .stack-work\dist\ca59d0ab\build\Data\HashMap\Base.p_o )
+[6 of 8] Compiling Data.HashMap.Lazy ( Data\HashMap\Lazy.hs, .stack-work\dist\ca59d0ab\build\Data\HashMap\Lazy.p_o )
+[7 of 8] Compiling Data.HashSet     ( Data\HashSet.hs, .stack-work\dist\ca59d0ab\build\Data\HashSet.p_o )
+[8 of 8] Compiling Data.HashMap.Strict ( Data\HashMap\Strict.hs, .stack-work\dist\ca59d0ab\build\Data\HashMap\Strict.p_o )
+Installing library in
+C:\sr\snapshots\b201cfe6\lib\x86_64-windows-ghc-8.0.2\unordered-containers-0.2.7.2-8AmrySQXjRGF6VciYs51fM
+Registering unordered-containers-0.2.7.2...

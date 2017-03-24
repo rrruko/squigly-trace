@@ -1,0 +1,24 @@
+[1 of 2] Compiling Main             ( C:\Users\Ethan\AppData\Local\Temp\stack5252\bytes-0.15.2\Setup.lhs, C:\Users\Ethan\AppData\Local\Temp\stack5252\bytes-0.15.2\.stack-work\dist\ca59d0ab\setup\Main.o )
+
+C:\Users\Ethan\AppData\Local\Temp\stack5252\bytes-0.15.2\Setup.lhs:51:69: warning: [-Wdeprecations]
+    In the use of type constructor or class ‘InstalledPackageId’
+    (imported from Distribution.Package):
+    Deprecated: "Use UnitId instead"
+[2 of 2] Compiling StackSetupShim   ( C:\sr\setup-exe-src\setup-shim-Z6RU0evB.hs, C:\Users\Ethan\AppData\Local\Temp\stack5252\bytes-0.15.2\.stack-work\dist\ca59d0ab\setup\StackSetupShim.o )
+Linking C:\Users\Ethan\AppData\Local\Temp\stack5252\bytes-0.15.2\.stack-work\dist\ca59d0ab\setup\setup.exe ...
+Configuring bytes-0.15.2...
+Building bytes-0.15.2...
+Preprocessing library bytes-0.15.2...
+[1 of 5] Compiling Data.Bytes.Signed ( src\Data\Bytes\Signed.hs, .stack-work\dist\ca59d0ab\build\Data\Bytes\Signed.o )
+[2 of 5] Compiling Data.Bytes.VarInt ( src\Data\Bytes\VarInt.hs, .stack-work\dist\ca59d0ab\build\Data\Bytes\VarInt.o )
+[3 of 5] Compiling Data.Bytes.Put   ( src\Data\Bytes\Put.hs, .stack-work\dist\ca59d0ab\build\Data\Bytes\Put.o )
+[4 of 5] Compiling Data.Bytes.Get   ( src\Data\Bytes\Get.hs, .stack-work\dist\ca59d0ab\build\Data\Bytes\Get.o )
+[5 of 5] Compiling Data.Bytes.Serial ( src\Data\Bytes\Serial.hs, .stack-work\dist\ca59d0ab\build\Data\Bytes\Serial.o )
+[1 of 5] Compiling Data.Bytes.Signed ( src\Data\Bytes\Signed.hs, .stack-work\dist\ca59d0ab\build\Data\Bytes\Signed.p_o )
+[2 of 5] Compiling Data.Bytes.VarInt ( src\Data\Bytes\VarInt.hs, .stack-work\dist\ca59d0ab\build\Data\Bytes\VarInt.p_o )
+[3 of 5] Compiling Data.Bytes.Put   ( src\Data\Bytes\Put.hs, .stack-work\dist\ca59d0ab\build\Data\Bytes\Put.p_o )
+[4 of 5] Compiling Data.Bytes.Get   ( src\Data\Bytes\Get.hs, .stack-work\dist\ca59d0ab\build\Data\Bytes\Get.p_o )
+[5 of 5] Compiling Data.Bytes.Serial ( src\Data\Bytes\Serial.hs, .stack-work\dist\ca59d0ab\build\Data\Bytes\Serial.p_o )
+Installing library in
+C:\sr\snapshots\b201cfe6\lib\x86_64-windows-ghc-8.0.2\bytes-0.15.2-CoxH8CioAOK8h6CcNcuhd
+Registering bytes-0.15.2...
