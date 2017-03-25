@@ -1,8 +1,14 @@
+{-|
+Module      : Geometry
+Description : Geometric types based on V3s
+Maintainer  : rukokarasu@gmail.com
+Stability   : experimental
+-}
 module Geometry
     (Ray(..), Scene(..), Triangle(..), normal, rotMatrixRads, rotVert
     ) where
 
-import Color(Material(..), RGB(..))
+import Color(Material)
 import Linear.V3
 import Data.Matrix (Matrix, (!), fromList)
 

@@ -1,10 +1,10 @@
 
 ==================== FINAL INTERFACE ====================
-2017-03-25 09:36:53.0216158 UTC
+2017-03-25 10:00:53.5487827 UTC
 
 interface main@main:Main 8002
-  interface hash: cef4e1ee4899e2e9bc02de77fb2190f5
-  ABI hash: 1269e09871c5f3e7574a6bc1ddfa48cb
+  interface hash: f6b83426ba3fc7c0dff10d68a6e00b31
+  ABI hash: 6f6c2e662bd4a836f4b8af67a565f3d1
   export-list hash: d0ee57351bffd8f1761a4a2d0a251769
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: f3562ddcf4c83d57053dc100995dd8dd
@@ -132,7 +132,7 @@ family instance modules: adjunctions-4.3@adjunctions-4.3-5CqTSM7liCdC9cb4N2IolK:
 import  -/  base-4.9.1.0:Prelude 74b3e204395920329f6de9d97206abe9
 import  -/  base-4.9.1.0:System.IO 5daf3f384209c11d9566e3409af8ec5d
 import  -/  ghc-prim-0.5.0.0:GHC.Types 89f8de4f08018c9177c98d979eae0e45
-import  -/  squigly-trace-0.1.0.0@squigly-trace-0.1.0.0-B2tPeVU0dH9BfPKJegt0x3:Lib 79cf1f3e9179a2fe37938d9cabc2f479
+import  -/  squigly-trace-0.1.0.0@squigly-trace-0.1.0.0-B2tPeVU0dH9BfPKJegt0x3:Lib fa0b55b388446f1a82bf1dc987b52d3a
 import  -/  squigly-trace-0.1.0.0@squigly-trace-0.1.0.0-B2tPeVU0dH9BfPKJegt0x3:Obj f69be78ddd0167c947921f517a00f82c
 d6831ef04cb9301b090dfae6f7bb7ec7
   $trModule :: GHC.Types.Module
@@ -146,12 +146,12 @@ d6831ef04cb9301b090dfae6f7bb7ec7
   $trModule2 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS "main"#) -}
-582b89330d2a1fcb3e757f35e60bb6d9
+16e49011e669e835e51ffcc17cffdec1
   main :: GHC.Types.IO ()
   {- Arity: 1, Strictness: <S,U>,
      Unfolding: InlineRule (0, True, True)
                 Main.main1 `cast` (Sym (GHC.Types.N:IO[0] <()>_R)) -}
-c382edb1f64e8cd82d6c7dc4f63749d6
+e59a5b39a42be991634764f4411316b8
   main1 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
@@ -177,7 +177,7 @@ c382edb1f64e8cd82d6c7dc4f63749d6
 5367964fec7a787e5a316bb66763b7b9
   main3 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "./data/test.obj"#) -}
-c5343a63fac1a8889ca082b00f50e71c
+3b148ac4cd681498a58c123b608be4e9
   main4 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)

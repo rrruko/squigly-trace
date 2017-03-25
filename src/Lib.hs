@@ -1,3 +1,9 @@
+{-|
+Module      : Lib
+Description : Rendering logic
+Maintainer  : rukokarasu@gmail.com
+Stability   : experimental
+-}
 module Lib
     ( Camera, render, testScene
     ) where

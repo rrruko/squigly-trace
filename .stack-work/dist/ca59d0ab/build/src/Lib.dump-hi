@@ -1,10 +1,10 @@
 
 ==================== FINAL INTERFACE ====================
-2017-03-25 09:42:24.8708693 UTC
+2017-03-25 10:00:51.5826702 UTC
 
 interface squigly-trace-0.1.0.0-B2tPeVU0dH9BfPKJegt0x3:Lib 8002
-  interface hash: 7edfecd274f50a0b79f8ca851369d3f3
-  ABI hash: 79cf1f3e9179a2fe37938d9cabc2f479
+  interface hash: f0b221b990541248befc8f9cac4c3b40
+  ABI hash: fa0b55b388446f1a82bf1dc987b52d3a
   export-list hash: b1944f796d8934c09b33cd940a94ba56
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: ff109124cfc5c6538fb1b79e319c5cea
@@ -163,7 +163,7 @@ import  -/  Color 00774378ee26a135ff33270dcc96368a
   color c5f13d6255e67378fc118d541ead8cef
   emittance c35884fcb0f66c2633d62e241292add1
   white 85cc289729bfaec0a6fdbd883044009a
-import  -/  Geometry 85cd1ee946afd97989b05e2f68a8f17e
+import  -/  Geometry d9d1c4d7115ebd723f2d456d29d7203d
   exports: 83974f313d1690297b560e870dbbf42c
   Ray 26d6f068994d29f6576793f9338e449f
   Ray 0f563539952d932fde2464ac8431111c
@@ -175,7 +175,7 @@ import  -/  Geometry 85cd1ee946afd97989b05e2f68a8f17e
   direction 129c8453820768dc162a2785386f0a9c
   material 1762c46e4667fdb5effd54e6d9ce17e4
   normal 985555aa75245504eb5c24d8d4c3c798
-  rotMatrixRads 386d47232387a8e26558dbfdc6c7b713
+  rotMatrixRads b6d5e5c6b83fa6ee5de88823baebff84
   rotVert a58ea87bc0f6193ae9982a8663f6df09
   tFirst ab7e81c9d9f4b92f528d8a7899a7c7bc
   tris e592e6344f49b9f4df675e0f268e796e
@@ -217,7 +217,7 @@ f7ffb3ea20906ded1bcb612a9e8b535e
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS
                    "squigly-trace-0.1.0.0-B2tPeVU0dH9BfPKJegt0x3"#) -}
-3b33da06b8f0a1ee83f550e271a5b917
+10013ee8595f4a47c64331ac2ab26f7d
   $wc ::
     GHC.Types.Float
     -> GHC.Types.Float
@@ -337,10 +337,10 @@ faff4e785c7c7ca04fc0c4b464f21d73
      Unfolding: InlineRule (1, True, False)
                 (\ (ds :: Lib.TraceData) ->
                  case ds of wild { Lib.Trace ds1 ds2 ds3 ds4 -> ds4 }) -}
-c224300bf5783d097130d58909e18272
+57342000e638fd024d957f2a6e83f167
   testScene :: Geometry.Scene
   {- Strictness: m, Unfolding: (Geometry.Scene Lib.testScene1) -}
-0cd9ca47cced2a0b3ce6dae5b2e01f09
+6461cad0cadd22f80d57daec40811967
   testScene1 :: [Geometry.Triangle]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
@@ -410,7 +410,7 @@ e892e1602d623e7a7798c3d8877caebd
 2fb954f473bea39001d2bbcf1cf825aa
   testScene19 :: GHC.Types.Float
   {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# 2.0#) -}
-04a22846b97ca0133033e621b4671f30
+180b20acbd0632cb1b2377b5ec07c4d7
   testScene2 :: [Geometry.Triangle]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
@@ -476,7 +476,7 @@ bf8b19aae3eee116197052c5a316cb4b
 b86944e03a2977ca9be4ea148f09e248
   testScene29 :: GHC.Types.Float
   {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# -2.0#) -}
-be9462583dfaa9b00d1ac1db7dafceb8
+749443e2e2a51ca16a4e5f5417262f9e
   testScene3 :: [Geometry.Triangle]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
@@ -510,7 +510,7 @@ b6e8817ae292d78d189ad78d50bfd724
                    Lib.testScene30
                    Lib.testScene23
                    Lib.testScene29) -}
-ecefd71669fee3742000643adbf77efa
+ce4153a5a362ad44f00baa4d671eba52
   testScene34 :: Geometry.Triangle
   {- Strictness: m,
      Unfolding: (Geometry.Triangle
@@ -531,56 +531,56 @@ ecefd71669fee3742000643adbf77efa
 a65cf2dfd4b7bc8f02012527027ad3d9
   testScene37 :: GHC.Types.Float
   {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# 0.25#) -}
-7f52c7d96404dcbf4017d5219d7a0972
+63c24a354fc98ea6b0d75898e7f79f8d
   testScene38 :: [Linear.V3.V3 GHC.Types.Float]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
                    @ (Linear.V3.V3 GHC.Types.Float)
                    Lib.testScene50
                    Lib.testScene39) -}
-0a31ed031519ef4f421b465594491005
+8abfe2488bbcbef54fb425afa9e281d2
   testScene39 :: [Linear.V3.V3 GHC.Types.Float]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
                    @ (Linear.V3.V3 GHC.Types.Float)
                    Lib.testScene49
                    Lib.testScene40) -}
-5df9185b89d41b385d8b62ab845d2f39
+06d92b04c1a34bb2ed77a372980abc67
   testScene4 :: [Geometry.Triangle]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
                    @ Geometry.Triangle
                    Lib.testScene55
                    Lib.testScene5) -}
-73bf849473bda5b281fa0ccc348dd554
+2a20cf9ad908686d3c3c79b5acd73fe5
   testScene40 :: [Linear.V3.V3 GHC.Types.Float]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
                    @ (Linear.V3.V3 GHC.Types.Float)
                    Lib.testScene48
                    Lib.testScene41) -}
-84b2733d3b6009adefe0b6dc3254dbc6
+f83638343fafbb080dafb1e6aa63c530
   testScene41 :: [Linear.V3.V3 GHC.Types.Float]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
                    @ (Linear.V3.V3 GHC.Types.Float)
                    Lib.testScene47
                    Lib.testScene42) -}
-d5b24a8df2a23f682183f4b214ad969e
+88e73be3f082866da1cf90239d7fea8f
   testScene42 :: [Linear.V3.V3 GHC.Types.Float]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
                    @ (Linear.V3.V3 GHC.Types.Float)
                    Lib.testScene43
                    (GHC.Types.[] @ (Linear.V3.V3 GHC.Types.Float))) -}
-bc84f4a65d676a6b12e6849a01c0d293
+711ac4024c55e8a01b2f28c7797f1793
   testScene43 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (case Lib.$wc
                         Lib.testScene23
                         Lib.testScene23
                         Lib.testScene21 of ww { (#,,#) ww1 ww2 ww3 ->
                  Linear.V3.V3 @ GHC.Types.Float ww1 ww2 ww3 }) -}
-738dc9ca69fdae2e67d7d4dde107a8e3
+4f1ff7f4af13d1c01a2e806a184a619c
   testScene44 :: Data.Matrix.Matrix GHC.Types.Float
   {- Unfolding: (case Geometry.$wrotMatrixRads
                         Lib.testScene46
@@ -593,49 +593,49 @@ bc84f4a65d676a6b12e6849a01c0d293
 81439ac3a9f957f937466a9824cc6e89
   testScene46 :: GHC.Types.Float
   {- HasNoCafRefs, Unfolding: (GHC.Types.F# 0.3926991#) -}
-967c1beb0638cfaf6581d63b889ce7d4
+fd013f1278d4f9e7eeb9edc1aed8308f
   testScene47 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (case Lib.$wc
                         Lib.testScene23
                         Lib.testScene23
                         Lib.testScene17 of ww { (#,,#) ww1 ww2 ww3 ->
                  Linear.V3.V3 @ GHC.Types.Float ww1 ww2 ww3 }) -}
-d9633334d9ad90556cd3e5c9bae4d1e6
+4e29f0d091f85a6bc21a9499b6ba5b47
   testScene48 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (case Lib.$wc
                         Lib.testScene23
                         Lib.testScene17
                         Lib.testScene23 of ww { (#,,#) ww1 ww2 ww3 ->
                  Linear.V3.V3 @ GHC.Types.Float ww1 ww2 ww3 }) -}
-90e405319e2ca54c5240db937d97fbec
+b95753b842f5b664056b6fed171c62d0
   testScene49 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (case Lib.$wc
                         Lib.testScene21
                         Lib.testScene23
                         Lib.testScene23 of ww { (#,,#) ww1 ww2 ww3 ->
                  Linear.V3.V3 @ GHC.Types.Float ww1 ww2 ww3 }) -}
-3d055b0820aed4f23ea2289abd4e98a1
+612332c674ddee55da2227768dc87276
   testScene5 :: [Geometry.Triangle]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
                    @ Geometry.Triangle
                    Lib.testScene54
                    Lib.testScene6) -}
-8eaf5bd167ddc141200f225ed8535479
+be37cdc069d6ca03803f5be0ca5fb08e
   testScene50 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (case Lib.$wc
                         Lib.testScene23
                         Lib.testScene21
                         Lib.testScene23 of ww { (#,,#) ww1 ww2 ww3 ->
                  Linear.V3.V3 @ GHC.Types.Float ww1 ww2 ww3 }) -}
-ba2a4bc249ccfbaa39ec3515b100347d
+bc44088877f162f14e71559aae9f93df
   testScene51 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (case Lib.$wc
                         Lib.testScene17
                         Lib.testScene23
                         Lib.testScene23 of ww { (#,,#) ww1 ww2 ww3 ->
                  Linear.V3.V3 @ GHC.Types.Float ww1 ww2 ww3 }) -}
-2710d6707a46d1f77edce92deec1696a
+80a33caa106ba443957184cc13ea3117
   testScene52 :: Geometry.Triangle
   {- Strictness: m,
      Unfolding: (Geometry.Triangle
@@ -643,7 +643,7 @@ ba2a4bc249ccfbaa39ec3515b100347d
                    Lib.testScene_v4
                    Lib.testScene_v6
                    Lib.testScene35) -}
-a55c1746694f491ca7248563fb259d22
+34cbce6784d5a32ffdfe3a1e22f1bc4c
   testScene53 :: Geometry.Triangle
   {- Strictness: m,
      Unfolding: (Geometry.Triangle
@@ -651,7 +651,7 @@ a55c1746694f491ca7248563fb259d22
                    Lib.testScene_v3
                    Lib.testScene_v6
                    Lib.testScene35) -}
-16e108b9b26767b4427751ed5978ea28
+6becf36a1699d1364c0f5d21a7c9f93b
   testScene54 :: Geometry.Triangle
   {- Strictness: m,
      Unfolding: (Geometry.Triangle
@@ -659,7 +659,7 @@ a55c1746694f491ca7248563fb259d22
                    Lib.testScene_v2
                    Lib.testScene_v6
                    Lib.testScene35) -}
-05cd62971cef0d94c7112b1ddfa9ab92
+a8ccdae839e28178f4f7cb4d24c22394
   testScene55 :: Geometry.Triangle
   {- Strictness: m,
      Unfolding: (Geometry.Triangle
@@ -667,7 +667,7 @@ a55c1746694f491ca7248563fb259d22
                    Lib.testScene_v4
                    Lib.testScene_v5
                    Lib.testScene35) -}
-5979684957d35f85d8e6ebc225fa846b
+323c935901cb53b13f285ca22aec1827
   testScene56 :: Geometry.Triangle
   {- Strictness: m,
      Unfolding: (Geometry.Triangle
@@ -675,7 +675,7 @@ a55c1746694f491ca7248563fb259d22
                    Lib.testScene_v3
                    Lib.testScene_v5
                    Lib.testScene35) -}
-d027a7e95a7169481a6bbc372476822c
+b4e2c12dc401edbca7550735ff5c0398
   testScene57 :: Geometry.Triangle
   {- Strictness: m,
      Unfolding: (Geometry.Triangle
@@ -683,7 +683,7 @@ d027a7e95a7169481a6bbc372476822c
                    Lib.testScene_v2
                    Lib.testScene_v5
                    Lib.testScene35) -}
-943fa6d1ae66739b526425576fa14ff7
+fc9a279134627d0b5f76d0dd51ca3e62
   testScene58 :: Geometry.Triangle
   {- Strictness: m,
      Unfolding: (Geometry.Triangle
@@ -691,21 +691,21 @@ d027a7e95a7169481a6bbc372476822c
                    Lib.testScene_v1
                    Lib.testScene_v5
                    Lib.testScene35) -}
-dd21697788a1f26215f300ca31aff492
+d87436edfbc7104ce6cbf1f42d44d817
   testScene6 :: [Geometry.Triangle]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
                    @ Geometry.Triangle
                    Lib.testScene53
                    Lib.testScene7) -}
-7da8f31221764d64d6cacfb35ed9c591
+6faab7add0205229d0045ff676c5fd79
   testScene7 :: [Geometry.Triangle]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
                    @ Geometry.Triangle
                    Lib.testScene52
                    Lib.testScene8) -}
-c7ae206866342f06fc4803714266a7da
+1bac957a127a3592e3231edb157142f8
   testScene8 :: [Geometry.Triangle]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
@@ -719,7 +719,7 @@ c7ae206866342f06fc4803714266a7da
                    @ Geometry.Triangle
                    Lib.testScene32
                    Lib.testScene10) -}
-f72d6107dafed4049e0920813c3c67a8
+b99e9180cd78e4f98f94f06bcb958c36
   testSceneVerts :: [Linear.V3.V3 GHC.Types.Float]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
@@ -742,37 +742,37 @@ ac491d437b6c67ac17a4df34abbf4974
                    Lib.testScene23
                    Lib.testScene23
                    Lib.testScene23) -}
-fca3c62463b77b27aa1fbc135920d7dd
+c9616712bdf405588b576b49f351fccc
   testScene_v1 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (GHC.List.$w!!
                    @ (Linear.V3.V3 GHC.Types.Float)
                    Lib.testSceneVerts
                    0#) -}
-95539fca23cde9accfbbd5b5d0b77527
+a98dfcb02380282db24c39817fcede2d
   testScene_v2 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (GHC.List.$w!!
                    @ (Linear.V3.V3 GHC.Types.Float)
                    Lib.testSceneVerts
                    1#) -}
-e064ab4cf72491846eeafc745de09cf4
+133a46a333907b7f91e838849df91a68
   testScene_v3 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (GHC.List.$w!!
                    @ (Linear.V3.V3 GHC.Types.Float)
                    Lib.testSceneVerts
                    2#) -}
-dcda1b4f7006b07ab73e94234a99b513
+32f4e82b1d7ba3dfb4540fce9f138da3
   testScene_v4 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (GHC.List.$w!!
                    @ (Linear.V3.V3 GHC.Types.Float)
                    Lib.testSceneVerts
                    3#) -}
-bb602c2b5f53779de1ece81a34a8364e
+b688572b578a62d7f8714bf8073cc371
   testScene_v5 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (GHC.List.$w!!
                    @ (Linear.V3.V3 GHC.Types.Float)
                    Lib.testSceneVerts
                    4#) -}
-9145f9404c991ba86beb87fd073144c7
+be1fbd8d6ac348ff6a772602e9795988
   testScene_v6 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (GHC.List.$w!!
                    @ (Linear.V3.V3 GHC.Types.Float)

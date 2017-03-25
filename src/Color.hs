@@ -1,3 +1,9 @@
+{-|
+Module      : Color
+Description : Simple type for color and light
+Maintainer  : rukokarasu@gmail.com
+Stability   : experimental
+-}
 module Color
     (Material(..), RGB(..), black, gray, white
     ) where

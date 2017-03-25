@@ -1,9 +1,9 @@
 
 ==================== FINAL INTERFACE ====================
-2017-03-25 09:42:25.2278784 UTC
+2017-03-25 10:00:51.9316902 UTC
 
 interface squigly-trace-0.1.0.0-B2tPeVU0dH9BfPKJegt0x3:Obj 8002
-  interface hash: 1e20ffad8cb8a45c2f030cf9cef168f4
+  interface hash: 9035a05eeaa375076369115c647ff19f
   ABI hash: f69be78ddd0167c947921f517a00f82c
   export-list hash: b5b402b690c07675c2b75004c501561d
   orphan hash: 7e7e1e7ec7426b9d1c7c6ac845af0de8
@@ -139,7 +139,7 @@ import  -/  Color 00774378ee26a135ff33270dcc96368a
   Mat 6ed9f2e96cd88888e42c0aad006d8e1f
   gray 97d96c10f6e1a706c38ac6021f72f162
   white 85cc289729bfaec0a6fdbd883044009a
-import  -/  Geometry 85cd1ee946afd97989b05e2f68a8f17e
+import  -/  Geometry d9d1c4d7115ebd723f2d456d29d7203d
   exports: 83974f313d1690297b560e870dbbf42c
   Scene dd191a31e57d718fb775ace8ba18dfe6
   Scene 643152448e00f7088428d90cecb4c2fb

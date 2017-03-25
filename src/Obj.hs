@@ -1,3 +1,9 @@
+{-|
+Module      : Obj
+Description : Loader for .obj files
+Maintainer  : rukokarasu@gmail.com
+Stability   : experimental
+-}
 module Obj
     (sceneFromObj
     ) where
