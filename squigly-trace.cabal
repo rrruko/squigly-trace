@@ -1,0 +1,46 @@
+name:                squigly-trace
+version:             0.1.0.0
+-- synopsis:         Toy haskell raytracer
+-- description:      Toy haskell raytracer
+homepage:            https://github.com/rukokarasu/squigly-trace#readme
+license:             BSD3
+license-file:        LICENSE
+author:              rrruko
+maintainer:          rukokarasu@gmail.com
+copyright:           2017 rrruko
+category:            Web
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Color, Geometry, Lib, Obj
+  build-depends:       base >= 4.7 && < 5
+                     , vector
+                     , linear
+                     , bytestring
+                     , bmp
+                     , matrix
+                     , random
+  default-language:    Haskell2010
+
+executable squigly-trace-exe
+  hs-source-dirs:      app
+  main-is:             Main.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base
+                     , squigly-trace
+  default-language:    Haskell2010
+
+test-suite squigly-trace-test
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  build-depends:       base
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+source-repository head
+  type:     git
+  location: https://github.com/rukokarasu/squigly-trace

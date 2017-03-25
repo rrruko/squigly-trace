@@ -1,0 +1,316 @@
+
+==================== FINAL INTERFACE ====================
+2017-03-25 09:42:25.2278784 UTC
+
+interface squigly-trace-0.1.0.0-B2tPeVU0dH9BfPKJegt0x3:Obj 8002
+  interface hash: 1e20ffad8cb8a45c2f030cf9cef168f4
+  ABI hash: f69be78ddd0167c947921f517a00f82c
+  export-list hash: b5b402b690c07675c2b75004c501561d
+  orphan hash: 7e7e1e7ec7426b9d1c7c6ac845af0de8
+  flag hash: ff109124cfc5c6538fb1b79e319c5cea
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Obj.sceneFromObj
+module dependencies: Color Geometry
+package dependencies: StateVar-1.1.0.4@StateVar-1.1.0.4-5dJbnTVECtEAhfJXPZKdbO
+                      Win32-2.3.1.1@Win32-2.3.1.1
+                      adjunctions-4.3@adjunctions-4.3-5CqTSM7liCdC9cb4N2IolK
+                      array-0.5.1.1@array-0.5.1.1 base-4.9.1.0
+                      base-orphans-0.5.4@base-orphans-0.5.4-ABoxiBf7nXc7Qqh66CgYc9
+                      bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN
+                      binary-0.8.3.0@binary-0.8.3.0
+                      bytes-0.15.2@bytes-0.15.2-CoxH8CioAOK8h6CcNcuhd
+                      bytestring-0.10.8.1@bytestring-0.10.8.1
+                      cereal-0.5.4.0@cereal-0.5.4.0-BsAGxfp8yAs3CiRo2E875e
+                      comonad-5@comonad-5-ETWy8l913C0Kq2HEAZg6Cb
+                      containers-0.5.7.1@containers-0.5.7.1
+                      contravariant-1.4@contravariant-1.4-ETyVlWBlFwj93UDOdH22No
+                      deepseq-1.4.2.0@deepseq-1.4.2.0
+                      distributive-0.5.2@distributive-0.5.2-JCgfTXNR3ywAyV7fFWIBI5
+                      exceptions-0.8.3@exceptions-0.8.3-ADEDRATtUrMK1JW4zMQ9U
+                      free-4.12.4@free-4.12.4-Ab5EFvlPq2CHsY4aRoQQaZ
+                      ghc-boot-th-8.0.2@ghc-boot-th-8.0.2 ghc-prim-0.5.0.0
+                      hashable-1.2.5.0@hashable-1.2.5.0-F4MWeNuv2sjJRqBd2T5ul4
+                      integer-gmp-1.0.0.1
+                      integer-logarithms-1.0.1@integer-logarithms-1.0.1-IEHCuEd5sG4JjSjlx7m5JF
+                      kan-extensions-5.0.1@kan-extensions-5.0.1-11Ov83x9jJMC3tpuqa2lhG
+                      lens-4.15.1@lens-4.15.1-JIqePnD6ntW5ZEF4vrpOVi
+                      linear-1.20.5@linear-1.20.5-CEAsJizrl7jL0iAxtpGqYP
+                      loop-0.3.0@loop-0.3.0-4tGn4RSY02pFTwJ5L4CYRr
+                      matrix-0.3.5.0@matrix-0.3.5.0-eFZR6K8Lax4OrNeuTQF4y
+                      mtl-2.2.1@mtl-2.2.1-BLKBelFsPB3BoFeSWSOYj6
+                      prelude-extras-0.4.0.3@prelude-extras-0.4.0.3-BhL9U5k7NtGJn1itwIHt2Y
+                      pretty-1.1.3.3@pretty-1.1.3.3
+                      primitive-0.6.1.0@primitive-0.6.1.0-6AbSTw9JXz141LE5p6LGH
+                      profunctors-5.2@profunctors-5.2-LrJGukLpH0xCNgg3bhdC7E
+                      reflection-2.1.2@reflection-2.1.2-Bem12O1xFGSHr4C2Hyu1c4
+                      scientific-0.3.4.10@scientific-0.3.4.10-HRQd1hS6vMV6hvjSlMi8B0
+                      semigroupoids-5.1@semigroupoids-5.1-Bv4gPJlZIgxJuJyrAzyy1i
+                      stm-2.4.4.1@stm-2.4.4.1-JQn4hNPyYjP5m9AcbI88Ve
+                      tagged-0.8.5@tagged-0.8.5-1mTloBSoUxv8dqUr8XBGBt
+                      template-haskell-2.11.1.0
+                      text-1.2.2.1@text-1.2.2.1-Ji7hMs2U4BkBwavd4taEVR
+                      time-1.6.0.1@time-1.6.0.1 transformers-0.5.2.0@transformers-0.5.2.0
+                      transformers-compat-0.5.1.4@transformers-compat-0.5.1.4-IuFogs8HAVUJBWVNMhtssu
+                      unordered-containers-0.2.7.2@unordered-containers-0.2.7.2-8AmrySQXjRGF6VciYs51fM
+                      vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG
+orphans: base-4.9.1.0:GHC.Base base-4.9.1.0:GHC.Float
+         binary-0.8.3.0@binary-0.8.3.0:Data.Binary.Generic
+         bytestring-0.10.8.1@bytestring-0.10.8.1:Data.ByteString.Builder
+         hashable-1.2.5.0@hashable-1.2.5.0-F4MWeNuv2sjJRqBd2T5ul4:Data.Hashable.Generic
+         linear-1.20.5@linear-1.20.5-CEAsJizrl7jL0iAxtpGqYP:Linear.Instances
+         reflection-2.1.2@reflection-2.1.2-Bem12O1xFGSHr4C2Hyu1c4:Data.Reflection
+         stm-2.4.4.1@stm-2.4.4.1-JQn4hNPyYjP5m9AcbI88Ve:Control.Monad.STM
+         text-1.2.2.1@text-1.2.2.1-Ji7hMs2U4BkBwavd4taEVR:Data.Text
+         text-1.2.2.1@text-1.2.2.1-Ji7hMs2U4BkBwavd4taEVR:Data.Text.Lazy
+         text-1.2.2.1@text-1.2.2.1-Ji7hMs2U4BkBwavd4taEVR:Data.Text.Show
+         time-1.6.0.1@time-1.6.0.1:Data.Time.Calendar.Gregorian
+         time-1.6.0.1@time-1.6.0.1:Data.Time.Format.Parse
+         time-1.6.0.1@time-1.6.0.1:Data.Time.LocalTime.LocalTime
+         transformers-0.5.2.0@transformers-0.5.2.0:Control.Monad.Trans.Error
+         vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector.Fusion.Bundle
+         vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector.Unboxed
+family instance modules: adjunctions-4.3@adjunctions-4.3-5CqTSM7liCdC9cb4N2IolK:Data.Functor.Rep
+                         base-4.9.1.0:Control.Applicative base-4.9.1.0:Data.Complex
+                         base-4.9.1.0:Data.Either base-4.9.1.0:Data.Functor.Compose
+                         base-4.9.1.0:Data.Functor.Const base-4.9.1.0:Data.Functor.Identity
+                         base-4.9.1.0:Data.Functor.Product base-4.9.1.0:Data.Functor.Sum
+                         base-4.9.1.0:Data.List.NonEmpty base-4.9.1.0:Data.Monoid
+                         base-4.9.1.0:Data.Semigroup base-4.9.1.0:Data.Type.Equality
+                         base-4.9.1.0:Data.Version base-4.9.1.0:Data.Void
+                         base-4.9.1.0:GHC.Exts base-4.9.1.0:GHC.Generics
+                         base-4.9.1.0:GHC.IO.Exception base-4.9.1.0:GHC.TypeLits
+                         bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN:Data.Bifunctor.Biff
+                         bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN:Data.Bifunctor.Clown
+                         bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN:Data.Bifunctor.Flip
+                         bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN:Data.Bifunctor.Join
+                         bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN:Data.Bifunctor.Joker
+                         bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN:Data.Bifunctor.Product
+                         bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN:Data.Bifunctor.Sum
+                         bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN:Data.Bifunctor.Tannen
+                         bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN:Data.Bifunctor.Wrapped
+                         bytes-0.15.2@bytes-0.15.2-CoxH8CioAOK8h6CcNcuhd:Data.Bytes.Get
+                         bytes-0.15.2@bytes-0.15.2-CoxH8CioAOK8h6CcNcuhd:Data.Bytes.Signed
+                         bytes-0.15.2@bytes-0.15.2-CoxH8CioAOK8h6CcNcuhd:Data.Bytes.VarInt
+                         containers-0.5.7.1@containers-0.5.7.1:Data.IntMap.Base
+                         containers-0.5.7.1@containers-0.5.7.1:Data.IntSet.Base
+                         containers-0.5.7.1@containers-0.5.7.1:Data.Map.Base
+                         containers-0.5.7.1@containers-0.5.7.1:Data.Sequence
+                         containers-0.5.7.1@containers-0.5.7.1:Data.Set.Base
+                         ghc-boot-th-8.0.2@ghc-boot-th-8.0.2:GHC.LanguageExtensions.Type
+                         kan-extensions-5.0.1@kan-extensions-5.0.1-11Ov83x9jJMC3tpuqa2lhG:Data.Functor.Day
+                         kan-extensions-5.0.1@kan-extensions-5.0.1-11Ov83x9jJMC3tpuqa2lhG:Data.Functor.Yoneda
+                         lens-4.15.1@lens-4.15.1-JIqePnD6ntW5ZEF4vrpOVi:Control.Lens.At
+                         lens-4.15.1@lens-4.15.1-JIqePnD6ntW5ZEF4vrpOVi:Control.Lens.Internal.Indexed
+                         lens-4.15.1@lens-4.15.1-JIqePnD6ntW5ZEF4vrpOVi:Control.Lens.Reified
+                         lens-4.15.1@lens-4.15.1-JIqePnD6ntW5ZEF4vrpOVi:Control.Lens.Tuple
+                         lens-4.15.1@lens-4.15.1-JIqePnD6ntW5ZEF4vrpOVi:Control.Lens.Wrapped
+                         lens-4.15.1@lens-4.15.1-JIqePnD6ntW5ZEF4vrpOVi:Control.Lens.Zoom
+                         linear-1.20.5@linear-1.20.5-CEAsJizrl7jL0iAxtpGqYP:Linear.V1
+                         linear-1.20.5@linear-1.20.5-CEAsJizrl7jL0iAxtpGqYP:Linear.V2
+                         linear-1.20.5@linear-1.20.5-CEAsJizrl7jL0iAxtpGqYP:Linear.V3
+                         pretty-1.1.3.3@pretty-1.1.3.3:Text.PrettyPrint.Annotated.HughesPJ
+                         pretty-1.1.3.3@pretty-1.1.3.3:Text.PrettyPrint.HughesPJ
+                         primitive-0.6.1.0@primitive-0.6.1.0-6AbSTw9JXz141LE5p6LGH:Control.Monad.Primitive
+                         profunctors-5.2@profunctors-5.2-LrJGukLpH0xCNgg3bhdC7E:Data.Profunctor.Rep
+                         tagged-0.8.5@tagged-0.8.5-1mTloBSoUxv8dqUr8XBGBt:Data.Tagged
+                         template-haskell-2.11.1.0:Language.Haskell.TH.Syntax
+                         text-1.2.2.1@text-1.2.2.1-Ji7hMs2U4BkBwavd4taEVR:Data.Text
+                         text-1.2.2.1@text-1.2.2.1-Ji7hMs2U4BkBwavd4taEVR:Data.Text.Lazy
+                         unordered-containers-0.2.7.2@unordered-containers-0.2.7.2-8AmrySQXjRGF6VciYs51fM:Data.HashMap.Base
+                         unordered-containers-0.2.7.2@unordered-containers-0.2.7.2-8AmrySQXjRGF6VciYs51fM:Data.HashSet
+                         vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector
+                         vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector.Primitive
+                         vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector.Storable
+                         vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector.Unboxed
+                         vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector.Unboxed.Base
+import  -/  base-4.9.1.0:Data.OldList c9282ee91951bdcbd918d2960562c007
+import  -/  base-4.9.1.0:GHC.Base 4caea1123ecf4b46e27cbccd6d279377
+import  -/  base-4.9.1.0:GHC.List d11eb227c1c6fbfd89bb781d72eaea0d
+import  -/  base-4.9.1.0:GHC.Num 38b8aac8807c096c7f3ca3c1eff02939
+import  -/  base-4.9.1.0:Prelude 74b3e204395920329f6de9d97206abe9
+import  -/  base-4.9.1.0:Text.Read 3cc85705eeac93ec93da7f5edfd7bc15
+import  -/  ghc-prim-0.5.0.0:GHC.Classes 16d48e012d23eaef9bca91ccdd572c02
+import  -/  linear-1.20.5@linear-1.20.5-CEAsJizrl7jL0iAxtpGqYP:Linear.V3 2c30ff802e0fec4e882aac9ad5111240
+import  -/  Color 00774378ee26a135ff33270dcc96368a
+  exports: 0920e717bff7429c34f3db94393079a6
+  Mat 6ed9f2e96cd88888e42c0aad006d8e1f
+  gray 97d96c10f6e1a706c38ac6021f72f162
+  white 85cc289729bfaec0a6fdbd883044009a
+import  -/  Geometry 85cd1ee946afd97989b05e2f68a8f17e
+  exports: 83974f313d1690297b560e870dbbf42c
+  Scene dd191a31e57d718fb775ace8ba18dfe6
+  Scene 643152448e00f7088428d90cecb4c2fb
+  Triangle f1186f98b143eafe9cc21c6aff13a007
+  Triangle bbc62165b6b74ea61ec439e4f5e222ba
+4a6c38b1a319d7125c4f40e0615f0c39
+  $sread :: GHC.Base.String -> GHC.Types.Int
+  {- Arity: 1, Strictness: <L,U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (s :: GHC.Base.String) ->
+                 case Text.Read.readEither
+                        @ GHC.Types.Int
+                        GHC.Read.$fReadInt
+                        s of wild {
+                   Data.Either.Left x
+                   -> GHC.Err.errorWithoutStackTrace
+                        @ 'GHC.Types.PtrRepLifted
+                        @ GHC.Types.Int
+                        x
+                   Data.Either.Right y -> y }) -}
+9ebeac8dcd94837e92c008b1a5659cfd
+  $sread1 :: GHC.Base.String -> GHC.Types.Float
+  {- Arity: 1, Strictness: <L,U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (s :: GHC.Base.String) ->
+                 case Text.Read.readEither
+                        @ GHC.Types.Float
+                        GHC.Read.$fReadFloat
+                        s of wild {
+                   Data.Either.Left x
+                   -> GHC.Err.errorWithoutStackTrace
+                        @ 'GHC.Types.PtrRepLifted
+                        @ GHC.Types.Float
+                        x
+                   Data.Either.Right y -> y }) -}
+828639e7c736fcca602e0e7222c39e1e
+  $trModule :: GHC.Types.Module
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.Module Obj.$trModule2 Obj.$trModule1) -}
+976cba95f78ab7facaeeaa94ec71e836
+  $trModule1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS "Obj"#) -}
+9de6b69b6e5be549834f318d625fa142
+  $trModule2 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   "squigly-trace-0.1.0.0-B2tPeVU0dH9BfPKJegt0x3"#) -}
+f7e81e14cff741eb3b7a031517537dd6
+  $wsceneFromObj :: GHC.Base.String -> (# [Geometry.Triangle] #)
+  {- Arity: 1, Strictness: <L,U>, Inline: [0],
+     Unfolding: (\ (w :: GHC.Base.String) ->
+                 (# let {
+                      verts :: [Linear.V3.V3 GHC.Types.Float]
+                      = Obj.sceneFromObj_go (Data.OldList.lines w)
+                    } in
+                    letrec {
+                      go :: [[GHC.Types.Char]] -> [Geometry.Triangle]
+                        {- Arity: 1, Strictness: <S,1*U> -}
+                      = \ (ds :: [[GHC.Types.Char]]) ->
+                        case ds of wild {
+                          [] -> GHC.Types.[] @ Geometry.Triangle
+                          : y ys
+                          -> case GHC.Classes.$fEq[]_$s$c==1
+                                    y
+                                    (GHC.Types.[] @ GHC.Types.Char) of wild1 {
+                               GHC.Types.False
+                               -> case y of wild2 {
+                                    [] -> case GHC.List.badHead ret_ty [Geometry.Triangle] of {}
+                                    : x ds1
+                                    -> case x of wild3 { GHC.Types.C# x1 ->
+                                       case x1 of wild4 {
+                                         DEFAULT -> go ys
+                                         'f'#
+                                         -> GHC.Types.:
+                                              @ Geometry.Triangle
+                                              (let {
+                                                 indexList :: [GHC.Types.Int]
+                                                 = case Data.OldList.words wild2 of wild5 {
+                                                     []
+                                                     -> case GHC.List.scanl2
+                                                        ret_ty [GHC.Types.Int]
+                                                        of {}
+                                                     : ds2 xs
+                                                     -> GHC.Base.map
+                                                          @ [GHC.Types.Char]
+                                                          @ GHC.Types.Int
+                                                          Obj.$sread
+                                                          xs }
+                                               } in
+                                               Geometry.Triangle
+                                                 (case GHC.List.$w!!
+                                                         @ GHC.Types.Int
+                                                         indexList
+                                                         0# of wild5 { GHC.Types.I# x2 ->
+                                                  GHC.List.$w!!
+                                                    @ (Linear.V3.V3 GHC.Types.Float)
+                                                    verts
+                                                    (GHC.Prim.-# x2 1#) })
+                                                 (case GHC.List.$w!!
+                                                         @ GHC.Types.Int
+                                                         indexList
+                                                         1# of wild5 { GHC.Types.I# x2 ->
+                                                  GHC.List.$w!!
+                                                    @ (Linear.V3.V3 GHC.Types.Float)
+                                                    verts
+                                                    (GHC.Prim.-# x2 1#) })
+                                                 (case GHC.List.$w!!
+                                                         @ GHC.Types.Int
+                                                         indexList
+                                                         2# of wild5 { GHC.Types.I# x2 ->
+                                                  GHC.List.$w!!
+                                                    @ (Linear.V3.V3 GHC.Types.Float)
+                                                    verts
+                                                    (GHC.Prim.-# x2 1#) })
+                                                 Obj.sceneFromObj1)
+                                              (go ys) } } }
+                               GHC.Types.True -> go ys } }
+                    } in
+                    go (Data.OldList.lines w) #)) -}
+c96accc63274718cea69fcefdb9b7f9e
+  sceneFromObj :: GHC.Base.String -> Geometry.Scene
+  {- Arity: 1, Strictness: <L,U>m, Inline: INLINE[0],
+     Unfolding: InlineRule (1, True, False)
+                (\ (w :: GHC.Base.String) ->
+                 case Obj.$wsceneFromObj w of ww { Unit# ww1 ->
+                 Geometry.Scene ww1 }) -}
+da5666a2a937855e0fe31ff9dbb65975
+  sceneFromObj1 :: Color.Material GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (Color.Mat
+                   @ GHC.Types.Float
+                   Obj.sceneFromObj4
+                   Obj.sceneFromObj2) -}
+71a42b3e6b37b2107c12badece91be53
+  sceneFromObj2 :: Color.RGB GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (Color.RGB
+                   @ GHC.Types.Float
+                   Obj.sceneFromObj3
+                   Obj.sceneFromObj3
+                   Obj.sceneFromObj3) -}
+63225bad7f59abf35ed684db2bb6b08b
+  sceneFromObj3 :: GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# 1.0#) -}
+0456158262e83c923d389d95437d0f3a
+  sceneFromObj4 :: Color.RGB GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (Color.RGB
+                   @ GHC.Types.Float
+                   Obj.sceneFromObj5
+                   Obj.sceneFromObj5
+                   Obj.sceneFromObj5) -}
+c67d641714cdd2b30202580e5f7b8db1
+  sceneFromObj5 :: GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# 0.3#) -}
+2db9456f17e1fe52a9c2df0a19af00a8
+  sceneFromObj_go ::
+    [[GHC.Types.Char]] -> [Linear.V3.V3 GHC.Types.Float]
+  {- Arity: 1, Strictness: <S,1*U> -}
+"SPEC/Obj read @ Float" [ALWAYS] forall ($dRead :: GHC.Read.Read
+                                                     GHC.Types.Float)
+  Text.Read.read @ GHC.Types.Float $dRead = Obj.$sread1
+"SPEC/Obj read @ Int" [ALWAYS] forall ($dRead :: GHC.Read.Read
+                                                   GHC.Types.Int)
+  Text.Read.read @ GHC.Types.Int $dRead = Obj.$sread
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: none
+require own pkg trusted: False
+

@@ -1,10 +1,10 @@
 
 ==================== FINAL INTERFACE ====================
-2017-03-24 07:50:10.8377992 UTC
+2017-03-25 03:18:15.8430685 UTC
 
 interface main@main:Main 8002
-  interface hash: 7ebd72f81909143984a5c133ce13ac74
-  ABI hash: 8401faedc0625f31be6d423b1260355a
+  interface hash: 6f579c4f993b3928db7aebc448509abe
+  ABI hash: 42aaf67d79e3001ab461f50e34a825a1
   export-list hash: b1b6884441b83a7bfbb6bad97c47e4c8
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: 180420b043eb7500578eddaf3450c245
@@ -131,7 +131,7 @@ family instance modules: adjunctions-4.3@adjunctions-4.3-5CqTSM7liCdC9cb4N2IolK:
                          vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector.Unboxed.Base
 import  -/  base-4.9.1.0:Prelude 74b3e204395920329f6de9d97206abe9
 import  -/  ghc-prim-0.5.0.0:GHC.Types 89f8de4f08018c9177c98d979eae0e45
-import  -/  raytrace-0.1.0.0@raytrace-0.1.0.0-LqVbAl3QgT32j0Uy1FQn8n:Lib fd1df3ddec9af6d9455a2ec0ddecf304
+import  -/  raytrace-0.1.0.0@raytrace-0.1.0.0-LqVbAl3QgT32j0Uy1FQn8n:Lib 26086f00742b40678f2584338bd72852
 d6831ef04cb9301b090dfae6f7bb7ec7
   $trModule :: GHC.Types.Module
   {- HasNoCafRefs, Strictness: m,
@@ -144,27 +144,27 @@ d6831ef04cb9301b090dfae6f7bb7ec7
   $trModule2 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS "main"#) -}
-9f75d52a94c8f1d6b22779d557f575ca
+5c1c21025fe8192a83a2a02d64673e00
   main :: GHC.Types.IO ()
-  {- Arity: 1,
+  {- Arity: 1, Strictness: <S,U>,
      Unfolding: InlineRule (0, True, True)
                 Main.main1 `cast` (Sym (GHC.Types.N:IO[0] <()>_R)) -}
-b24d8a15648fb79cab53b73e7447ea56
+cf6a89bdeeb408496be3cd9331c3bc87
   main1 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-  {- Arity: 1,
-     Unfolding: (Lib.render1
+  {- Arity: 1, Strictness: <S,U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (w5 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
+                 Lib.$wrender
                    Main.main_camera
                    Lib.testScene
-                   Main.main2
-                   Main.main2
-                   (GHC.Base.Nothing @ GHC.Base.String)) -}
-c1404ffe87a45409b7d02cc2c91fdef2
-  main2 :: GHC.Types.Int
-  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 512#) -}
-9af880a745e7e1dbd5f6409412f5cefa
-  main3 ::
+                   512#
+                   512#
+                   (GHC.Base.Nothing @ GHC.Base.String)
+                   w5) -}
+6d8e8645fcf1d6fe26ec0ed4b284d569
+  main2 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 1,

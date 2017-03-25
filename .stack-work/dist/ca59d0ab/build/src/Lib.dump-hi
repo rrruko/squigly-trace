@@ -1,12 +1,12 @@
 
 ==================== FINAL INTERFACE ====================
-2017-03-24 08:05:40.3623742 UTC
+2017-03-25 09:42:24.8708693 UTC
 
-interface raytrace-0.1.0.0-LqVbAl3QgT32j0Uy1FQn8n:Lib 8002
-  interface hash: c90866cba76ce4467781ad5d46b4b966
-  ABI hash: fd1df3ddec9af6d9455a2ec0ddecf304
-  export-list hash: b4baf9143580730161dd9728a992cbd7
-  orphan hash: c1b68fadc292e5c276cf066d6d0e1ce2
+interface squigly-trace-0.1.0.0-B2tPeVU0dH9BfPKJegt0x3:Lib 8002
+  interface hash: 7edfecd274f50a0b79f8ca851369d3f3
+  ABI hash: 79cf1f3e9179a2fe37938d9cabc2f479
+  export-list hash: b1944f796d8934c09b33cd940a94ba56
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: ff109124cfc5c6538fb1b79e319c5cea
   sig of: Nothing
   used TH splices: False
@@ -15,7 +15,7 @@ exports:
   Lib.render
   Lib.testScene
   Lib.Camera
-module dependencies:
+module dependencies: Color Geometry
 package dependencies: StateVar-1.1.0.4@StateVar-1.1.0.4-5dJbnTVECtEAhfJXPZKdbO
                       Win32-2.3.1.1@Win32-2.3.1.1
                       adjunctions-4.3@adjunctions-4.3-5CqTSM7liCdC9cb4N2IolK
@@ -130,7 +130,6 @@ family instance modules: adjunctions-4.3@adjunctions-4.3-5CqTSM7liCdC9cb4N2IolK:
                          vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector.Storable
                          vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector.Unboxed
                          vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector.Unboxed.Base
-import  -/  base-4.9.1.0:Data.Bits 8dd241433f98eab81ddfb7fcb01616f1
 import  -/  base-4.9.1.0:Data.Foldable 254e836c2d813d34e47feb29bb8d40ed
 import  -/  base-4.9.1.0:Data.Function e669266e2bc3ac37fceae74061959895
 import  -/  base-4.9.1.0:Data.Functor 682cc832c233b71cec70179490a08631
@@ -139,13 +138,11 @@ import  -/  base-4.9.1.0:Data.Maybe ecf0c6f81372d9b58b142d5e758ea51b
 import  -/  base-4.9.1.0:Data.OldList c9282ee91951bdcbd918d2960562c007
 import  -/  base-4.9.1.0:Data.Tuple b07f695e7ce8fe20cc8a32abf62f60ec
 import  -/  base-4.9.1.0:Data.Word 6cc02853e8d5a49ad2541ba9733cc40b
-import  -/  base-4.9.1.0:Debug.Trace 5d15fa13ecafd28bc71693cbbe158c3e
 import  -/  base-4.9.1.0:GHC.Base 4caea1123ecf4b46e27cbccd6d279377
 import  -/  base-4.9.1.0:GHC.Float b620368aab866c2bb9d3a0a459566b84
 import  -/  base-4.9.1.0:GHC.List d11eb227c1c6fbfd89bb781d72eaea0d
 import  -/  base-4.9.1.0:GHC.Num 38b8aac8807c096c7f3ca3c1eff02939
 import  -/  base-4.9.1.0:GHC.Real b88ae4a48c079652623073a5bbf5c9b0
-import  -/  base-4.9.1.0:GHC.Show eca5834daba3b6a2bbbe64ab52056707
 import  -/  base-4.9.1.0:Prelude 74b3e204395920329f6de9d97206abe9
 import  -/  bmp-1.2.6.3@bmp-1.2.6.3-43OLkH0uuwm831pBFpx2PZ:Codec.BMP f253e1e3362fb0895097753fdd868c2d
 import  -/  bmp-1.2.6.3@bmp-1.2.6.3-43OLkH0uuwm831pBFpx2PZ:Codec.BMP.Pack d018f6b73ce19992cca07fa6277f2b62
@@ -154,1346 +151,633 @@ import  -/  bytestring-0.10.8.1@bytestring-0.10.8.1:Data.ByteString.Internal f93
 import  -/  ghc-prim-0.5.0.0:GHC.Classes 16d48e012d23eaef9bca91ccdd572c02
 import  -/  ghc-prim-0.5.0.0:GHC.Types 89f8de4f08018c9177c98d979eae0e45
 import  -/  linear-1.20.5@linear-1.20.5-CEAsJizrl7jL0iAxtpGqYP:Linear.V3 2c30ff802e0fec4e882aac9ad5111240
-import  -/  linear-1.20.5@linear-1.20.5-CEAsJizrl7jL0iAxtpGqYP:Linear.Vector f2485f629461d2d28b58432bd5ddf98f
 import  -/  matrix-0.3.5.0@matrix-0.3.5.0-eFZR6K8Lax4OrNeuTQF4y:Data.Matrix 2de8b1528e8778fd4bf7452f8e58a0dc
 import  -/  random-1.1@random-1.1-9tceXaeYIMZ4JrKq20Egog:System.Random 4c90117f915e12291e0c5f588320bf66
-f0d0fd2f552894d38c410c7baf688cba
-  $fFunctorRGB :: GHC.Base.Functor Lib.RGB
-  DFunId
-  {- HasNoCafRefs, Strictness: m, Inline: [ALWAYS] CONLIKE,
-     Unfolding: DFun:.
-                  @ Lib.RGB Lib.$fFunctorRGB_$cfmap Lib.$fFunctorRGB_$c<$ -}
-f0d0fd2f552894d38c410c7baf688cba
-  $fFunctorRGB_$c<$ :: a -> Lib.RGB b -> Lib.RGB a
-  {- Arity: 2, HasNoCafRefs, Strictness: <L,U><S,1*H>m,
-     Unfolding: InlineRule (2, True, False)
-                (\ @ a2 @ b1 (eta :: a2) (eta1 :: Lib.RGB b1) ->
-                 case eta1 of wild { Lib.RGB r g b2 ->
-                 Lib.RGB @ a2 eta eta eta }) -}
-f0d0fd2f552894d38c410c7baf688cba
-  $fFunctorRGB_$cfmap :: (a -> b) -> Lib.RGB a -> Lib.RGB b
-  {- Arity: 2, HasNoCafRefs, Strictness: <L,C(U)><S,1*U(U,U,U)>m,
-     Unfolding: InlineRule (2, True, False)
-                (\ @ a2 @ b1 (f :: a2 -> b1) (ds1 :: Lib.RGB a2) ->
-                 case ds1 of wild { Lib.RGB r g b2 ->
-                 Lib.RGB @ b1 (f r) (f g) (f b2) }) -}
-d28b80980c4e5b03cfdfd5a5c7d0c9a2
-  $fShowMaterial :: GHC.Show.Show a => GHC.Show.Show (Lib.Material a)
-  DFunId
-  {- Arity: 1, Strictness: <L,U(A,C(U),A)>m,
-     Inline: [ALWAYS] CONLIKE,
-     Unfolding: DFun: @ a2 ($dShow :: GHC.Show.Show a2).
-                  @ (Lib.Material a2)
-                  (Lib.$fShowMaterial_$cshowsPrec @ a2 $dShow)
-                  (Lib.$fShowMaterial_$cshow @ a2 $dShow)
-                  (Lib.$fShowMaterial_$cshowList @ a2 $dShow) -}
-c946143e853fe14e49821f2dea5f5cd3
-  $fShowMaterial1 :: GHC.Types.Int
-  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 0#) -}
-45a35f3f91049dc017b321fb022f9ec2
-  $fShowMaterial2 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "Mat {"#) -}
-59712810967e4d1d7dbc7d883b37ef53
-  $fShowMaterial3 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "}"#) -}
-4367ea6aa6559d79b47adf262d877ab6
-  $fShowMaterial4 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "emittance = "#) -}
-d32ea8328e5a065a77efc51e6d75d940
-  $fShowMaterial5 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# ", "#) -}
-0776f6b2c047993e2404eacc3d2e9c31
-  $fShowMaterial6 :: GHC.Types.Char
-  {- HasNoCafRefs, Unfolding: (GHC.Types.C# ' '#) -}
-0856e1a8de5e1b2ad13e77db8cde7289
-  $fShowMaterial7 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "RGB"#) -}
-4c1d143cc79f6b3623222de86c5023ae
-  $fShowMaterial8 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "color = "#) -}
-d28b80980c4e5b03cfdfd5a5c7d0c9a2
-  $fShowMaterial_$cshow ::
-    GHC.Show.Show a => Lib.Material a -> GHC.Base.String
-  {- Arity: 2,
-     Strictness: <L,U(A,C(U),A)><S,1*U(1*U(U,U,U),1*U(U,U,U))>,
-     Unfolding: InlineRule (2, True, False)
-                (\ @ a2 ($dShow :: GHC.Show.Show a2) (x1 :: Lib.Material a2) ->
-                 Lib.$fShowMaterial_$cshowsPrec
-                   @ a2
-                   $dShow
-                   GHC.Show.shows22
-                   x1
-                   (GHC.Types.[] @ GHC.Types.Char)) -}
-d28b80980c4e5b03cfdfd5a5c7d0c9a2
-  $fShowMaterial_$cshowList ::
-    GHC.Show.Show a => [Lib.Material a] -> GHC.Show.ShowS
-  {- Arity: 3, Strictness: <L,U(A,C(U),A)><S,1*U><L,U>,
-     Unfolding: InlineRule (3, True, False)
-                (\ @ a2
-                   ($dShow :: GHC.Show.Show a2)
-                   (eta :: [Lib.Material a2])
-                   (eta1 :: GHC.Base.String) ->
-                 GHC.Show.showList__
-                   @ (Lib.Material a2)
-                   (Lib.$fShowMaterial_$cshowsPrec @ a2 $dShow Lib.$fShowMaterial1)
-                   eta
-                   eta1) -}
-d28b80980c4e5b03cfdfd5a5c7d0c9a2
-  $fShowMaterial_$cshowsPrec ::
-    GHC.Show.Show a =>
-    GHC.Types.Int -> Lib.Material a -> GHC.Show.ShowS
-  {- Arity: 4,
-     Strictness: <L,U(A,C(U),A)><S(S),1*U(U)><S,1*U(1*U(U,U,U),1*U(U,U,U))><L,U>,
-     Inline: INLINE[0],
-     Unfolding: InlineRule (4, True, False)
-                (\ @ a2
-                   (w :: GHC.Show.Show a2)
-                   (w1 :: GHC.Types.Int)
-                   (w2 :: Lib.Material a2)
-                   (w3 :: GHC.Base.String) ->
-                 case w1 of ww { GHC.Types.I# ww1 ->
-                 case w2 of ww2 { Lib.Mat ww3 ww4 ->
-                 Lib.$w$cshowsPrec @ a2 w ww1 ww3 ww4 w3 } }) -}
-f0d0fd2f552894d38c410c7baf688cba
-  $fShowRGB :: GHC.Show.Show a => GHC.Show.Show (Lib.RGB a)
-  DFunId
-  {- Arity: 1, Strictness: <L,U(A,C(U),A)>m,
-     Inline: [ALWAYS] CONLIKE,
-     Unfolding: DFun: @ a2 ($dShow :: GHC.Show.Show a2).
-                  @ (Lib.RGB a2)
-                  (Lib.$fShowRGB_$cshowsPrec @ a2 $dShow)
-                  (Lib.$fShowRGB_$cshow @ a2 $dShow)
-                  (Lib.$fShowRGB_$cshowList @ a2 $dShow) -}
-f0d0fd2f552894d38c410c7baf688cba
-  $fShowRGB_$cshow :: GHC.Show.Show a => Lib.RGB a -> GHC.Base.String
-  {- Arity: 2, Strictness: <L,U(A,C(U),A)><S,1*U(U,U,U)>,
-     Inline: INLINE[0],
-     Unfolding: InlineRule (2, True, False)
-                (\ @ a2 (w :: GHC.Show.Show a2) (w1 :: Lib.RGB a2) ->
-                 case w1 of ww { Lib.RGB ww1 ww2 ww3 ->
-                 Lib.$w$cshow @ a2 w ww1 ww2 ww3 }) -}
-f0d0fd2f552894d38c410c7baf688cba
-  $fShowRGB_$cshowList ::
-    GHC.Show.Show a => [Lib.RGB a] -> GHC.Show.ShowS
-  {- Arity: 3, Strictness: <L,U(A,C(U),A)><S,1*U><L,U>,
-     Unfolding: (\ @ a2
-                   ($dShow :: GHC.Show.Show a2)
-                   (ls :: [Lib.RGB a2])
-                   (s :: GHC.Base.String) ->
-                 GHC.Show.showList__
-                   @ (Lib.RGB a2)
-                   (\ (x1 :: Lib.RGB a2) (s1 :: GHC.Base.String)[OneShot] ->
-                    case x1 of ww { Lib.RGB ww1 ww2 ww3 ->
-                    GHC.Base.++
-                      @ GHC.Types.Char
-                      (Lib.$w$cshow @ a2 $dShow ww1 ww2 ww3)
-                      s1 })
-                   ls
-                   s) -}
-f0d0fd2f552894d38c410c7baf688cba
-  $fShowRGB_$cshowsPrec ::
-    GHC.Show.Show a => GHC.Types.Int -> Lib.RGB a -> GHC.Show.ShowS
-  {- Arity: 4, Strictness: <L,U(A,C(U),A)><L,A><S,1*U(U,U,U)><L,1*U>,
-     Unfolding: InlineRule (4, True, False)
-                (\ @ a2
-                   ($dShow :: GHC.Show.Show a2)
-                   (ds1 :: GHC.Types.Int)
-                   (x1 :: Lib.RGB a2)
-                   (s :: GHC.Base.String) ->
-                 GHC.Base.augment
-                   @ GHC.Types.Char
-                   (\ @ b1
-                      (c1 :: GHC.Types.Char -> b1 -> b1)[OneShot]
-                      (n1 :: b1)[OneShot] ->
-                    GHC.Base.foldr
-                      @ GHC.Types.Char
-                      @ b1
-                      c1
-                      n1
-                      (Lib.$fShowRGB_$cshow @ a2 $dShow x1))
-                   s) -}
-ff0b44bb01018d7ac919d89ed1321424
-  $fShowRay :: GHC.Show.Show Lib.Ray
-  DFunId
-  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
-     Unfolding: DFun:.
-                  @ Lib.Ray
-                  Lib.$fShowRay_$cshowsPrec
-                  Lib.$fShowRay_$cshow
-                  Lib.$fShowRay_$cshowList -}
-ff0b44bb01018d7ac919d89ed1321424
-  $fShowRay1 :: Lib.Ray -> GHC.Show.ShowS
-  {- Arity: 1,
-     Unfolding: (\ (w :: Lib.Ray) ->
-                 case w of ww { Lib.Ray ww1 ww2 ww3 ->
-                 Lib.$w$cshowsPrec1 0# ww1 ww2 ww3 }) -}
-c117c4c9beb76fcc1cdda772e1459b4a
-  $fShowRay2 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "bounces = "#) -}
-f571d4c2797ad4b5a3a0b01e438b2dc8
-  $fShowRay3 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "direction = "#) -}
-9d09fa3bc6de087faac3ee59b724a708
-  $fShowRay4 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "vertex = "#) -}
-c5d5babe8b13baf61b8226b25eb77fa9
-  $fShowRay5 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "Ray {"#) -}
-ff0b44bb01018d7ac919d89ed1321424
-  $fShowRay_$cshow :: Lib.Ray -> GHC.Base.String
-  {- Arity: 1, Strictness: <S,1*U(1*U(U,U,U),1*U(U,U,U),U(U))>,
-     Unfolding: InlineRule (1, True, False)
-                (\ (x1 :: Lib.Ray) ->
-                 Lib.$fShowRay_$cshowsPrec
-                   GHC.Show.shows22
-                   x1
-                   (GHC.Types.[] @ GHC.Types.Char)) -}
-ff0b44bb01018d7ac919d89ed1321424
-  $fShowRay_$cshowList :: [Lib.Ray] -> GHC.Show.ShowS
-  {- Arity: 2,
-     Unfolding: (GHC.Show.showList__ @ Lib.Ray Lib.$fShowRay1) -}
-ff0b44bb01018d7ac919d89ed1321424
-  $fShowRay_$cshowsPrec :: GHC.Types.Int -> Lib.Ray -> GHC.Show.ShowS
-  {- Arity: 2,
-     Strictness: <S(S),1*U(U)><S,1*U(1*U(U,U,U),1*U(U,U,U),U(U))>,
-     Inline: INLINE[0],
-     Unfolding: InlineRule (2, True, False)
-                (\ (w :: GHC.Types.Int) (w1 :: Lib.Ray) ->
-                 case w of ww { GHC.Types.I# ww1 ->
-                 case w1 of ww2 { Lib.Ray ww3 ww4 ww5 ->
-                 Lib.$w$cshowsPrec1 ww1 ww3 ww4 ww5 } }) -}
-0820bede9c6242da89c8fc8a72267ab5
-  $fShowTriangle :: GHC.Show.Show Lib.Triangle
-  DFunId
-  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
-     Unfolding: DFun:.
-                  @ Lib.Triangle
-                  Lib.$fShowTriangle_$cshowsPrec
-                  Lib.$fShowTriangle_$cshow
-                  Lib.$fShowTriangle_$cshowList -}
-0820bede9c6242da89c8fc8a72267ab5
-  $fShowTriangle1 :: Lib.Triangle -> GHC.Show.ShowS
-  {- Arity: 1,
-     Unfolding: (\ (w :: Lib.Triangle) ->
-                 case w of ww { Lib.Triangle ww1 ww2 ww3 ww4 ->
-                 Lib.$w$cshowsPrec2 0# ww1 ww2 ww3 ww4 }) -}
-451c17653d92cf8aefef16d90fc5a740
-  $fShowTriangle2 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "material = "#) -}
-ea99bef9c4cb7997f5fb7495fba31e18
-  $fShowTriangle3 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "c = "#) -}
-4eaa83b0d2445374c90ee73c975f0f06
-  $fShowTriangle4 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "b = "#) -}
-ec256fb8a7fe4ae7caa19d71c9192da9
-  $fShowTriangle5 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "a = "#) -}
-0a874ce76ccae481243860bf87dd9bcd
-  $fShowTriangle6 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "Triangle {"#) -}
-0820bede9c6242da89c8fc8a72267ab5
-  $fShowTriangle_$cshow :: Lib.Triangle -> GHC.Base.String
-  {- Arity: 1,
-     Strictness: <S,1*U(1*U(U,U,U),1*U(U,U,U),1*U(U,U,U),U(U(U(U),U(U),U(U)),U(U(U),U(U),U(U))))>,
-     Unfolding: InlineRule (1, True, False)
-                (\ (x1 :: Lib.Triangle) ->
-                 Lib.$fShowTriangle_$cshowsPrec
-                   GHC.Show.shows22
-                   x1
-                   (GHC.Types.[] @ GHC.Types.Char)) -}
-0820bede9c6242da89c8fc8a72267ab5
-  $fShowTriangle_$cshowList :: [Lib.Triangle] -> GHC.Show.ShowS
-  {- Arity: 2,
-     Unfolding: (GHC.Show.showList__
-                   @ Lib.Triangle
-                   Lib.$fShowTriangle1) -}
-0820bede9c6242da89c8fc8a72267ab5
-  $fShowTriangle_$cshowsPrec ::
-    GHC.Types.Int -> Lib.Triangle -> GHC.Show.ShowS
-  {- Arity: 2,
-     Strictness: <S(S),1*U(U)><S,1*U(1*U(U,U,U),1*U(U,U,U),1*U(U,U,U),U(U(U(U),U(U),U(U)),U(U(U),U(U),U(U))))>,
-     Inline: INLINE[0],
-     Unfolding: InlineRule (2, True, False)
-                (\ (w :: GHC.Types.Int) (w1 :: Lib.Triangle) ->
-                 case w of ww { GHC.Types.I# ww1 ->
-                 case w1 of ww2 { Lib.Triangle ww3 ww4 ww5 ww6 ->
-                 Lib.$w$cshowsPrec2 ww1 ww3 ww4 ww5 ww6 } }) -}
-08adf93521595a8c14ae73c317f40ed7
-  $s!_$slength :: Data.Vector.Vector GHC.Types.Float -> GHC.Types.Int
-  {- Arity: 1, HasNoCafRefs, Strictness: <S(LSL),1*U(A,U,A)>m,
-     Inline: [NEVER] -}
-14e809ddb2774f0bd4c940eb1fa2632d
-  $tc'Mat :: GHC.Types.TyCon
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (GHC.Types.TyCon
-                   1881897593797589781##
-                   16729217556456601624##
-                   Lib.$trModule
-                   Lib.$tc'Mat1) -}
-4f9357eb688762737da03b9f18c51a75
-  $tc'Mat1 :: GHC.Types.TrName
-  {- HasNoCafRefs, Strictness: m1,
-     Unfolding: (GHC.Types.TrNameS "'Mat"#) -}
-68fabab5fcb4f0cdc7fb29de1f595ebb
-  $tc'RGB :: GHC.Types.TyCon
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (GHC.Types.TyCon
-                   11466041634694003982##
-                   228763357468072060##
-                   Lib.$trModule
-                   Lib.$tc'RGB1) -}
-82b370033c9b6a1b554a609fc7ab8339
-  $tc'RGB1 :: GHC.Types.TrName
-  {- HasNoCafRefs, Strictness: m1,
-     Unfolding: (GHC.Types.TrNameS "'RGB"#) -}
-d112fd25128072405eb2af2a749186a3
-  $tc'Ray :: GHC.Types.TyCon
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (GHC.Types.TyCon
-                   5139667293988020904##
-                   17751351827247812118##
-                   Lib.$trModule
-                   Lib.$tc'Ray1) -}
-5cf5654fbfa46780362c4e0f3beb6d3c
-  $tc'Ray1 :: GHC.Types.TrName
-  {- HasNoCafRefs, Strictness: m1,
-     Unfolding: (GHC.Types.TrNameS "'Ray"#) -}
-cb86d85d8d582359786be4d65b4b6e15
-  $tc'Scene :: GHC.Types.TyCon
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (GHC.Types.TyCon
-                   16780593898376462182##
-                   10934450843780855586##
-                   Lib.$trModule
-                   Lib.$tc'Scene1) -}
-491f46cde996c377165ed306c895e1b7
-  $tc'Scene1 :: GHC.Types.TrName
-  {- HasNoCafRefs, Strictness: m1,
-     Unfolding: (GHC.Types.TrNameS "'Scene"#) -}
-d8c1ec7a913732ab88c2f28da9538bd5
+import  -/  Color 00774378ee26a135ff33270dcc96368a
+  exports: 0920e717bff7429c34f3db94393079a6
+  Mat 6ed9f2e96cd88888e42c0aad006d8e1f
+  Material 3e575c70247c8c8f412f89aa1a81fb0c
+  RGB 2d3874c8b701b1ea52a5ecd3e1792234
+  RGB 515b78b64fda24957f32b3c4eeeceda3
+  black d91ea6cad42a4e6c754b0efe99e7008e
+  color c5f13d6255e67378fc118d541ead8cef
+  emittance c35884fcb0f66c2633d62e241292add1
+  white 85cc289729bfaec0a6fdbd883044009a
+import  -/  Geometry 85cd1ee946afd97989b05e2f68a8f17e
+  exports: 83974f313d1690297b560e870dbbf42c
+  Ray 26d6f068994d29f6576793f9338e449f
+  Ray 0f563539952d932fde2464ac8431111c
+  Scene dd191a31e57d718fb775ace8ba18dfe6
+  Scene 643152448e00f7088428d90cecb4c2fb
+  Triangle f1186f98b143eafe9cc21c6aff13a007
+  Triangle bbc62165b6b74ea61ec439e4f5e222ba
+  bounces 6319a3a1ddf88cd18459b9eb3fb5461d
+  direction 129c8453820768dc162a2785386f0a9c
+  material 1762c46e4667fdb5effd54e6d9ce17e4
+  normal 985555aa75245504eb5c24d8d4c3c798
+  rotMatrixRads 386d47232387a8e26558dbfdc6c7b713
+  rotVert a58ea87bc0f6193ae9982a8663f6df09
+  tFirst ab7e81c9d9f4b92f528d8a7899a7c7bc
+  tris e592e6344f49b9f4df675e0f268e796e
+  vertex c968b7e8b693f8e16346a417d84080b6
+b21d51129ce318296aff221b63265b4f
   $tc'Trace :: GHC.Types.TyCon
   {- HasNoCafRefs, Strictness: m,
      Unfolding: (GHC.Types.TyCon
-                   15239349013453040185##
-                   13784096142297476920##
+                   4617200087943265768##
+                   2932405176483448011##
                    Lib.$trModule
                    Lib.$tc'Trace1) -}
-5d1a108b4153a9ed6b18c776b6e82c99
+59e96fe9aef2941b976d2c955bcf086d
   $tc'Trace1 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS "'Trace"#) -}
-d74b4a46efb4b9f80158fea9869a0515
-  $tc'Triangle :: GHC.Types.TyCon
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (GHC.Types.TyCon
-                   804081144431393569##
-                   12908424321893778067##
-                   Lib.$trModule
-                   Lib.$tc'Triangle1) -}
-1d13a665cbdf93a834aca045257132a0
-  $tc'Triangle1 :: GHC.Types.TrName
-  {- HasNoCafRefs, Strictness: m1,
-     Unfolding: (GHC.Types.TrNameS "'Triangle"#) -}
-0ea97cf93d261d7b99391004dd714d82
-  $tcMaterial :: GHC.Types.TyCon
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (GHC.Types.TyCon
-                   12421071972296941449##
-                   3845445367834352039##
-                   Lib.$trModule
-                   Lib.$tcMaterial1) -}
-89b052fead185a9e76585d4df7ab7173
-  $tcMaterial1 :: GHC.Types.TrName
-  {- HasNoCafRefs, Strictness: m1,
-     Unfolding: (GHC.Types.TrNameS "Material"#) -}
-9cd4b3b388e80a9e0007b0625cad673e
-  $tcRGB :: GHC.Types.TyCon
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (GHC.Types.TyCon
-                   17982719890474409103##
-                   13410364644284762943##
-                   Lib.$trModule
-                   Lib.$tcRGB1) -}
-89b3e38b5e78c3b9bcfe30f51ad693e4
-  $tcRGB1 :: GHC.Types.TrName
-  {- HasNoCafRefs, Strictness: m1,
-     Unfolding: (GHC.Types.TrNameS "RGB"#) -}
-b87d93ebebe44ea8885928666383b059
-  $tcRay :: GHC.Types.TyCon
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (GHC.Types.TyCon
-                   9378833839426883002##
-                   630707887492202739##
-                   Lib.$trModule
-                   Lib.$tcRay1) -}
-f70aecedb1b260485c7448ee9b7efe6f
-  $tcRay1 :: GHC.Types.TrName
-  {- HasNoCafRefs, Strictness: m1,
-     Unfolding: (GHC.Types.TrNameS "Ray"#) -}
-c07c2318030cc9060503c8e1a5b3e4f5
-  $tcScene :: GHC.Types.TyCon
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (GHC.Types.TyCon
-                   5058560760149974856##
-                   14892272405230383483##
-                   Lib.$trModule
-                   Lib.$tcScene1) -}
-4759c563ceb8e022b3763963124330a1
-  $tcScene1 :: GHC.Types.TrName
-  {- HasNoCafRefs, Strictness: m1,
-     Unfolding: (GHC.Types.TrNameS "Scene"#) -}
-0e356a1676939dbc83879527306916d3
+f7ffb3ea20906ded1bcb612a9e8b535e
   $tcTraceData :: GHC.Types.TyCon
   {- HasNoCafRefs, Strictness: m,
      Unfolding: (GHC.Types.TyCon
-                   6373215719043863117##
-                   2656262513878005218##
+                   12009040182367235775##
+                   16696556975115781172##
                    Lib.$trModule
                    Lib.$tcTraceData1) -}
-439ceefbf70d2ea62b061c93d6dda2db
+3695fb985a7f548d2ddf85281fcff5aa
   $tcTraceData1 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS "TraceData"#) -}
-2d8442ef95e0344c22e74a85fe194d57
-  $tcTriangle :: GHC.Types.TyCon
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (GHC.Types.TyCon
-                   13244850499882248141##
-                   13884151698779861246##
-                   Lib.$trModule
-                   Lib.$tcTriangle1) -}
-5d6b58177144f346ed28a8f6b0fa13bf
-  $tcTriangle1 :: GHC.Types.TrName
-  {- HasNoCafRefs, Strictness: m1,
-     Unfolding: (GHC.Types.TrNameS "Triangle"#) -}
-15a9db80874e946fdcca36a2fa18c69c
+4e6deb031afa2bf30fd1078c9b203660
   $trModule :: GHC.Types.Module
   {- HasNoCafRefs, Strictness: m,
      Unfolding: (GHC.Types.Module Lib.$trModule2 Lib.$trModule1) -}
-48123c83398116fc728a77a0c5bb83a9
+0ffa4259aabf51307678f4fc1a6417a8
   $trModule1 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS "Lib"#) -}
-a60a56ae94f005cfe85d07ec10b884c1
+6fd2a943a9383305d8e48626d06e63f9
   $trModule2 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS
-                   "raytrace-0.1.0.0-LqVbAl3QgT32j0Uy1FQn8n"#) -}
-a44dbdc40c6a0a253324e3dae25acdd8
-  $w$cshow :: GHC.Show.Show a => a -> a -> a -> GHC.Base.String
-  {- Arity: 4, Strictness: <L,U(A,C(U),A)><L,U><L,U><L,U>,
-     Inline: [0],
-     Unfolding: (\ @ a2
-                   (w :: GHC.Show.Show a2)
-                   (ww :: a2)
-                   (ww1 :: a2)
-                   (ww2 :: a2) ->
-                 GHC.Base.++
-                   @ GHC.Types.Char
-                   Lib.$fShowMaterial7
-                   (GHC.Types.:
-                      @ GHC.Types.Char
-                      Lib.$fShowMaterial6
-                      (GHC.Base.++
-                         @ GHC.Types.Char
-                         (GHC.Show.show @ a2 w ww)
-                         (GHC.Types.:
-                            @ GHC.Types.Char
-                            Lib.$fShowMaterial6
-                            (GHC.Base.++
-                               @ GHC.Types.Char
-                               (GHC.Show.show @ a2 w ww1)
-                               (GHC.Types.:
-                                  @ GHC.Types.Char
-                                  Lib.$fShowMaterial6
-                                  (GHC.Base.++
-                                     @ GHC.Types.Char
-                                     (GHC.Show.show @ a2 w ww2)
-                                     (GHC.Types.[] @ GHC.Types.Char)))))))) -}
-df09e46a866d4448a84d13b2ff558815
-  $w$cshowsPrec ::
-    GHC.Show.Show a =>
-    GHC.Prim.Int#
-    -> Lib.RGB a -> Lib.RGB a -> GHC.Base.String -> GHC.Base.String
-  {- Arity: 5,
-     Strictness: <L,U(A,C(U),A)><S,U><L,1*U(U,U,U)><L,1*U(U,U,U)><L,U>,
-     Inline: [0],
-     Unfolding: (\ @ a2
-                   (w :: GHC.Show.Show a2)
-                   (ww :: GHC.Prim.Int#)
-                   (ww1 :: Lib.RGB a2)
-                   (ww2 :: Lib.RGB a2)
-                   (w1 :: GHC.Base.String) ->
-                 let {
-                   p :: GHC.Show.ShowS {- Arity: 1, Strictness: <L,1*U> -}
-                   = \ (x1 :: GHC.Base.String)[OneShot] ->
-                     GHC.Base.++
-                       @ GHC.Types.Char
-                       Lib.$fShowMaterial2
-                       (GHC.Base.++
-                          @ GHC.Types.Char
-                          Lib.$fShowMaterial8
-                          (case ww1 of ww3 { Lib.RGB ww4 ww5 ww6 ->
-                           GHC.Base.++
-                             @ GHC.Types.Char
-                             (Lib.$w$cshow @ a2 w ww4 ww5 ww6)
-                             (GHC.Base.++
-                                @ GHC.Types.Char
-                                Lib.$fShowMaterial5
-                                (GHC.Base.++
-                                   @ GHC.Types.Char
-                                   Lib.$fShowMaterial4
-                                   (case ww2 of ww7 { Lib.RGB ww8 ww9 ww10 ->
-                                    GHC.Base.++
-                                      @ GHC.Types.Char
-                                      (Lib.$w$cshow @ a2 w ww8 ww9 ww10)
-                                      (GHC.Base.++ @ GHC.Types.Char Lib.$fShowMaterial3 x1) }))) }))
-                 } in
-                 case GHC.Prim.tagToEnum#
-                        @ GHC.Types.Bool
-                        (GHC.Prim.>=# ww 11#) of wild {
-                   GHC.Types.False -> p w1
-                   GHC.Types.True
-                   -> GHC.Types.:
-                        @ GHC.Types.Char
-                        GHC.Show.shows7
-                        (p (GHC.Types.: @ GHC.Types.Char GHC.Show.shows4 w1)) }) -}
-8db571819f0304cef0750a598740ee5a
-  $w$cshowsPrec1 ::
-    GHC.Prim.Int#
-    -> Linear.V3.V3 GHC.Types.Float
-    -> Linear.V3.V3 GHC.Types.Float
-    -> GHC.Types.Int
-    -> GHC.Show.ShowS
-  {- Arity: 4, Strictness: <S,U><L,1*U(U,U,U)><L,1*U(U,U,U)><L,U(U)>,
-     Inline: [0],
-     Unfolding: (\ (ww :: GHC.Prim.Int#)
-                   (ww1 :: Linear.V3.V3 GHC.Types.Float)
-                   (ww2 :: Linear.V3.V3 GHC.Types.Float)
-                   (ww3 :: GHC.Types.Int) ->
-                 let {
-                   f :: GHC.Base.String -> GHC.Base.String
-                   = case ww1 of ww4 { Linear.V3.V3 ww5 ww6 ww7 ->
-                     Linear.V3.$w$cshowsPrec
-                       @ GHC.Types.Float
-                       GHC.Float.$fShowFloat
-                       0#
-                       ww5
-                       ww6
-                       ww7 }
-                 } in
-                 let {
-                   f1 :: GHC.Base.String -> GHC.Base.String
-                   = case ww2 of ww4 { Linear.V3.V3 ww5 ww6 ww7 ->
-                     Linear.V3.$w$cshowsPrec
-                       @ GHC.Types.Float
-                       GHC.Float.$fShowFloat
-                       0#
-                       ww5
-                       ww6
-                       ww7 }
-                 } in
-                 let {
-                   p :: GHC.Show.ShowS {- Arity: 1, Strictness: <L,1*U> -}
-                   = \ (x1 :: GHC.Base.String) ->
-                     GHC.Base.++
-                       @ GHC.Types.Char
-                       Lib.$fShowRay5
-                       (GHC.Base.++
-                          @ GHC.Types.Char
-                          Lib.$fShowRay4
-                          (f (GHC.Base.++
-                                @ GHC.Types.Char
-                                Lib.$fShowMaterial5
-                                (GHC.Base.++
-                                   @ GHC.Types.Char
-                                   Lib.$fShowRay3
-                                   (f1
-                                      (GHC.Base.++
-                                         @ GHC.Types.Char
-                                         Lib.$fShowMaterial5
-                                         (GHC.Base.++
-                                            @ GHC.Types.Char
-                                            Lib.$fShowRay2
-                                            (case ww3 of ww4 { GHC.Types.I# ww5 ->
-                                             case GHC.Show.$wshowSignedInt
-                                                    0#
-                                                    ww5
-                                                    (GHC.Base.++
-                                                       @ GHC.Types.Char
-                                                       Lib.$fShowMaterial3
-                                                       x1) of ww6 { (#,#) ww7 ww8 ->
-                                             GHC.Types.: @ GHC.Types.Char ww7 ww8 } }))))))))
-                 } in
-                 case GHC.Prim.tagToEnum#
-                        @ GHC.Types.Bool
-                        (GHC.Prim.>=# ww 11#) of wild {
-                   GHC.Types.False -> p
-                   GHC.Types.True
-                   -> \ (x1 :: GHC.Base.String) ->
-                      GHC.Types.:
-                        @ GHC.Types.Char
-                        GHC.Show.shows7
-                        (p (GHC.Types.: @ GHC.Types.Char GHC.Show.shows4 x1)) }) -}
-baed82c626cd7586571a4a96c08e1735
-  $w$cshowsPrec2 ::
-    GHC.Prim.Int#
-    -> Linear.V3.V3 GHC.Types.Float
-    -> Linear.V3.V3 GHC.Types.Float
-    -> Linear.V3.V3 GHC.Types.Float
-    -> Lib.Material GHC.Types.Float
-    -> GHC.Show.ShowS
-  {- Arity: 5,
-     Strictness: <S,U><L,1*U(U,U,U)><L,1*U(U,U,U)><L,1*U(U,U,U)><L,U(U(U(U),U(U),U(U)),U(U(U),U(U),U(U)))>,
-     Inline: [0],
-     Unfolding: (\ (ww :: GHC.Prim.Int#)
-                   (ww1 :: Linear.V3.V3 GHC.Types.Float)
-                   (ww2 :: Linear.V3.V3 GHC.Types.Float)
-                   (ww3 :: Linear.V3.V3 GHC.Types.Float)
-                   (ww4 :: Lib.Material GHC.Types.Float) ->
-                 let {
-                   f :: GHC.Base.String -> GHC.Base.String
-                   = case ww1 of ww5 { Linear.V3.V3 ww6 ww7 ww8 ->
-                     Linear.V3.$w$cshowsPrec
-                       @ GHC.Types.Float
-                       GHC.Float.$fShowFloat
-                       0#
-                       ww6
-                       ww7
-                       ww8 }
-                 } in
-                 let {
-                   f1 :: GHC.Base.String -> GHC.Base.String
-                   = case ww2 of ww5 { Linear.V3.V3 ww6 ww7 ww8 ->
-                     Linear.V3.$w$cshowsPrec
-                       @ GHC.Types.Float
-                       GHC.Float.$fShowFloat
-                       0#
-                       ww6
-                       ww7
-                       ww8 }
-                 } in
-                 let {
-                   f2 :: GHC.Base.String -> GHC.Base.String
-                   = case ww3 of ww5 { Linear.V3.V3 ww6 ww7 ww8 ->
-                     Linear.V3.$w$cshowsPrec
-                       @ GHC.Types.Float
-                       GHC.Float.$fShowFloat
-                       0#
-                       ww6
-                       ww7
-                       ww8 }
-                 } in
-                 let {
-                   p :: GHC.Show.ShowS {- Arity: 1, Strictness: <L,1*U> -}
-                   = \ (x1 :: GHC.Base.String) ->
-                     GHC.Base.++
-                       @ GHC.Types.Char
-                       Lib.$fShowTriangle6
-                       (GHC.Base.++
-                          @ GHC.Types.Char
-                          Lib.$fShowTriangle5
-                          (f (GHC.Base.++
-                                @ GHC.Types.Char
-                                Lib.$fShowMaterial5
-                                (GHC.Base.++
-                                   @ GHC.Types.Char
-                                   Lib.$fShowTriangle4
-                                   (f1
-                                      (GHC.Base.++
-                                         @ GHC.Types.Char
-                                         Lib.$fShowMaterial5
-                                         (GHC.Base.++
-                                            @ GHC.Types.Char
-                                            Lib.$fShowTriangle3
-                                            (f2
-                                               (GHC.Base.++
-                                                  @ GHC.Types.Char
-                                                  Lib.$fShowMaterial5
-                                                  (GHC.Base.++
-                                                     @ GHC.Types.Char
-                                                     Lib.$fShowTriangle2
-                                                     (case ww4 of ww5 { Lib.Mat ww6 ww7 ->
-                                                      Lib.$w$s$cshowsPrec
-                                                        0#
-                                                        ww6
-                                                        ww7
-                                                        (GHC.Base.++
-                                                           @ GHC.Types.Char
-                                                           Lib.$fShowMaterial3
-                                                           x1) })))))))))))
-                 } in
-                 case GHC.Prim.tagToEnum#
-                        @ GHC.Types.Bool
-                        (GHC.Prim.>=# ww 11#) of wild {
-                   GHC.Types.False -> p
-                   GHC.Types.True
-                   -> \ (x1 :: GHC.Base.String) ->
-                      GHC.Types.:
-                        @ GHC.Types.Char
-                        GHC.Show.shows7
-                        (p (GHC.Types.: @ GHC.Types.Char GHC.Show.shows4 x1)) }) -}
-9f5787b4b882ea785346beb253fd834b
-  $w$s$cshow ::
-    GHC.Types.Float
-    -> GHC.Types.Float -> GHC.Types.Float -> GHC.Base.String
-  {- Arity: 3, Strictness: <L,1*U(U)><L,1*U(U)><L,1*U(U)>,
-     Inline: [0],
-     Unfolding: (\ (ww :: GHC.Types.Float)
-                   (ww1 :: GHC.Types.Float)
-                   (ww2 :: GHC.Types.Float) ->
-                 GHC.Base.++
-                   @ GHC.Types.Char
-                   Lib.$fShowMaterial7
-                   (GHC.Types.:
-                      @ GHC.Types.Char
-                      Lib.$fShowMaterial6
-                      (case ww of ww3 { GHC.Types.F# ww4 ->
-                       GHC.Base.++
-                         @ GHC.Types.Char
-                         (GHC.Float.$w$sshowSignedFloat1
-                            GHC.Float.$fShowFloat_$sshowFloat
-                            GHC.Show.shows22
-                            ww4
-                            (GHC.Types.[] @ GHC.Types.Char))
-                         (GHC.Types.:
-                            @ GHC.Types.Char
-                            Lib.$fShowMaterial6
-                            (case ww1 of ww5 { GHC.Types.F# ww6 ->
-                             GHC.Base.++
-                               @ GHC.Types.Char
-                               (GHC.Float.$w$sshowSignedFloat1
-                                  GHC.Float.$fShowFloat_$sshowFloat
-                                  GHC.Show.shows22
-                                  ww6
-                                  (GHC.Types.[] @ GHC.Types.Char))
-                               (GHC.Types.:
-                                  @ GHC.Types.Char
-                                  Lib.$fShowMaterial6
-                                  (case ww2 of ww7 { GHC.Types.F# ww8 ->
-                                   GHC.Base.++
-                                     @ GHC.Types.Char
-                                     (GHC.Float.$w$sshowSignedFloat1
-                                        GHC.Float.$fShowFloat_$sshowFloat
-                                        GHC.Show.shows22
-                                        ww8
-                                        (GHC.Types.[] @ GHC.Types.Char))
-                                     (GHC.Types.[] @ GHC.Types.Char) })) })) }))) -}
-9c62d24d987b46ebcf34500cb9d35813
-  $w$s$cshowsPrec ::
-    GHC.Prim.Int#
-    -> Lib.RGB GHC.Types.Float
-    -> Lib.RGB GHC.Types.Float
-    -> GHC.Base.String
-    -> GHC.Base.String
-  {- Arity: 4,
-     Strictness: <S,U><L,1*U(1*U(U),1*U(U),1*U(U))><L,1*U(1*U(U),1*U(U),1*U(U))><L,U>,
-     Inline: [0],
-     Unfolding: (\ (ww :: GHC.Prim.Int#)
-                   (ww1 :: Lib.RGB GHC.Types.Float)
-                   (ww2 :: Lib.RGB GHC.Types.Float)
-                   (w :: GHC.Base.String) ->
-                 let {
-                   g :: GHC.Base.String -> GHC.Base.String
-                     {- Arity: 1, Strictness: <L,1*U> -}
-                   = \ (x1 :: GHC.Base.String)[OneShot] ->
-                     GHC.Base.++
-                       @ GHC.Types.Char
-                       Lib.$fShowMaterial8
-                       (case ww1 of ww3 { Lib.RGB ww4 ww5 ww6 ->
-                        GHC.Base.++
-                          @ GHC.Types.Char
-                          (Lib.$w$s$cshow ww4 ww5 ww6)
-                          (GHC.Base.++
-                             @ GHC.Types.Char
-                             Lib.$fShowMaterial5
-                             (GHC.Base.++
-                                @ GHC.Types.Char
-                                Lib.$fShowMaterial4
-                                (case ww2 of ww7 { Lib.RGB ww8 ww9 ww10 ->
-                                 GHC.Base.++
-                                   @ GHC.Types.Char
-                                   (Lib.$w$s$cshow ww8 ww9 ww10)
-                                   (GHC.Base.++ @ GHC.Types.Char Lib.$fShowMaterial3 x1) }))) })
-                 } in
-                 case GHC.Prim.tagToEnum#
-                        @ GHC.Types.Bool
-                        (GHC.Prim.>=# ww 11#) of wild {
-                   GHC.Types.False
-                   -> GHC.Base.++ @ GHC.Types.Char Lib.$fShowMaterial2 (g w)
-                   GHC.Types.True
-                   -> GHC.Types.:
-                        @ GHC.Types.Char
-                        GHC.Show.shows7
-                        (GHC.Base.++
-                           @ GHC.Types.Char
-                           Lib.$fShowMaterial2
-                           (g (GHC.Types.: @ GHC.Types.Char GHC.Show.shows4 w))) }) -}
-80a23a548766034b3d638e8c593f17f4
+                   "squigly-trace-0.1.0.0-B2tPeVU0dH9BfPKJegt0x3"#) -}
+3b33da06b8f0a1ee83f550e271a5b917
   $wc ::
     GHC.Types.Float
     -> GHC.Types.Float
     -> GHC.Types.Float
     -> (# GHC.Types.Float, GHC.Types.Float, GHC.Types.Float #)
-  {- Arity: 3, Strictness: <S,U><S,U><S,U>, Inline: [0] -}
-b0766b5f46ebc7de9b6c41ddb965351f
+  {- Arity: 3, Strictness: <S,U><S,U><S,U>, Inline: [0],
+     Unfolding: (\ (ww :: GHC.Types.Float)
+                   (ww1 :: GHC.Types.Float)
+                   (ww2 :: GHC.Types.Float) ->
+                 case Lib.testScene44 of ww4 { Data.Matrix.M ww5 ww6 ww7 ww8 ww9 ww10 ->
+                 case Geometry.$wrotVert
+                        ww
+                        ww1
+                        ww2
+                        ww5
+                        ww6
+                        ww7
+                        ww8
+                        ww9
+                        ww10 of ww11 { (#,,#) ww12 ww13 ww14 ->
+                 case ww12 of wild { GHC.Types.F# x ->
+                 case ww13 of wild1 { GHC.Types.F# x1 ->
+                 case ww14 of wild2 { GHC.Types.F# x2 ->
+                 (# GHC.Types.F# (GHC.Prim.plusFloat# x 1.0#), wild1,
+                    wild2 #) } } } } }) -}
+185ff442af08e525a2d7de4d9635ed5f
+  $wrender ::
+    Lib.Camera
+    -> Geometry.Scene
+    -> GHC.Prim.Int#
+    -> GHC.Prim.Int#
+    -> GHC.Base.Maybe GHC.Base.String
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 6, Strictness: <L,U(U)><L,U(U)><S,U><S,U><L,1*U><S,U>,
+     Inline: [0] -}
+f7b5aab6786a41d37c1746fcd52617f3
   type Camera = GHC.Types.Float
-e23433b1b52e9a33a0b485cdd7904e84
+105ef755bff55f986fd9ceaa330e2ed5
   type ImageBuffer = Data.ByteString.Internal.ByteString
-d28b80980c4e5b03cfdfd5a5c7d0c9a2
-  data Material a = Mat {color :: Lib.RGB a, emittance :: Lib.RGB a}
-f0d0fd2f552894d38c410c7baf688cba
-  data RGB a = RGB a a a
-ff0b44bb01018d7ac919d89ed1321424
-  data Ray
-    = Ray {vertex :: Linear.V3.V3 GHC.Types.Float,
-           direction :: Linear.V3.V3 GHC.Types.Float,
-           bounces :: GHC.Types.Int}
-33bac428ad6f22abd7c00a1cf432c7dc
-  data Scene = Scene {tris :: [Lib.Triangle]}
-37cdb314f5a0fedd2947f5640da19c27
+3c3d486921847a897d17b88954692cd1
   data TraceData
     = Trace {intersectPoint :: Linear.V3.V3 GHC.Types.Float,
              dist :: GHC.Types.Float,
-             mat :: Lib.Material GHC.Types.Float,
+             mat :: Color.Material GHC.Types.Float,
              surfNorm :: Linear.V3.V3 GHC.Types.Float}
-0820bede9c6242da89c8fc8a72267ab5
-  data Triangle
-    = Triangle {a :: Linear.V3.V3 GHC.Types.Float,
-                b :: Linear.V3.V3 GHC.Types.Float,
-                c :: Linear.V3.V3 GHC.Types.Float,
-                material :: Lib.Material GHC.Types.Float}
-dae181097c9e5d957cbfe05058aae1ac
-  a :: Lib.Triangle -> Linear.V3.V3 GHC.Types.Float
-  RecSel Left Lib.Triangle
-  {- Arity: 1, HasNoCafRefs,
-     Strictness: <S(SLLL),1*U(1*U(U,U,U),A,A,A)>m,
-     Unfolding: InlineRule (1, True, False)
-                (\ (ds1 :: Lib.Triangle) ->
-                 case ds1 of wild { Lib.Triangle ds2 ds3 ds4 ds5 -> ds2 }) -}
-c4301b51106db6f6d18c6a9dee322f0e
-  b :: Lib.Triangle -> Linear.V3.V3 GHC.Types.Float
-  RecSel Left Lib.Triangle
-  {- Arity: 1, HasNoCafRefs,
-     Strictness: <S(LSLL),1*U(A,1*U(U,U,U),A,A)>m,
-     Unfolding: InlineRule (1, True, False)
-                (\ (ds1 :: Lib.Triangle) ->
-                 case ds1 of wild { Lib.Triangle ds2 ds3 ds4 ds5 -> ds3 }) -}
-c199a3173aea3775db5ebe73e362b5f0
-  bounces :: Lib.Ray -> GHC.Types.Int
-  RecSel Left Lib.Ray
-  {- Arity: 1, HasNoCafRefs, Strictness: <S(LLS),1*U(A,A,1*U(U))>m,
-     Unfolding: InlineRule (1, True, False)
-                (\ (ds1 :: Lib.Ray) ->
-                 case ds1 of wild { Lib.Ray ds2 ds3 ds4 -> ds4 }) -}
-a8726f9be95ed47930fc4fa0aabeb9ba
-  c :: Lib.Triangle -> Linear.V3.V3 GHC.Types.Float
-  RecSel Left Lib.Triangle
-  {- Arity: 1, HasNoCafRefs,
-     Strictness: <S(LLSL),1*U(A,A,1*U(U,U,U),A)>m,
-     Unfolding: InlineRule (1, True, False)
-                (\ (ds1 :: Lib.Triangle) ->
-                 case ds1 of wild { Lib.Triangle ds2 ds3 ds4 ds5 -> ds4 }) -}
-5cac28d87e06308be8a644a566ae1f67
-  color :: Lib.Material a -> Lib.RGB a
-  RecSel Left Lib.Material
-  {- Arity: 1, HasNoCafRefs, Strictness: <S(SL),1*U(1*U(U,U,U),A)>m,
-     Unfolding: InlineRule (1, True, False)
-                (\ @ a2 (ds1 :: Lib.Material a2) ->
-                 case ds1 of wild { Lib.Mat ds2 ds3 -> ds2 }) -}
-b633e29888b8e3f998ca5163fb2f9c09
-  direction :: Lib.Ray -> Linear.V3.V3 GHC.Types.Float
-  RecSel Left Lib.Ray
-  {- Arity: 1, HasNoCafRefs,
-     Strictness: <S(LSL),1*U(A,1*U(U,U,U),A)>m,
-     Unfolding: InlineRule (1, True, False)
-                (\ (ds1 :: Lib.Ray) ->
-                 case ds1 of wild { Lib.Ray ds2 ds3 ds4 -> ds3 }) -}
-446b657198cfd771ceea297193de48bc
+6677f92dad19be4f4229061b17381d8d
   dist :: Lib.TraceData -> GHC.Types.Float
   RecSel Left Lib.TraceData
   {- Arity: 1, HasNoCafRefs,
      Strictness: <S(LSLL),1*U(A,1*U(U),A,A)>m,
      Unfolding: InlineRule (1, True, False)
-                (\ (ds1 :: Lib.TraceData) ->
-                 case ds1 of wild { Lib.Trace ds2 ds3 ds4 ds5 -> ds3 }) -}
-4146ab72ae953adb6e2414f74f7d0cf8
-  emittance :: Lib.Material a -> Lib.RGB a
-  RecSel Left Lib.Material
-  {- Arity: 1, HasNoCafRefs, Strictness: <S(LS),1*U(A,1*U(U,U,U))>m,
-     Unfolding: InlineRule (1, True, False)
-                (\ @ a2 (ds1 :: Lib.Material a2) ->
-                 case ds1 of wild { Lib.Mat ds2 ds3 -> ds3 }) -}
-f2940fa4163a53a73cf50c6a268376bf
+                (\ (ds :: Lib.TraceData) ->
+                 case ds of wild { Lib.Trace ds1 ds2 ds3 ds4 -> ds2 }) -}
+ce12a0a1fdd99c9318be46b4237a747a
   intersectPoint :: Lib.TraceData -> Linear.V3.V3 GHC.Types.Float
   RecSel Left Lib.TraceData
   {- Arity: 1, HasNoCafRefs,
      Strictness: <S(SLLL),1*U(1*U(U,U,U),A,A,A)>m,
      Unfolding: InlineRule (1, True, False)
-                (\ (ds1 :: Lib.TraceData) ->
-                 case ds1 of wild { Lib.Trace ds2 ds3 ds4 ds5 -> ds2 }) -}
-5fc100a8e70a6ab4c03584df32ea6bda
-  lime :: Lib.RGB GHC.Types.Float
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (Lib.RGB
-                   @ GHC.Types.Float
-                   Lib.testScene16
-                   Lib.testScene18
-                   Lib.testScene22) -}
-0c25e7bf2760edb99bcd09163eeb8e5d
-  mat :: Lib.TraceData -> Lib.Material GHC.Types.Float
+                (\ (ds :: Lib.TraceData) ->
+                 case ds of wild { Lib.Trace ds1 ds2 ds3 ds4 -> ds1 }) -}
+62627cc5f766a279136151e55df89878
+  mat :: Lib.TraceData -> Color.Material GHC.Types.Float
   RecSel Left Lib.TraceData
   {- Arity: 1, HasNoCafRefs,
      Strictness: <S(LLSL),1*U(A,A,1*U(U,U),A)>m,
      Unfolding: InlineRule (1, True, False)
-                (\ (ds1 :: Lib.TraceData) ->
-                 case ds1 of wild { Lib.Trace ds2 ds3 ds4 ds5 -> ds4 }) -}
-1def73b7f181cca64a5e91e259c94cfe
-  material :: Lib.Triangle -> Lib.Material GHC.Types.Float
-  RecSel Left Lib.Triangle
-  {- Arity: 1, HasNoCafRefs,
-     Strictness: <S(LLLS),1*U(A,A,A,1*U(U,U))>m,
-     Unfolding: InlineRule (1, True, False)
-                (\ (ds1 :: Lib.Triangle) ->
-                 case ds1 of wild { Lib.Triangle ds2 ds3 ds4 ds5 -> ds5 }) -}
-4890c27628b7b8ecf11faa96743eb3a1
-  noEmission :: Lib.RGB GHC.Types.Float
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (Lib.RGB
-                   @ GHC.Types.Float
-                   Lib.testScene22
-                   Lib.testScene22
-                   Lib.testScene22) -}
-0ee8ff2864bc533f9664bed143bb4c4c
+                (\ (ds :: Lib.TraceData) ->
+                 case ds of wild { Lib.Trace ds1 ds2 ds3 ds4 -> ds3 }) -}
+a64447d317026af53d801122ea5d6ebe
   render ::
     Lib.Camera
-    -> Lib.Scene
+    -> Geometry.Scene
     -> GHC.Types.Int
     -> GHC.Types.Int
     -> GHC.Base.Maybe GHC.Base.String
     -> GHC.Types.IO ()
   {- Arity: 6,
-     Strictness: <L,U(U)><L,U(U)><L,U(U)><L,U(U)><L,1*U><S,U>,
+     Strictness: <L,U(U)><L,U(U)><S(S),U(U)><S(S),U(U)><L,1*U><S,U>,
      Unfolding: InlineRule (0, True, True)
                 Lib.render1
                   `cast`
                 (<Lib.Camera>_R
-                 ->_R <Lib.Scene>_R
+                 ->_R <Geometry.Scene>_R
                  ->_R <GHC.Types.Int>_R
                  ->_R <GHC.Types.Int>_R
                  ->_R <GHC.Base.Maybe GHC.Base.String>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-7390a4dc0d588a04a5b558d4fe343362
+faff4e785c7c7ca04fc0c4b464f21d73
   render1 ::
     Lib.Camera
-    -> Lib.Scene
+    -> Geometry.Scene
     -> GHC.Types.Int
     -> GHC.Types.Int
     -> GHC.Base.Maybe GHC.Base.String
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 6,
-     Strictness: <L,U(U)><L,U(U)><L,U(U)><L,U(U)><L,1*U><S,U> -}
-53d8ee80b82520b3cf32ca1d7298c83e
+     Strictness: <L,U(U)><L,U(U)><S(S),U(U)><S(S),U(U)><L,1*U><S,U>,
+     Inline: INLINE[0],
+     Unfolding: InlineRule (6, True, False)
+                (\ (w :: Lib.Camera)
+                   (w1 :: Geometry.Scene)
+                   (w2 :: GHC.Types.Int)
+                   (w3 :: GHC.Types.Int)
+                   (w4 :: GHC.Base.Maybe GHC.Base.String)
+                   (w5 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
+                 case w2 of ww { GHC.Types.I# ww1 ->
+                 case w3 of ww2 { GHC.Types.I# ww3 ->
+                 Lib.$wrender w w1 ww1 ww3 w4 w5 } }) -}
+37ec0ebb0ab4dc3dd2159b1b1903b061
   surfNorm :: Lib.TraceData -> Linear.V3.V3 GHC.Types.Float
   RecSel Left Lib.TraceData
   {- Arity: 1, HasNoCafRefs,
      Strictness: <S(LLLS),1*U(A,A,A,1*U(U,U,U))>m,
      Unfolding: InlineRule (1, True, False)
-                (\ (ds1 :: Lib.TraceData) ->
-                 case ds1 of wild { Lib.Trace ds2 ds3 ds4 ds5 -> ds5 }) -}
-c79121a037fc215d9ef81404e8ae813b
-  testScene :: Lib.Scene
-  {- Strictness: m, Unfolding: (Lib.Scene Lib.testScene1) -}
-253b23e66b784303d14541b989ada0c2
-  testScene1 :: [Lib.Triangle]
+                (\ (ds :: Lib.TraceData) ->
+                 case ds of wild { Lib.Trace ds1 ds2 ds3 ds4 -> ds4 }) -}
+c224300bf5783d097130d58909e18272
+  testScene :: Geometry.Scene
+  {- Strictness: m, Unfolding: (Geometry.Scene Lib.testScene1) -}
+0cd9ca47cced2a0b3ce6dae5b2e01f09
+  testScene1 :: [Geometry.Triangle]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
-                   @ Lib.Triangle
-                   Lib.testScene52
+                   @ Geometry.Triangle
+                   Lib.testScene58
                    Lib.testScene2) -}
-e3c1c222716938f2658ee08db13793ae
-  testScene10 :: [Lib.Triangle]
+970ae0951ca197aff712af4b2d54decc
+  testScene10 :: [Geometry.Triangle]
   {- HasNoCafRefs, Strictness: m2,
      Unfolding: (GHC.Types.:
-                   @ Lib.Triangle
-                   Lib.testScene23
+                   @ Geometry.Triangle
+                   Lib.testScene24
                    Lib.testScene11) -}
-53562271c91479a77b4473b52f387a88
-  testScene11 :: [Lib.Triangle]
+eba5db853d604bc1bf964f811ea8b267
+  testScene11 :: [Geometry.Triangle]
   {- HasNoCafRefs, Strictness: m2,
      Unfolding: (GHC.Types.:
-                   @ Lib.Triangle
+                   @ Geometry.Triangle
                    Lib.testScene12
-                   (GHC.Types.[] @ Lib.Triangle)) -}
-41d030b384fe32b648009b49c8360c95
-  testScene12 :: Lib.Triangle
+                   (GHC.Types.[] @ Geometry.Triangle)) -}
+232dc0610ab9ba5d0d8814b999325434
+  testScene12 :: Geometry.Triangle
   {- HasNoCafRefs, Strictness: m,
-     Unfolding: (Lib.Triangle
-                   Lib.testScene21
-                   Lib.testScene19
-                   Lib.testScene17
+     Unfolding: (Geometry.Triangle
+                   Lib.testScene22
+                   Lib.testScene20
+                   Lib.testScene18
                    Lib.testScene13) -}
-f8d64cb738f1b447f642ddc270488998
-  testScene13 :: Lib.Material GHC.Types.Float
+937e7062f1c6d6ebee44314396cf65e3
+  testScene13 :: Color.Material GHC.Types.Float
   {- HasNoCafRefs, Strictness: m,
-     Unfolding: (Lib.Mat @ GHC.Types.Float Lib.white Lib.testScene14) -}
-e375b30739a1c0c3a0161ea145f160a2
-  testScene14 :: Lib.RGB GHC.Types.Float
+     Unfolding: (Color.Mat
+                   @ GHC.Types.Float
+                   Lib.testScene16
+                   Lib.testScene14) -}
+5011bcf028e2c024c2f67797cc0d72c6
+  testScene14 :: Color.RGB GHC.Types.Float
   {- HasNoCafRefs, Strictness: m,
-     Unfolding: (Lib.RGB
+     Unfolding: (Color.RGB
                    @ GHC.Types.Float
                    Lib.testScene15
                    Lib.testScene15
                    Lib.testScene15) -}
-18a86ea685a0d827e460189e44935051
+3262db418153a42ac8849203b51b54be
   testScene15 :: GHC.Types.Float
-  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# 100.0#) -}
-77ddaa5a357ce07f2078bd1898df4397
-  testScene16 :: GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.F# 1000.0#) -}
+92270a898c408da379a88b4c2d6dfa22
+  testScene16 :: Color.RGB GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (Color.RGB
+                   @ GHC.Types.Float
+                   Lib.testScene17
+                   Lib.testScene17
+                   Lib.testScene17) -}
+24755bc47b84b3ecbf9fc3bca4135912
+  testScene17 :: GHC.Types.Float
   {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# 1.0#) -}
-9f1f62be464178c83bd85d662fae95c0
-  testScene17 :: Linear.V3.V3 GHC.Types.Float
+e892e1602d623e7a7798c3d8877caebd
+  testScene18 :: Linear.V3.V3 GHC.Types.Float
   {- HasNoCafRefs, Strictness: m,
      Unfolding: (Linear.V3.V3
                    @ GHC.Types.Float
-                   Lib.testScene16
-                   Lib.testScene16
-                   Lib.testScene18) -}
-c86da3634a0e6f82cf47f98764c55d71
-  testScene18 :: GHC.Types.Float
+                   Lib.testScene17
+                   Lib.testScene17
+                   Lib.testScene19) -}
+2fb954f473bea39001d2bbcf1cf825aa
+  testScene19 :: GHC.Types.Float
   {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# 2.0#) -}
-034b02bd613cb9422d602be0a49764d6
-  testScene19 :: Linear.V3.V3 GHC.Types.Float
+04a22846b97ca0133033e621b4671f30
+  testScene2 :: [Geometry.Triangle]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Geometry.Triangle
+                   Lib.testScene57
+                   Lib.testScene3) -}
+aec9025daac3719069aab89807aec952
+  testScene20 :: Linear.V3.V3 GHC.Types.Float
   {- HasNoCafRefs, Strictness: m,
      Unfolding: (Linear.V3.V3
+                   @ GHC.Types.Float
+                   Lib.testScene17
+                   Lib.testScene21
+                   Lib.testScene19) -}
+4988647007c5e096a329a68ba53c680d
+  testScene21 :: GHC.Types.Float
+  {- HasNoCafRefs, Unfolding: (GHC.Types.F# -1.0#) -}
+655f9d60b1c2ea7fe07731912911dd70
+  testScene22 :: Linear.V3.V3 GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (Linear.V3.V3
+                   @ GHC.Types.Float
+                   Lib.testScene21
+                   Lib.testScene23
+                   Lib.testScene19) -}
+164b3bd1458492f131f0845374f45deb
+  testScene23 :: GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# 0.0#) -}
+628c1fb5aa6a33dcc0d27f10bc05bd2f
+  testScene24 :: Geometry.Triangle
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (Geometry.Triangle
+                   Lib.testScene31
+                   Lib.testScene28
+                   Lib.testScene26
+                   Lib.testScene25) -}
+3d8658d8bf51e9993974a0efc00e94a8
+  testScene25 :: Color.Material GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (Color.Mat
                    @ GHC.Types.Float
                    Lib.testScene16
-                   Lib.testScene20
-                   Lib.testScene18) -}
-f3bddf6a2820807ac274ed3c90365529
-  testScene2 :: [Lib.Triangle]
-  {- Strictness: m2,
-     Unfolding: (GHC.Types.:
-                   @ Lib.Triangle
-                   Lib.testScene51
-                   Lib.testScene3) -}
-5a41752edec1fafa706c1b3376793880
-  testScene20 :: GHC.Types.Float
-  {- HasNoCafRefs, Unfolding: (GHC.Types.F# -1.0#) -}
-cb06179814c4caa9f07ed2a12e6155ea
-  testScene21 :: Linear.V3.V3 GHC.Types.Float
+                   Lib.testScene_noEmission) -}
+7643482ee8722eca0cf43563dc25daa3
+  testScene26 :: Linear.V3.V3 GHC.Types.Float
   {- HasNoCafRefs, Strictness: m,
      Unfolding: (Linear.V3.V3
                    @ GHC.Types.Float
-                   Lib.testScene20
-                   Lib.testScene22
-                   Lib.testScene18) -}
-c45b4c5b0541813e3d300ab2a3cbc723
-  testScene22 :: GHC.Types.Float
-  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# 0.0#) -}
-5337f35932b39d3c38167de5361022c9
-  testScene23 :: Lib.Triangle
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (Lib.Triangle
-                   Lib.testScene30
                    Lib.testScene27
-                   Lib.testScene25
-                   Lib.testScene24) -}
-7ecbef9b75480bc710d23c42b68d40a7
-  testScene24 :: Lib.Material GHC.Types.Float
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (Lib.Mat @ GHC.Types.Float Lib.white Lib.noEmission) -}
-0d0212145d0e30512559387bea0c22f1
-  testScene25 :: Linear.V3.V3 GHC.Types.Float
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (Linear.V3.V3
-                   @ GHC.Types.Float
-                   Lib.testScene26
-                   Lib.testScene22
-                   Lib.testScene26) -}
-815bcd6f87e85710a23176a7fffc437f
-  testScene26 :: GHC.Types.Float
+                   Lib.testScene23
+                   Lib.testScene27) -}
+7ad79e05964390c5419792ef7a41c74e
+  testScene27 :: GHC.Types.Float
   {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# 10.0#) -}
-6997e3b22b3a1adbb808c1970ce155df
-  testScene27 :: Linear.V3.V3 GHC.Types.Float
+bf8b19aae3eee116197052c5a316cb4b
+  testScene28 :: Linear.V3.V3 GHC.Types.Float
   {- HasNoCafRefs, Strictness: m,
      Unfolding: (Linear.V3.V3
                    @ GHC.Types.Float
-                   Lib.testScene26
-                   Lib.testScene29
-                   Lib.testScene28) -}
-04efb719f14615ece094c311dc8c00a6
-  testScene28 :: GHC.Types.Float
-  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# -2.0#) -}
-446d0857e5c430e957be0afd40a30506
-  testScene29 :: GHC.Types.Float
-  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# -10.0#) -}
-8c9442cbe8088c723698c46ca754e808
-  testScene3 :: [Lib.Triangle]
-  {- Strictness: m2,
-     Unfolding: (GHC.Types.:
-                   @ Lib.Triangle
-                   Lib.testScene50
-                   Lib.testScene4) -}
-306c24bdad0c512f35b2a3e593aa5c97
-  testScene30 :: Linear.V3.V3 GHC.Types.Float
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (Linear.V3.V3
-                   @ GHC.Types.Float
-                   Lib.testScene26
-                   Lib.testScene26
-                   Lib.testScene28) -}
-a1cd3005167213821f43b41b40d79693
-  testScene31 :: Lib.Triangle
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (Lib.Triangle
-                   Lib.testScene30
                    Lib.testScene27
-                   Lib.testScene32
-                   Lib.testScene24) -}
-90d5e57e9d6441ed8f44982ad4b8743b
-  testScene32 :: Linear.V3.V3 GHC.Types.Float
+                   Lib.testScene30
+                   Lib.testScene29) -}
+b86944e03a2977ca9be4ea148f09e248
+  testScene29 :: GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# -2.0#) -}
+be9462583dfaa9b00d1ac1db7dafceb8
+  testScene3 :: [Geometry.Triangle]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Geometry.Triangle
+                   Lib.testScene56
+                   Lib.testScene4) -}
+0bcc419e68ab6948b9e0eecf64e83579
+  testScene30 :: GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# -10.0#) -}
+b8aae351baa08013f04d22fd3bedf3c7
+  testScene31 :: Linear.V3.V3 GHC.Types.Float
   {- HasNoCafRefs, Strictness: m,
      Unfolding: (Linear.V3.V3
                    @ GHC.Types.Float
-                   Lib.testScene29
-                   Lib.testScene22
-                   Lib.testScene28) -}
-a0f60bcb0069d503c4126990f81a5470
-  testScene33 :: Lib.Triangle
-  {- Strictness: m,
-     Unfolding: (Lib.Triangle Lib.v4 Lib.v1 Lib.v6 Lib.testScene34) -}
-f36e58db5ef0b511912965f6e0b64300
-  testScene34 :: Lib.Material GHC.Types.Float
+                   Lib.testScene27
+                   Lib.testScene27
+                   Lib.testScene29) -}
+fffb6492a732d9dd0d8ce70828e4ef12
+  testScene32 :: Geometry.Triangle
   {- HasNoCafRefs, Strictness: m,
-     Unfolding: (Lib.Mat @ GHC.Types.Float Lib.lime Lib.noEmission) -}
-9f3ff584641692ff35e8ec2f1571820f
-  testScene35 :: [Linear.V3.V3 GHC.Types.Float]
-  {- Strictness: m2,
-     Unfolding: (GHC.Types.:
-                   @ (Linear.V3.V3 GHC.Types.Float)
-                   Lib.testScene44
-                   Lib.testScene36) -}
-d6abd27800fe5da54f10449da0d15f01
-  testScene36 :: [Linear.V3.V3 GHC.Types.Float]
-  {- Strictness: m2,
-     Unfolding: (GHC.Types.:
-                   @ (Linear.V3.V3 GHC.Types.Float)
-                   Lib.testScene43
-                   Lib.testScene37) -}
-513d03cb7bb11ed05e6ce098f7f3a5b8
-  testScene37 :: [Linear.V3.V3 GHC.Types.Float]
-  {- Strictness: m2,
-     Unfolding: (GHC.Types.:
-                   @ (Linear.V3.V3 GHC.Types.Float)
-                   Lib.testScene42
-                   Lib.testScene38) -}
-4c447bb7282d454e32917bf9eec5dec3
+     Unfolding: (Geometry.Triangle
+                   Lib.testScene31
+                   Lib.testScene28
+                   Lib.testScene33
+                   Lib.testScene25) -}
+b6e8817ae292d78d189ad78d50bfd724
+  testScene33 :: Linear.V3.V3 GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (Linear.V3.V3
+                   @ GHC.Types.Float
+                   Lib.testScene30
+                   Lib.testScene23
+                   Lib.testScene29) -}
+ecefd71669fee3742000643adbf77efa
+  testScene34 :: Geometry.Triangle
+  {- Strictness: m,
+     Unfolding: (Geometry.Triangle
+                   Lib.testScene_v4
+                   Lib.testScene_v1
+                   Lib.testScene_v6
+                   Lib.testScene35) -}
+6c6d35966f2fb84ce5ffb728949ecd43
+  testScene35 :: Color.Material GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (Color.Mat
+                   @ GHC.Types.Float
+                   Lib.testScene_col
+                   Lib.testScene_noEmission) -}
+1256b95e4ef9b124f63bc3a4dbe36f0e
+  testScene36 :: GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# 0.125#) -}
+a65cf2dfd4b7bc8f02012527027ad3d9
+  testScene37 :: GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# 0.25#) -}
+7f52c7d96404dcbf4017d5219d7a0972
   testScene38 :: [Linear.V3.V3 GHC.Types.Float]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
                    @ (Linear.V3.V3 GHC.Types.Float)
-                   Lib.testScene41
+                   Lib.testScene50
                    Lib.testScene39) -}
-e840ba6ba351ae69c151bb6259c74221
+0a31ed031519ef4f421b465594491005
   testScene39 :: [Linear.V3.V3 GHC.Types.Float]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
                    @ (Linear.V3.V3 GHC.Types.Float)
-                   Lib.testScene40
-                   (GHC.Types.[] @ (Linear.V3.V3 GHC.Types.Float))) -}
-5631a7b31b3fa9b95883f9a8d8851bca
-  testScene4 :: [Lib.Triangle]
+                   Lib.testScene49
+                   Lib.testScene40) -}
+5df9185b89d41b385d8b62ab845d2f39
+  testScene4 :: [Geometry.Triangle]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
-                   @ Lib.Triangle
-                   Lib.testScene49
+                   @ Geometry.Triangle
+                   Lib.testScene55
                    Lib.testScene5) -}
-c6a7401eb9552110915691ce2eadc574
-  testScene40 :: Linear.V3.V3 GHC.Types.Float
-  {- Unfolding: (case Lib.$wc
-                        Lib.testScene22
-                        Lib.testScene22
-                        Lib.testScene20 of ww { (#,,#) ww1 ww2 ww3 ->
-                 Linear.V3.V3 @ GHC.Types.Float ww1 ww2 ww3 }) -}
-bb2c133cc92213c436b310ccc4fab6d6
-  testScene41 :: Linear.V3.V3 GHC.Types.Float
-  {- Unfolding: (case Lib.$wc
-                        Lib.testScene22
-                        Lib.testScene22
-                        Lib.testScene16 of ww { (#,,#) ww1 ww2 ww3 ->
-                 Linear.V3.V3 @ GHC.Types.Float ww1 ww2 ww3 }) -}
-bc43a9cd7d50143f70e9e48c8f7ab29b
-  testScene42 :: Linear.V3.V3 GHC.Types.Float
-  {- Unfolding: (case Lib.$wc
-                        Lib.testScene22
-                        Lib.testScene16
-                        Lib.testScene22 of ww { (#,,#) ww1 ww2 ww3 ->
-                 Linear.V3.V3 @ GHC.Types.Float ww1 ww2 ww3 }) -}
-908ec26983f227c45fdd6e5f6cca1dee
+73bf849473bda5b281fa0ccc348dd554
+  testScene40 :: [Linear.V3.V3 GHC.Types.Float]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (Linear.V3.V3 GHC.Types.Float)
+                   Lib.testScene48
+                   Lib.testScene41) -}
+84b2733d3b6009adefe0b6dc3254dbc6
+  testScene41 :: [Linear.V3.V3 GHC.Types.Float]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (Linear.V3.V3 GHC.Types.Float)
+                   Lib.testScene47
+                   Lib.testScene42) -}
+d5b24a8df2a23f682183f4b214ad969e
+  testScene42 :: [Linear.V3.V3 GHC.Types.Float]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (Linear.V3.V3 GHC.Types.Float)
+                   Lib.testScene43
+                   (GHC.Types.[] @ (Linear.V3.V3 GHC.Types.Float))) -}
+bc84f4a65d676a6b12e6849a01c0d293
   testScene43 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (case Lib.$wc
-                        Lib.testScene20
-                        Lib.testScene22
-                        Lib.testScene22 of ww { (#,,#) ww1 ww2 ww3 ->
+                        Lib.testScene23
+                        Lib.testScene23
+                        Lib.testScene21 of ww { (#,,#) ww1 ww2 ww3 ->
                  Linear.V3.V3 @ GHC.Types.Float ww1 ww2 ww3 }) -}
-9bcd0d6620243fb9ac8d0c84bd8577a2
-  testScene44 :: Linear.V3.V3 GHC.Types.Float
+738dc9ca69fdae2e67d7d4dde107a8e3
+  testScene44 :: Data.Matrix.Matrix GHC.Types.Float
+  {- Unfolding: (case Geometry.$wrotMatrixRads
+                        Lib.testScene46
+                        Lib.testScene45
+                        Lib.testScene23 of ww { (#,,,,,#) ww1 ww2 ww3 ww4 ww5 ww6 ->
+                 Data.Matrix.M @ GHC.Types.Float ww1 ww2 ww3 ww4 ww5 ww6 }) -}
+254a8a0ccccee8229c142c234bdf215a
+  testScene45 :: GHC.Types.Float
+  {- HasNoCafRefs, Unfolding: (GHC.Types.F# 0.19634955#) -}
+81439ac3a9f957f937466a9824cc6e89
+  testScene46 :: GHC.Types.Float
+  {- HasNoCafRefs, Unfolding: (GHC.Types.F# 0.3926991#) -}
+967c1beb0638cfaf6581d63b889ce7d4
+  testScene47 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (case Lib.$wc
-                        Lib.testScene22
-                        Lib.testScene20
-                        Lib.testScene22 of ww { (#,,#) ww1 ww2 ww3 ->
+                        Lib.testScene23
+                        Lib.testScene23
+                        Lib.testScene17 of ww { (#,,#) ww1 ww2 ww3 ->
                  Linear.V3.V3 @ GHC.Types.Float ww1 ww2 ww3 }) -}
-e3f7992990f6a5d0fba811b051f8fe44
-  testScene45 :: Linear.V3.V3 GHC.Types.Float
+d9633334d9ad90556cd3e5c9bae4d1e6
+  testScene48 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (case Lib.$wc
-                        Lib.testScene16
-                        Lib.testScene22
-                        Lib.testScene22 of ww { (#,,#) ww1 ww2 ww3 ->
+                        Lib.testScene23
+                        Lib.testScene17
+                        Lib.testScene23 of ww { (#,,#) ww1 ww2 ww3 ->
                  Linear.V3.V3 @ GHC.Types.Float ww1 ww2 ww3 }) -}
-6448d6a00b0af6669a243bbe55d0276b
-  testScene46 :: Lib.Triangle
-  {- Strictness: m,
-     Unfolding: (Lib.Triangle Lib.v3 Lib.v4 Lib.v6 Lib.testScene34) -}
-d41ef341af58b32a669115a047e36ca4
-  testScene47 :: Lib.Triangle
-  {- Strictness: m,
-     Unfolding: (Lib.Triangle Lib.v2 Lib.v3 Lib.v6 Lib.testScene34) -}
-50518023dc74a3a0a210766d810c164f
-  testScene48 :: Lib.Triangle
-  {- Strictness: m,
-     Unfolding: (Lib.Triangle Lib.v1 Lib.v2 Lib.v6 Lib.testScene34) -}
-3b680d18c4a42cf6a36f5f22b1d00164
-  testScene49 :: Lib.Triangle
-  {- Strictness: m,
-     Unfolding: (Lib.Triangle Lib.v1 Lib.v4 Lib.v5 Lib.testScene34) -}
-0b060274dea19a57949cb2137a7dbd1f
-  testScene5 :: [Lib.Triangle]
+90e405319e2ca54c5240db937d97fbec
+  testScene49 :: Linear.V3.V3 GHC.Types.Float
+  {- Unfolding: (case Lib.$wc
+                        Lib.testScene21
+                        Lib.testScene23
+                        Lib.testScene23 of ww { (#,,#) ww1 ww2 ww3 ->
+                 Linear.V3.V3 @ GHC.Types.Float ww1 ww2 ww3 }) -}
+3d055b0820aed4f23ea2289abd4e98a1
+  testScene5 :: [Geometry.Triangle]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
-                   @ Lib.Triangle
-                   Lib.testScene48
+                   @ Geometry.Triangle
+                   Lib.testScene54
                    Lib.testScene6) -}
-6e90f6e63d566aa571d02201ea697265
-  testScene50 :: Lib.Triangle
+8eaf5bd167ddc141200f225ed8535479
+  testScene50 :: Linear.V3.V3 GHC.Types.Float
+  {- Unfolding: (case Lib.$wc
+                        Lib.testScene23
+                        Lib.testScene21
+                        Lib.testScene23 of ww { (#,,#) ww1 ww2 ww3 ->
+                 Linear.V3.V3 @ GHC.Types.Float ww1 ww2 ww3 }) -}
+ba2a4bc249ccfbaa39ec3515b100347d
+  testScene51 :: Linear.V3.V3 GHC.Types.Float
+  {- Unfolding: (case Lib.$wc
+                        Lib.testScene17
+                        Lib.testScene23
+                        Lib.testScene23 of ww { (#,,#) ww1 ww2 ww3 ->
+                 Linear.V3.V3 @ GHC.Types.Float ww1 ww2 ww3 }) -}
+2710d6707a46d1f77edce92deec1696a
+  testScene52 :: Geometry.Triangle
   {- Strictness: m,
-     Unfolding: (Lib.Triangle Lib.v4 Lib.v3 Lib.v5 Lib.testScene34) -}
-bd7daaab1997d37a15d07e6f81824c65
-  testScene51 :: Lib.Triangle
+     Unfolding: (Geometry.Triangle
+                   Lib.testScene_v3
+                   Lib.testScene_v4
+                   Lib.testScene_v6
+                   Lib.testScene35) -}
+a55c1746694f491ca7248563fb259d22
+  testScene53 :: Geometry.Triangle
   {- Strictness: m,
-     Unfolding: (Lib.Triangle Lib.v3 Lib.v2 Lib.v5 Lib.testScene34) -}
-84920c82d093ed40ee245897072e56f5
-  testScene52 :: Lib.Triangle
+     Unfolding: (Geometry.Triangle
+                   Lib.testScene_v2
+                   Lib.testScene_v3
+                   Lib.testScene_v6
+                   Lib.testScene35) -}
+16e108b9b26767b4427751ed5978ea28
+  testScene54 :: Geometry.Triangle
   {- Strictness: m,
-     Unfolding: (Lib.Triangle Lib.v2 Lib.v1 Lib.v5 Lib.testScene34) -}
-cfbc1f6ebe3bf5e31cd6aa27d9822ec6
-  testScene6 :: [Lib.Triangle]
+     Unfolding: (Geometry.Triangle
+                   Lib.testScene_v1
+                   Lib.testScene_v2
+                   Lib.testScene_v6
+                   Lib.testScene35) -}
+05cd62971cef0d94c7112b1ddfa9ab92
+  testScene55 :: Geometry.Triangle
+  {- Strictness: m,
+     Unfolding: (Geometry.Triangle
+                   Lib.testScene_v1
+                   Lib.testScene_v4
+                   Lib.testScene_v5
+                   Lib.testScene35) -}
+5979684957d35f85d8e6ebc225fa846b
+  testScene56 :: Geometry.Triangle
+  {- Strictness: m,
+     Unfolding: (Geometry.Triangle
+                   Lib.testScene_v4
+                   Lib.testScene_v3
+                   Lib.testScene_v5
+                   Lib.testScene35) -}
+d027a7e95a7169481a6bbc372476822c
+  testScene57 :: Geometry.Triangle
+  {- Strictness: m,
+     Unfolding: (Geometry.Triangle
+                   Lib.testScene_v3
+                   Lib.testScene_v2
+                   Lib.testScene_v5
+                   Lib.testScene35) -}
+943fa6d1ae66739b526425576fa14ff7
+  testScene58 :: Geometry.Triangle
+  {- Strictness: m,
+     Unfolding: (Geometry.Triangle
+                   Lib.testScene_v2
+                   Lib.testScene_v1
+                   Lib.testScene_v5
+                   Lib.testScene35) -}
+dd21697788a1f26215f300ca31aff492
+  testScene6 :: [Geometry.Triangle]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
-                   @ Lib.Triangle
-                   Lib.testScene47
+                   @ Geometry.Triangle
+                   Lib.testScene53
                    Lib.testScene7) -}
-2260adadb5fee4afd0f9e8910d2a385f
-  testScene7 :: [Lib.Triangle]
+7da8f31221764d64d6cacfb35ed9c591
+  testScene7 :: [Geometry.Triangle]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
-                   @ Lib.Triangle
-                   Lib.testScene46
+                   @ Geometry.Triangle
+                   Lib.testScene52
                    Lib.testScene8) -}
-222f0cc8be5430249e3b89f485027361
-  testScene8 :: [Lib.Triangle]
+c7ae206866342f06fc4803714266a7da
+  testScene8 :: [Geometry.Triangle]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
-                   @ Lib.Triangle
-                   Lib.testScene33
+                   @ Geometry.Triangle
+                   Lib.testScene34
                    Lib.testScene9) -}
-2e2348b908e9df38a5cd165258d7922f
-  testScene9 :: [Lib.Triangle]
+788103d6f8ec05aa475aad077b1c4040
+  testScene9 :: [Geometry.Triangle]
   {- HasNoCafRefs, Strictness: m2,
      Unfolding: (GHC.Types.:
-                   @ Lib.Triangle
-                   Lib.testScene31
+                   @ Geometry.Triangle
+                   Lib.testScene32
                    Lib.testScene10) -}
-3bca371621119f39f58e06f08d58c4fb
+f72d6107dafed4049e0920813c3c67a8
   testSceneVerts :: [Linear.V3.V3 GHC.Types.Float]
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
                    @ (Linear.V3.V3 GHC.Types.Float)
-                   Lib.testScene45
-                   Lib.testScene35) -}
-4c7d579f6570f7a176d369b8946b1bb4
-  tris :: Lib.Scene -> [Lib.Triangle]
-  RecSel Left Lib.Scene
-  {- Arity: 1, HasNoCafRefs, Strictness: <S(S),1*U(1*U)>,
-     Unfolding: InlineRule (1, True, False)
-                (\ (ds1 :: Lib.Scene) ->
-                 case ds1 of wild { Lib.Scene ds2 -> ds2 }) -}
-39a57c2c6235ed32876d15fe94278f96
-  v1 :: Linear.V3.V3 GHC.Types.Float
+                   Lib.testScene51
+                   Lib.testScene38) -}
+154a7e44f3edf49b239add6c52099058
+  testScene_col :: Color.RGB GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (Color.RGB
+                   @ GHC.Types.Float
+                   Lib.testScene37
+                   Lib.testScene23
+                   Lib.testScene36) -}
+ac491d437b6c67ac17a4df34abbf4974
+  testScene_noEmission :: Color.RGB GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (Color.RGB
+                   @ GHC.Types.Float
+                   Lib.testScene23
+                   Lib.testScene23
+                   Lib.testScene23) -}
+fca3c62463b77b27aa1fbc135920d7dd
+  testScene_v1 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (GHC.List.$w!!
                    @ (Linear.V3.V3 GHC.Types.Float)
                    Lib.testSceneVerts
                    0#) -}
-2241ab7dbc38a1000424bcb066cce557
-  v2 :: Linear.V3.V3 GHC.Types.Float
+95539fca23cde9accfbbd5b5d0b77527
+  testScene_v2 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (GHC.List.$w!!
                    @ (Linear.V3.V3 GHC.Types.Float)
                    Lib.testSceneVerts
                    1#) -}
-c0a2c32a458f14e98207f187bc5eaea9
-  v3 :: Linear.V3.V3 GHC.Types.Float
+e064ab4cf72491846eeafc745de09cf4
+  testScene_v3 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (GHC.List.$w!!
                    @ (Linear.V3.V3 GHC.Types.Float)
                    Lib.testSceneVerts
                    2#) -}
-63a5252c5d022389473b0486d23824ee
-  v4 :: Linear.V3.V3 GHC.Types.Float
+dcda1b4f7006b07ab73e94234a99b513
+  testScene_v4 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (GHC.List.$w!!
                    @ (Linear.V3.V3 GHC.Types.Float)
                    Lib.testSceneVerts
                    3#) -}
-2871aeb58fbb319ea4d23d66b85da379
-  v5 :: Linear.V3.V3 GHC.Types.Float
+bb602c2b5f53779de1ece81a34a8364e
+  testScene_v5 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (GHC.List.$w!!
                    @ (Linear.V3.V3 GHC.Types.Float)
                    Lib.testSceneVerts
                    4#) -}
-8eee7c030bb120317a3721be03417f0c
-  v6 :: Linear.V3.V3 GHC.Types.Float
+9145f9404c991ba86beb87fd073144c7
+  testScene_v6 :: Linear.V3.V3 GHC.Types.Float
   {- Unfolding: (GHC.List.$w!!
                    @ (Linear.V3.V3 GHC.Types.Float)
                    Lib.testSceneVerts
                    5#) -}
-de7761fc2280e2047a3c74a6dd54d6aa
-  vertex :: Lib.Ray -> Linear.V3.V3 GHC.Types.Float
-  RecSel Left Lib.Ray
-  {- Arity: 1, HasNoCafRefs,
-     Strictness: <S(SLL),1*U(1*U(U,U,U),A,A)>m,
-     Unfolding: InlineRule (1, True, False)
-                (\ (ds1 :: Lib.Ray) ->
-                 case ds1 of wild { Lib.Ray ds2 ds3 ds4 -> ds2 }) -}
-ae73de3c333aae8de1d9a9b7519d8c4a
-  white :: Lib.RGB GHC.Types.Float
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (Lib.RGB
-                   @ GHC.Types.Float
-                   Lib.testScene16
-                   Lib.testScene16
-                   Lib.testScene16) -}
-instance GHC.Base.Functor [Lib.RGB] = Lib.$fFunctorRGB
-instance GHC.Show.Show [Lib.Material] = Lib.$fShowMaterial
-instance GHC.Show.Show [Lib.RGB] = Lib.$fShowRGB
-instance GHC.Show.Show [Lib.Ray] = Lib.$fShowRay
-instance GHC.Show.Show [Lib.Triangle] = Lib.$fShowTriangle
-"SPEC/Lib length @ Vector @ Float" [ALWAYS] forall ($dVector :: Data.Vector.Generic.Base.Vector
-                                                                  Data.Vector.Vector
-                                                                  GHC.Types.Float)
-  Data.Vector.Generic.length @ Data.Vector.Vector
-                             @ GHC.Types.Float
-                             $dVector
-  = Lib.$s!_$slength
 vectorised variables:
 vectorised tycons:
 vectorised reused tycons:
