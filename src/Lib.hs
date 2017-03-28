@@ -4,7 +4,6 @@ Description : Rendering logic
 Maintainer  : rukokarasu@gmail.com
 Stability   : experimental
 -}
-{-# LANGUAGE BangPatterns #-}
 
 module Lib
     ( makeCamera, render
@@ -47,7 +46,7 @@ makeCamera x = Camera x
 resultImage :: StdGen -> Scene -> Int -> Int -> Camera Float -> ImageBuffer
 resultImage randgen scene w h (Camera camera) = B.pack imageAsList
     where imageAsList = concat (zipWith' ($) [getColorAt x y | y <- [0..h - 1], x <- [0..w - 1]] (replicateStdGen randgen))
-          getColorAt !x !y !gen =
+          getColorAt x y gen =
             let xoffs = (fromIntegral x - (fromIntegral w / 2)) / fromIntegral w
                 yoffs = (fromIntegral y - (fromIntegral h / 2)) / fromIntegral h
                 orig  = V3 (-1.5) 0 0
@@ -89,7 +88,7 @@ averageOfRaySamples g s r =
     let samples = map f (take desiredSamples $ replicateStdGen g)
     in  averageColors samples
     where f gen = resultOfRay gen s r
-          desiredSamples = 3000
+          desiredSamples = 100
 
 replicateStdGen :: StdGen -> [StdGen]
 replicateStdGen gen =
