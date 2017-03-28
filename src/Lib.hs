@@ -11,7 +11,6 @@ module Lib
 
 import           Color
 import           Geometry
-import           Obj
 
 import           Codec.BMP
 import           Control.DeepSeq
@@ -64,8 +63,8 @@ zipWith ($) [getColorAt x y | y <- [0..h-1], x <- [0..w-1] (replicateStdGen rand
 = (getColorAt 0 0 g1) : (getColorAt 0 1 g2) : (getColorAt 0 2 g3) : ...
 -}
 zipWith' :: NFData c => (a -> b -> c) -> [a] -> [b] -> [c]
-zipWith' f []     _      = []
-zipWith' f _      []     = []
+zipWith' _ []     _      = []
+zipWith' _ _      []     = []
 zipWith' f (x:xs) (y:ys) =
     let head' = f x y
     in  head' `deepseq` (head' : zipWith' f xs ys)
@@ -88,7 +87,7 @@ averageOfRaySamples g s r =
     let samples = map f (take desiredSamples $ replicateStdGen g)
     in  averageColors samples
     where f gen = resultOfRay gen s r
-          desiredSamples = 100
+          desiredSamples = 3000
 
 replicateStdGen :: StdGen -> [StdGen]
 replicateStdGen gen =
