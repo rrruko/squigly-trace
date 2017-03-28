@@ -41,22 +41,6 @@ render scene w h path cam = do
 makeCamera :: Num a => a -> Camera a
 makeCamera x = Camera x
 
-{-
-This should be decomposed into a intersect :: Ray -> Triangle -> Maybe (V3 Float) in Geometry
-and a intersectData :: Ray -> Triangle -> Maybe Intersection in Lib
--}
-intersect :: Ray -> Triangle -> Maybe Intersection
-intersect ray tri
-    | direction ray `dot` normal tri == 0 = Nothing
-    | otherwise = 
-        let rayDist = ((tFirst tri - vertex ray) `dot` normal tri) 
-                      / (direction ray `dot` normal tri)
-            inter = vertex ray + ((rayDist *) <$> (direction ray))
-        in  if rayDist > 0.1 && pointInTriangle inter tri then
-                Just (Intersection inter rayDist (material tri) (normal tri))
-            else
-                Nothing
-
 resultImage :: StdGen -> Scene -> Int -> Int -> Camera Float -> ImageBuffer
 resultImage randgen scene w h (Camera camera) = B.pack imageAsList
     where imageAsList = concat (zipWith ($) [getColorAt x y | y <- [0..h - 1], x <- [0..w - 1]] (replicateStdGen randgen))
@@ -68,6 +52,9 @@ resultImage randgen scene w h (Camera camera) = B.pack imageAsList
                 ray   = rayFromVerts orig vert
             in  rayToPixel scene ray gen
 
+rayToPixel :: Scene -> Ray -> StdGen -> [Word8]
+rayToPixel scene ray g = colorToPixel . averageOfRaySamples g scene $ ray
+
 -- instead of capping the pixel at 255, it'd be better to convert
 -- to hsl and then apply log to the l and then convert back to rgb
 -- if you just apply log to the raw rgb, it shifts the hue value
@@ -77,9 +64,6 @@ colorToPixel (RGB r g b) = map badAtan [r, g, b] ++ [255]
     where badAtan   = floor . (*255) . (*(2/pi)) . atan
           --badLog    = min 255 . floor . (\x -> log x * x) . (+1)
           --badLinear = min 255 . floor
-
-rayToPixel :: Scene -> Ray -> StdGen -> [Word8]
-rayToPixel scene ray g = colorToPixel . averageOfRaySamples g scene $ ray
 
 averageOfRaySamples :: StdGen -> Scene -> Ray -> RGB Float
 averageOfRaySamples g s r = 
@@ -120,6 +104,22 @@ resultOfRay gen scene ray
                     Ray (intersectPoint inter) (-newDirection) (bounces ray + 1)
                 else
                     Ray (intersectPoint inter)   newDirection  (bounces ray + 1) 
+                    
+{-
+This should be decomposed into a intersect :: Ray -> Triangle -> Maybe (V3 Float) in Geometry
+and a intersectData :: Ray -> Triangle -> Maybe Intersection in Lib
+-}
+intersect :: Ray -> Triangle -> Maybe Intersection
+intersect ray tri
+    | direction ray `dot` normal tri == 0 = Nothing
+    | otherwise = 
+        let rayDist = ((tFirst tri - vertex ray) `dot` normal tri) 
+                      / (direction ray `dot` normal tri)
+            inter = vertex ray + ((rayDist *) <$> (direction ray))
+        in  if rayDist > 0.1 && pointInTriangle inter tri then
+                Just (Intersection inter rayDist (material tri) (normal tri))
+            else
+                Nothing
 
 randomVector :: StdGen -> V3 Float
 randomVector gen = 
