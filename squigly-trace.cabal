@@ -24,6 +24,7 @@ library
                      , bmp
                      , matrix
                      , random
+                     , deepseq
   default-language:    Haskell2010
 
 executable squigly-trace-exe

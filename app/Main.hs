@@ -1,6 +1,7 @@
 module Main where
 
-import Lib (makeCamera, render, testScene)
+import Lib (makeCamera, render)
+import Obj (testScene)
 
 main :: IO ()
 main = do

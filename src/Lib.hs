@@ -4,8 +4,10 @@ Description : Rendering logic
 Maintainer  : rukokarasu@gmail.com
 Stability   : experimental
 -}
+{-# LANGUAGE BangPatterns #-}
+
 module Lib
-    ( makeCamera, render, testScene
+    ( makeCamera, render
     ) where
 
 import           Color
@@ -13,6 +15,7 @@ import           Geometry
 import           Obj
 
 import           Codec.BMP
+import           Control.DeepSeq
 import qualified Data.ByteString as B
 import           Data.Function
 import           Data.Maybe
@@ -43,14 +46,30 @@ makeCamera x = Camera x
 
 resultImage :: StdGen -> Scene -> Int -> Int -> Camera Float -> ImageBuffer
 resultImage randgen scene w h (Camera camera) = B.pack imageAsList
-    where imageAsList = concat (zipWith ($) [getColorAt x y | y <- [0..h - 1], x <- [0..w - 1]] (replicateStdGen randgen))
-          getColorAt x y gen =
+    where imageAsList = concat (zipWith' ($) [getColorAt x y | y <- [0..h - 1], x <- [0..w - 1]] (replicateStdGen randgen))
+          getColorAt !x !y !gen =
             let xoffs = (fromIntegral x - (fromIntegral w / 2)) / fromIntegral w
                 yoffs = (fromIntegral y - (fromIntegral h / 2)) / fromIntegral h
                 orig  = V3 (-1.5) 0 0
                 vert  = V3 camera xoffs yoffs
                 ray   = rayFromVerts orig vert
             in  rayToPixel scene ray gen
+
+{-
+This is used to force the pixels to be evaluated one at a time, instead of building up
+a list of thunks. Using regular zipWith, memory usage scales with sample count;
+using this function, it is constant.
+
+zipWith ($) [getColorAt x y | y <- [0..h-1], x <- [0..w-1] (replicateStdGen randgen)]
+= (getColorAt x y g1) : zipWith ($) [getColorAt x y | y <- [0..h-1], x <- [0..w-1] (replicateStdGen randgen)]
+= (getColorAt 0 0 g1) : (getColorAt 0 1 g2) : (getColorAt 0 2 g3) : ...
+-}
+zipWith' :: NFData c => (a -> b -> c) -> [a] -> [b] -> [c]
+zipWith' f []     _      = []
+zipWith' f _      []     = []
+zipWith' f (x:xs) (y:ys) =
+    let head' = f x y
+    in  head' `deepseq` (head' : zipWith' f xs ys)
 
 rayToPixel :: Scene -> Ray -> StdGen -> [Word8]
 rayToPixel scene ray g = colorToPixel . averageOfRaySamples g scene $ ray
@@ -70,7 +89,7 @@ averageOfRaySamples g s r =
     let samples = map f (take desiredSamples $ replicateStdGen g)
     in  averageColors samples
     where f gen = resultOfRay gen s r
-          desiredSamples = 10
+          desiredSamples = 3000
 
 replicateStdGen :: StdGen -> [StdGen]
 replicateStdGen gen =
@@ -94,7 +113,7 @@ resultOfRay gen scene ray
         case intersectInScene scene ray of
             Just inter -> resultOfRay newGen scene (newRay inter) * color (mat inter) + emittance (mat inter)
             Nothing -> black
-    where maxBounces = 7
+    where maxBounces = 8
           newGen = snd (next gen)
           newRay inter =
             let newDirection = randomVector gen
@@ -104,7 +123,7 @@ resultOfRay gen scene ray
                     Ray (intersectPoint inter) (-newDirection) (bounces ray + 1)
                 else
                     Ray (intersectPoint inter)   newDirection  (bounces ray + 1) 
-                    
+
 {-
 This should be decomposed into a intersect :: Ray -> Triangle -> Maybe (V3 Float) in Geometry
 and a intersectData :: Ray -> Triangle -> Maybe Intersection in Lib
