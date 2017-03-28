@@ -1,11 +1,8 @@
 module Main where
 
-import Lib (render, testScene)
-import Obj (sceneFromObj)
+import Lib (makeCamera, render, testScene)
 
 main :: IO ()
 main = do
-    let camera = -0.8
-    f <- readFile "./data/test.obj"
-    let scene = sceneFromObj f
-    render camera testScene 512 512 Nothing
+    let cam = makeCamera (-1)
+    render testScene 512 512 Nothing cam

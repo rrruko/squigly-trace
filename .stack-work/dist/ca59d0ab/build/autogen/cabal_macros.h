@@ -28,6 +28,13 @@
   (major1) == 0 && (major2) <  10 || \
   (major1) == 0 && (major2) == 10 && (minor) <= 8)
 
+/* package lens-4.15.1 */
+#define VERSION_lens "4.15.1"
+#define MIN_VERSION_lens(major1,major2,minor) (\
+  (major1) <  4 || \
+  (major1) == 4 && (major2) <  15 || \
+  (major1) == 4 && (major2) == 15 && (minor) <= 1)
+
 /* package linear-1.20.5 */
 #define VERSION_linear "1.20.5"
 #define MIN_VERSION_linear(major1,major2,minor) (\
@@ -112,7 +119,7 @@
   (major1) == 2 && (major2) <  25 || \
   (major1) == 2 && (major2) == 25 && (minor) <= 0)
 
-#define CURRENT_COMPONENT_ID "squigly-trace-0.1.0.0-B2tPeVU0dH9BfPKJegt0x3"
+#define CURRENT_COMPONENT_ID "squigly-trace-0.1.0.0-5ozva8u4xtWJFkMKhtQb5C"
 
-#define CURRENT_PACKAGE_KEY "squigly-trace-0.1.0.0-B2tPeVU0dH9BfPKJegt0x3"
+#define CURRENT_PACKAGE_KEY "squigly-trace-0.1.0.0-5ozva8u4xtWJFkMKhtQb5C"
 

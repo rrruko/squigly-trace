@@ -29,12 +29,12 @@ version :: Version
 version = Version [0,1,0,0] []
 bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath
 
-bindir     = "C:\\Users\\Ethan\\Programming\\Haskell\\raytracer3\\raytrace\\.stack-work\\install\\65995373\\bin"
-libdir     = "C:\\Users\\Ethan\\Programming\\Haskell\\raytracer3\\raytrace\\.stack-work\\install\\65995373\\lib\\x86_64-windows-ghc-8.0.2\\squigly-trace-0.1.0.0-B2tPeVU0dH9BfPKJegt0x3"
-dynlibdir  = "C:\\Users\\Ethan\\Programming\\Haskell\\raytracer3\\raytrace\\.stack-work\\install\\65995373\\lib\\x86_64-windows-ghc-8.0.2"
-datadir    = "C:\\Users\\Ethan\\Programming\\Haskell\\raytracer3\\raytrace\\.stack-work\\install\\65995373\\share\\x86_64-windows-ghc-8.0.2\\squigly-trace-0.1.0.0"
-libexecdir = "C:\\Users\\Ethan\\Programming\\Haskell\\raytracer3\\raytrace\\.stack-work\\install\\65995373\\libexec"
-sysconfdir = "C:\\Users\\Ethan\\Programming\\Haskell\\raytracer3\\raytrace\\.stack-work\\install\\65995373\\etc"
+bindir     = "C:\\Users\\Ethan\\Programming\\Haskell\\squigly-trace\\.stack-work\\install\\65995373\\bin"
+libdir     = "C:\\Users\\Ethan\\Programming\\Haskell\\squigly-trace\\.stack-work\\install\\65995373\\lib\\x86_64-windows-ghc-8.0.2\\squigly-trace-0.1.0.0-5ozva8u4xtWJFkMKhtQb5C"
+dynlibdir  = "C:\\Users\\Ethan\\Programming\\Haskell\\squigly-trace\\.stack-work\\install\\65995373\\lib\\x86_64-windows-ghc-8.0.2"
+datadir    = "C:\\Users\\Ethan\\Programming\\Haskell\\squigly-trace\\.stack-work\\install\\65995373\\share\\x86_64-windows-ghc-8.0.2\\squigly-trace-0.1.0.0"
+libexecdir = "C:\\Users\\Ethan\\Programming\\Haskell\\squigly-trace\\.stack-work\\install\\65995373\\libexec"
+sysconfdir = "C:\\Users\\Ethan\\Programming\\Haskell\\squigly-trace\\.stack-work\\install\\65995373\\etc"
 
 getBinDir, getLibDir, getDynLibDir, getDataDir, getLibexecDir, getSysconfDir :: IO FilePath
 getBinDir = catchIO (getEnv "squigly_trace_bindir") (\_ -> return bindir)

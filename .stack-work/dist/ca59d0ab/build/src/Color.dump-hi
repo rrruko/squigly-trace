@@ -1,59 +1,154 @@
 
 ==================== FINAL INTERFACE ====================
-2017-03-25 10:00:30.1754458 UTC
+2017-03-28 04:31:38.7014742 UTC
 
-interface squigly-trace-0.1.0.0-B2tPeVU0dH9BfPKJegt0x3:Color 8002
-  interface hash: 24d42a9a827886f6413589c45edf3e61
-  ABI hash: 00774378ee26a135ff33270dcc96368a
-  export-list hash: 0920e717bff7429c34f3db94393079a6
+interface squigly-trace-0.1.0.0-5ozva8u4xtWJFkMKhtQb5C:Color 8002
+  interface hash: 6c2b03abdd4a3a626432c3e2c0f20b18
+  ABI hash: ddb2eaa64cd3ea6c2a1f114fc7432b4c
+  export-list hash: a18670c5031df8c9fdb6927e5aecbbfe
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: ff109124cfc5c6538fb1b79e319c5cea
   sig of: Nothing
   used TH splices: False
   where
 exports:
+  Color.averageColors
   Color.black
   Color.gray
+  Color.toHSL
   Color.white
   Color.Material{Color.Mat color emittance}
   Color.RGB{Color.RGB}
 module dependencies:
-package dependencies: base-4.9.1.0* ghc-prim-0.5.0.0
+package dependencies: StateVar-1.1.0.4@StateVar-1.1.0.4-5dJbnTVECtEAhfJXPZKdbO
+                      adjunctions-4.3@adjunctions-4.3-5CqTSM7liCdC9cb4N2IolK
+                      array-0.5.1.1@array-0.5.1.1 base-4.9.1.0
+                      base-orphans-0.5.4@base-orphans-0.5.4-ABoxiBf7nXc7Qqh66CgYc9
+                      bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN
+                      binary-0.8.3.0@binary-0.8.3.0
+                      bytestring-0.10.8.1@bytestring-0.10.8.1
+                      comonad-5@comonad-5-ETWy8l913C0Kq2HEAZg6Cb
+                      containers-0.5.7.1@containers-0.5.7.1
+                      contravariant-1.4@contravariant-1.4-ETyVlWBlFwj93UDOdH22No
+                      deepseq-1.4.2.0@deepseq-1.4.2.0
+                      distributive-0.5.2@distributive-0.5.2-JCgfTXNR3ywAyV7fFWIBI5
+                      exceptions-0.8.3@exceptions-0.8.3-ADEDRATtUrMK1JW4zMQ9U
+                      free-4.12.4@free-4.12.4-Ab5EFvlPq2CHsY4aRoQQaZ
+                      ghc-boot-th-8.0.2@ghc-boot-th-8.0.2 ghc-prim-0.5.0.0
+                      hashable-1.2.5.0@hashable-1.2.5.0-F4MWeNuv2sjJRqBd2T5ul4
                       integer-gmp-1.0.0.1
+                      kan-extensions-5.0.1@kan-extensions-5.0.1-11Ov83x9jJMC3tpuqa2lhG
+                      lens-4.15.1@lens-4.15.1-JIqePnD6ntW5ZEF4vrpOVi
+                      mtl-2.2.1@mtl-2.2.1-BLKBelFsPB3BoFeSWSOYj6
+                      prelude-extras-0.4.0.3@prelude-extras-0.4.0.3-BhL9U5k7NtGJn1itwIHt2Y
+                      pretty-1.1.3.3@pretty-1.1.3.3
+                      primitive-0.6.1.0@primitive-0.6.1.0-6AbSTw9JXz141LE5p6LGH
+                      profunctors-5.2@profunctors-5.2-LrJGukLpH0xCNgg3bhdC7E
+                      reflection-2.1.2@reflection-2.1.2-Bem12O1xFGSHr4C2Hyu1c4
+                      semigroupoids-5.1@semigroupoids-5.1-Bv4gPJlZIgxJuJyrAzyy1i
+                      stm-2.4.4.1@stm-2.4.4.1-JQn4hNPyYjP5m9AcbI88Ve
+                      tagged-0.8.5@tagged-0.8.5-1mTloBSoUxv8dqUr8XBGBt
+                      template-haskell-2.11.1.0
+                      text-1.2.2.1@text-1.2.2.1-Ji7hMs2U4BkBwavd4taEVR
+                      transformers-0.5.2.0@transformers-0.5.2.0
+                      transformers-compat-0.5.1.4@transformers-compat-0.5.1.4-IuFogs8HAVUJBWVNMhtssu
+                      unordered-containers-0.2.7.2@unordered-containers-0.2.7.2-8AmrySQXjRGF6VciYs51fM
+                      vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG
 orphans: base-4.9.1.0:GHC.Base base-4.9.1.0:GHC.Float
-family instance modules: base-4.9.1.0:Control.Applicative
-                         base-4.9.1.0:Data.Either base-4.9.1.0:Data.Functor.Const
-                         base-4.9.1.0:Data.Monoid base-4.9.1.0:Data.Type.Equality
-                         base-4.9.1.0:GHC.Generics base-4.9.1.0:GHC.IO.Exception
-                         base-4.9.1.0:GHC.TypeLits
+         binary-0.8.3.0@binary-0.8.3.0:Data.Binary.Generic
+         bytestring-0.10.8.1@bytestring-0.10.8.1:Data.ByteString.Builder
+         hashable-1.2.5.0@hashable-1.2.5.0-F4MWeNuv2sjJRqBd2T5ul4:Data.Hashable.Generic
+         reflection-2.1.2@reflection-2.1.2-Bem12O1xFGSHr4C2Hyu1c4:Data.Reflection
+         stm-2.4.4.1@stm-2.4.4.1-JQn4hNPyYjP5m9AcbI88Ve:Control.Monad.STM
+         text-1.2.2.1@text-1.2.2.1-Ji7hMs2U4BkBwavd4taEVR:Data.Text
+         text-1.2.2.1@text-1.2.2.1-Ji7hMs2U4BkBwavd4taEVR:Data.Text.Lazy
+         text-1.2.2.1@text-1.2.2.1-Ji7hMs2U4BkBwavd4taEVR:Data.Text.Show
+         transformers-0.5.2.0@transformers-0.5.2.0:Control.Monad.Trans.Error
+         vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector.Fusion.Bundle
+         vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector.Unboxed
+family instance modules: adjunctions-4.3@adjunctions-4.3-5CqTSM7liCdC9cb4N2IolK:Data.Functor.Rep
+                         base-4.9.1.0:Control.Applicative base-4.9.1.0:Data.Complex
+                         base-4.9.1.0:Data.Either base-4.9.1.0:Data.Functor.Compose
+                         base-4.9.1.0:Data.Functor.Const base-4.9.1.0:Data.Functor.Identity
+                         base-4.9.1.0:Data.Functor.Product base-4.9.1.0:Data.Functor.Sum
+                         base-4.9.1.0:Data.List.NonEmpty base-4.9.1.0:Data.Monoid
+                         base-4.9.1.0:Data.Semigroup base-4.9.1.0:Data.Type.Equality
+                         base-4.9.1.0:Data.Version base-4.9.1.0:Data.Void
+                         base-4.9.1.0:GHC.Exts base-4.9.1.0:GHC.Generics
+                         base-4.9.1.0:GHC.IO.Exception base-4.9.1.0:GHC.TypeLits
+                         bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN:Data.Bifunctor.Biff
+                         bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN:Data.Bifunctor.Clown
+                         bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN:Data.Bifunctor.Flip
+                         bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN:Data.Bifunctor.Join
+                         bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN:Data.Bifunctor.Joker
+                         bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN:Data.Bifunctor.Product
+                         bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN:Data.Bifunctor.Sum
+                         bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN:Data.Bifunctor.Tannen
+                         bifunctors-5.4.1@bifunctors-5.4.1-B27lbd71hBJ2VXEJmV4sQN:Data.Bifunctor.Wrapped
+                         containers-0.5.7.1@containers-0.5.7.1:Data.IntMap.Base
+                         containers-0.5.7.1@containers-0.5.7.1:Data.IntSet.Base
+                         containers-0.5.7.1@containers-0.5.7.1:Data.Map.Base
+                         containers-0.5.7.1@containers-0.5.7.1:Data.Sequence
+                         containers-0.5.7.1@containers-0.5.7.1:Data.Set.Base
+                         ghc-boot-th-8.0.2@ghc-boot-th-8.0.2:GHC.LanguageExtensions.Type
+                         kan-extensions-5.0.1@kan-extensions-5.0.1-11Ov83x9jJMC3tpuqa2lhG:Data.Functor.Day
+                         kan-extensions-5.0.1@kan-extensions-5.0.1-11Ov83x9jJMC3tpuqa2lhG:Data.Functor.Yoneda
+                         lens-4.15.1@lens-4.15.1-JIqePnD6ntW5ZEF4vrpOVi:Control.Lens.At
+                         lens-4.15.1@lens-4.15.1-JIqePnD6ntW5ZEF4vrpOVi:Control.Lens.Internal.Indexed
+                         lens-4.15.1@lens-4.15.1-JIqePnD6ntW5ZEF4vrpOVi:Control.Lens.Reified
+                         lens-4.15.1@lens-4.15.1-JIqePnD6ntW5ZEF4vrpOVi:Control.Lens.Tuple
+                         lens-4.15.1@lens-4.15.1-JIqePnD6ntW5ZEF4vrpOVi:Control.Lens.Wrapped
+                         lens-4.15.1@lens-4.15.1-JIqePnD6ntW5ZEF4vrpOVi:Control.Lens.Zoom
+                         pretty-1.1.3.3@pretty-1.1.3.3:Text.PrettyPrint.Annotated.HughesPJ
+                         pretty-1.1.3.3@pretty-1.1.3.3:Text.PrettyPrint.HughesPJ
+                         primitive-0.6.1.0@primitive-0.6.1.0-6AbSTw9JXz141LE5p6LGH:Control.Monad.Primitive
+                         profunctors-5.2@profunctors-5.2-LrJGukLpH0xCNgg3bhdC7E:Data.Profunctor.Rep
+                         tagged-0.8.5@tagged-0.8.5-1mTloBSoUxv8dqUr8XBGBt:Data.Tagged
+                         template-haskell-2.11.1.0:Language.Haskell.TH.Syntax
+                         text-1.2.2.1@text-1.2.2.1-Ji7hMs2U4BkBwavd4taEVR:Data.Text
+                         text-1.2.2.1@text-1.2.2.1-Ji7hMs2U4BkBwavd4taEVR:Data.Text.Lazy
+                         unordered-containers-0.2.7.2@unordered-containers-0.2.7.2-8AmrySQXjRGF6VciYs51fM:Data.HashMap.Base
+                         unordered-containers-0.2.7.2@unordered-containers-0.2.7.2-8AmrySQXjRGF6VciYs51fM:Data.HashSet
+                         vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector
+                         vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector.Primitive
+                         vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector.Storable
+                         vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector.Unboxed
+                         vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector.Unboxed.Base
+import  -/  base-4.9.1.0:Control.Applicative 2c56a0c43327cbbcb6e7a55bf05443c9
+import  -/  base-4.9.1.0:Data.Fixed a9378f335cf157ea1d5305945fbb05ab
+import  -/  base-4.9.1.0:Data.Foldable 254e836c2d813d34e47feb29bb8d40ed
+import  -/  base-4.9.1.0:Data.List 7349774f430841349c90dfd1144aea97
 import  -/  base-4.9.1.0:Data.OldList c9282ee91951bdcbd918d2960562c007
 import  -/  base-4.9.1.0:GHC.Base 4caea1123ecf4b46e27cbccd6d279377
+import  -/  base-4.9.1.0:GHC.Err 20faef8829fd13c027d0ee2213637534
 import  -/  base-4.9.1.0:GHC.Num 38b8aac8807c096c7f3ca3c1eff02939
 import  -/  base-4.9.1.0:GHC.Real b88ae4a48c079652623073a5bbf5c9b0
 import  -/  base-4.9.1.0:GHC.Show eca5834daba3b6a2bbbe64ab52056707
 import  -/  base-4.9.1.0:Prelude 74b3e204395920329f6de9d97206abe9
 import  -/  ghc-prim-0.5.0.0:GHC.Classes 16d48e012d23eaef9bca91ccdd572c02
-515b78b64fda24957f32b3c4eeeceda3
+import  -/  lens-4.15.1@lens-4.15.1-JIqePnD6ntW5ZEF4vrpOVi:Control.Lens.Lens f9bc354d3b40b6d66e79676235652161
+import  -/  lens-4.15.1@lens-4.15.1-JIqePnD6ntW5ZEF4vrpOVi:Control.Lens.Operators c4e883d557ba91aec578ecb9b4691682
+bbcbe58a5e4ad4ddeebe14470469f539
   $fFunctorRGB :: GHC.Base.Functor Color.RGB
   DFunId
   {- HasNoCafRefs, Strictness: m, Inline: [ALWAYS] CONLIKE,
      Unfolding: DFun:.
                   @ Color.RGB Color.$fFunctorRGB_$cfmap Color.$fFunctorRGB_$c<$ -}
-515b78b64fda24957f32b3c4eeeceda3
+bbcbe58a5e4ad4ddeebe14470469f539
   $fFunctorRGB_$c<$ :: a -> Color.RGB b -> Color.RGB a
   {- Arity: 2, HasNoCafRefs, Strictness: <L,U><S,1*H>m,
      Unfolding: InlineRule (2, True, False)
                 (\ @ a @ b (eta :: a) (eta1 :: Color.RGB b) ->
                  case eta1 of wild { Color.RGB r g b1 ->
                  Color.RGB @ a eta eta eta }) -}
-515b78b64fda24957f32b3c4eeeceda3
+bbcbe58a5e4ad4ddeebe14470469f539
   $fFunctorRGB_$cfmap :: (a -> b) -> Color.RGB a -> Color.RGB b
   {- Arity: 2, HasNoCafRefs, Strictness: <L,C(U)><S,1*U(U,U,U)>m,
      Unfolding: InlineRule (2, True, False)
                 (\ @ a @ b (f :: a -> b) (ds :: Color.RGB a) ->
                  case ds of wild { Color.RGB r g b1 ->
                  Color.RGB @ b (f r) (f g) (f b1) }) -}
-515b78b64fda24957f32b3c4eeeceda3
+bbcbe58a5e4ad4ddeebe14470469f539
   $fNumRGB :: GHC.Num.Num a => GHC.Num.Num (Color.RGB a)
   DFunId
   {- Arity: 1, HasNoCafRefs,
@@ -68,7 +163,7 @@ import  -/  ghc-prim-0.5.0.0:GHC.Classes 16d48e012d23eaef9bca91ccdd572c02
                   (Color.$fNumRGB_$cabs @ a $dNum)
                   (Color.$fNumRGB_$csignum @ a $dNum)
                   (Color.$fNumRGB_$cfromInteger @ a $dNum) -}
-515b78b64fda24957f32b3c4eeeceda3
+bbcbe58a5e4ad4ddeebe14470469f539
   $fNumRGB_$c* ::
     GHC.Num.Num a => Color.RGB a -> Color.RGB a -> Color.RGB a
   {- Arity: 3, HasNoCafRefs,
@@ -86,7 +181,7 @@ import  -/  ghc-prim-0.5.0.0:GHC.Classes 16d48e012d23eaef9bca91ccdd572c02
                    (GHC.Num.* @ a w ww1 ww5)
                    (GHC.Num.* @ a w ww2 ww6)
                    (GHC.Num.* @ a w ww3 ww7) } }) -}
-515b78b64fda24957f32b3c4eeeceda3
+bbcbe58a5e4ad4ddeebe14470469f539
   $fNumRGB_$c+ ::
     GHC.Num.Num a => Color.RGB a -> Color.RGB a -> Color.RGB a
   {- Arity: 3, HasNoCafRefs,
@@ -104,7 +199,7 @@ import  -/  ghc-prim-0.5.0.0:GHC.Classes 16d48e012d23eaef9bca91ccdd572c02
                    (GHC.Num.+ @ a w ww1 ww5)
                    (GHC.Num.+ @ a w ww2 ww6)
                    (GHC.Num.+ @ a w ww3 ww7) } }) -}
-515b78b64fda24957f32b3c4eeeceda3
+bbcbe58a5e4ad4ddeebe14470469f539
   $fNumRGB_$c- ::
     GHC.Num.Num a => Color.RGB a -> Color.RGB a -> Color.RGB a
   {- Arity: 3, HasNoCafRefs,
@@ -122,7 +217,7 @@ import  -/  ghc-prim-0.5.0.0:GHC.Classes 16d48e012d23eaef9bca91ccdd572c02
                    (GHC.Num.- @ a w ww1 ww5)
                    (GHC.Num.- @ a w ww2 ww6)
                    (GHC.Num.- @ a w ww3 ww7) } }) -}
-515b78b64fda24957f32b3c4eeeceda3
+bbcbe58a5e4ad4ddeebe14470469f539
   $fNumRGB_$cabs :: GHC.Num.Num a => Color.RGB a -> Color.RGB a
   {- Arity: 2, HasNoCafRefs,
      Strictness: <L,1*U(A,A,A,A,1*U,A,A)><S,1*U(U,U,U)>m,
@@ -134,7 +229,7 @@ import  -/  ghc-prim-0.5.0.0:GHC.Classes 16d48e012d23eaef9bca91ccdd572c02
                    f :: a -> a = GHC.Num.abs @ a w
                  } in
                  Color.RGB @ a (f ww1) (f ww2) (f ww3) }) -}
-515b78b64fda24957f32b3c4eeeceda3
+bbcbe58a5e4ad4ddeebe14470469f539
   $fNumRGB_$cfromInteger ::
     GHC.Num.Num a => GHC.Integer.Type.Integer -> Color.RGB a
   {- Arity: 2, HasNoCafRefs,
@@ -145,7 +240,7 @@ import  -/  ghc-prim-0.5.0.0:GHC.Classes 16d48e012d23eaef9bca91ccdd572c02
                    f :: GHC.Integer.Type.Integer -> a = GHC.Num.fromInteger @ a w
                  } in
                  Color.RGB @ a (f w1) (f w1) (f w1)) -}
-515b78b64fda24957f32b3c4eeeceda3
+bbcbe58a5e4ad4ddeebe14470469f539
   $fNumRGB_$cnegate :: GHC.Num.Num a => Color.RGB a -> Color.RGB a
   {- Arity: 2, HasNoCafRefs,
      Strictness: <L,U(C(C1(U)),C(C1(U)),C(C1(U)),A,U,U,U)><L,U>,
@@ -157,7 +252,7 @@ import  -/  ghc-prim-0.5.0.0:GHC.Classes 16d48e012d23eaef9bca91ccdd572c02
                    $dNum
                    (Color.$fNumRGB_$cfromInteger @ a $dNum 0)
                    x) -}
-515b78b64fda24957f32b3c4eeeceda3
+bbcbe58a5e4ad4ddeebe14470469f539
   $fNumRGB_$csignum :: GHC.Num.Num a => Color.RGB a -> Color.RGB a
   {- Arity: 2, HasNoCafRefs,
      Strictness: <L,1*U(A,A,A,A,A,1*U,A)><S,1*U(U,U,U)>m,
@@ -169,7 +264,72 @@ import  -/  ghc-prim-0.5.0.0:GHC.Classes 16d48e012d23eaef9bca91ccdd572c02
                    f :: a -> a = GHC.Num.signum @ a w
                  } in
                  Color.RGB @ a (f ww1) (f ww2) (f ww3) }) -}
-3e575c70247c8c8f412f89aa1a81fb0c
+2316020775701b7f5ec85f0cdd1b3d11
+  $fShowHSL :: GHC.Show.Show a => GHC.Show.Show (Color.HSL a)
+  DFunId
+  {- Arity: 1, Strictness: <L,U(A,C(U),A)>m,
+     Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun: @ a ($dShow :: GHC.Show.Show a).
+                  @ (Color.HSL a)
+                  (Color.$fShowHSL_$cshowsPrec @ a $dShow)
+                  (Color.$fShowHSL_$cshow @ a $dShow)
+                  (Color.$fShowHSL_$cshowList @ a $dShow) -}
+141cce1d15f270e470c371d32cfe7dc0
+  $fShowHSL1 :: GHC.Types.Char
+  {- HasNoCafRefs, Unfolding: (GHC.Types.C# ' '#) -}
+112156288421669589725443cdff6284
+  $fShowHSL2 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "HSL"#) -}
+2316020775701b7f5ec85f0cdd1b3d11
+  $fShowHSL_$cshow ::
+    GHC.Show.Show a => Color.HSL a -> GHC.Base.String
+  {- Arity: 2, Strictness: <L,U(A,C(U),A)><S,1*U(U,U,U)>,
+     Inline: INLINE[0],
+     Unfolding: InlineRule (2, True, False)
+                (\ @ a (w :: GHC.Show.Show a) (w1 :: Color.HSL a) ->
+                 case w1 of ww { Color.HSL ww1 ww2 ww3 ->
+                 Color.$w$cshow @ a w ww1 ww2 ww3 }) -}
+2316020775701b7f5ec85f0cdd1b3d11
+  $fShowHSL_$cshowList ::
+    GHC.Show.Show a => [Color.HSL a] -> GHC.Show.ShowS
+  {- Arity: 3, Strictness: <L,U(A,C(U),A)><S,1*U><L,U>,
+     Unfolding: (\ @ a
+                   ($dShow :: GHC.Show.Show a)
+                   (ls :: [Color.HSL a])
+                   (s :: GHC.Base.String) ->
+                 GHC.Show.showList__
+                   @ (Color.HSL a)
+                   (\ (x :: Color.HSL a) (s1 :: GHC.Base.String)[OneShot] ->
+                    case x of ww { Color.HSL ww1 ww2 ww3 ->
+                    GHC.Base.++
+                      @ GHC.Types.Char
+                      (Color.$w$cshow @ a $dShow ww1 ww2 ww3)
+                      s1 })
+                   ls
+                   s) -}
+2316020775701b7f5ec85f0cdd1b3d11
+  $fShowHSL_$cshowsPrec ::
+    GHC.Show.Show a => GHC.Types.Int -> Color.HSL a -> GHC.Show.ShowS
+  {- Arity: 4, Strictness: <L,U(A,C(U),A)><L,A><S,1*U(U,U,U)><L,1*U>,
+     Unfolding: InlineRule (4, True, False)
+                (\ @ a
+                   ($dShow :: GHC.Show.Show a)
+                   (ds :: GHC.Types.Int)
+                   (x :: Color.HSL a)
+                   (s :: GHC.Base.String) ->
+                 GHC.Base.augment
+                   @ GHC.Types.Char
+                   (\ @ b
+                      (c :: GHC.Types.Char -> b -> b)[OneShot]
+                      (n :: b)[OneShot] ->
+                    GHC.Base.foldr
+                      @ GHC.Types.Char
+                      @ b
+                      c
+                      n
+                      (Color.$fShowHSL_$cshow @ a $dShow x))
+                   s) -}
+d0d97cf7966248f1fce2dae409fef618
   $fShowMaterial ::
     GHC.Show.Show a => GHC.Show.Show (Color.Material a)
   DFunId
@@ -180,31 +340,28 @@ import  -/  ghc-prim-0.5.0.0:GHC.Classes 16d48e012d23eaef9bca91ccdd572c02
                   (Color.$fShowMaterial_$cshowsPrec @ a $dShow)
                   (Color.$fShowMaterial_$cshow @ a $dShow)
                   (Color.$fShowMaterial_$cshowList @ a $dShow) -}
-68f0392f06a0413595443a4d797ba470
+f0e8d64fe5bc996421d5aac0f2f7bceb
   $fShowMaterial1 :: GHC.Types.Int
   {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 0#) -}
-241eb14f50621f9716058015b5fc1ac9
+67e2b0339c1a792509945751194cf3b8
   $fShowMaterial2 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "}"#) -}
-534da2c206aad79faf17dfb66debfbb9
+420de5e1969c10ffdc9494bdc5354c5d
   $fShowMaterial3 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "emittance = "#) -}
-e4ec32ba8f026400be1de6f629f8ba29
+0ef6ab2842709a62c29f656aa788adec
   $fShowMaterial4 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# ", "#) -}
-822d34ef44b48610b1b406a117a74c35
-  $fShowMaterial5 :: GHC.Types.Char
-  {- HasNoCafRefs, Unfolding: (GHC.Types.C# ' '#) -}
-7773dacff912f37c971ffe85f3070e5d
-  $fShowMaterial6 :: [GHC.Types.Char]
+b9fb0d5800000323f1cc3239ff0a7095
+  $fShowMaterial5 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "RGB"#) -}
-65ab687ea96b915daf6c32bf5a9c6cdb
-  $fShowMaterial7 :: [GHC.Types.Char]
+b83e7877de5a8eb684e997dbcf76263d
+  $fShowMaterial6 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "color = "#) -}
-70bebde8f61ab5fbb9970b0cae227653
-  $fShowMaterial8 :: [GHC.Types.Char]
+20181b34c80d82d4a0fe2c828f3419a7
+  $fShowMaterial7 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "Mat {"#) -}
-3e575c70247c8c8f412f89aa1a81fb0c
+d0d97cf7966248f1fce2dae409fef618
   $fShowMaterial_$cshow ::
     GHC.Show.Show a => Color.Material a -> GHC.Base.String
   {- Arity: 2,
@@ -217,7 +374,7 @@ e4ec32ba8f026400be1de6f629f8ba29
                    GHC.Show.shows22
                    x
                    (GHC.Types.[] @ GHC.Types.Char)) -}
-3e575c70247c8c8f412f89aa1a81fb0c
+d0d97cf7966248f1fce2dae409fef618
   $fShowMaterial_$cshowList ::
     GHC.Show.Show a => [Color.Material a] -> GHC.Show.ShowS
   {- Arity: 3, Strictness: <L,U(A,C(U),A)><S,1*U><L,U>,
@@ -231,7 +388,7 @@ e4ec32ba8f026400be1de6f629f8ba29
                    (Color.$fShowMaterial_$cshowsPrec @ a $dShow Color.$fShowMaterial1)
                    eta
                    eta1) -}
-3e575c70247c8c8f412f89aa1a81fb0c
+d0d97cf7966248f1fce2dae409fef618
   $fShowMaterial_$cshowsPrec ::
     GHC.Show.Show a =>
     GHC.Types.Int -> Color.Material a -> GHC.Show.ShowS
@@ -247,7 +404,7 @@ e4ec32ba8f026400be1de6f629f8ba29
                  case w1 of ww { GHC.Types.I# ww1 ->
                  case w2 of ww2 { Color.Mat ww3 ww4 ->
                  Color.$w$cshowsPrec @ a w ww1 ww3 ww4 w3 } }) -}
-515b78b64fda24957f32b3c4eeeceda3
+bbcbe58a5e4ad4ddeebe14470469f539
   $fShowRGB :: GHC.Show.Show a => GHC.Show.Show (Color.RGB a)
   DFunId
   {- Arity: 1, Strictness: <L,U(A,C(U),A)>m,
@@ -257,7 +414,7 @@ e4ec32ba8f026400be1de6f629f8ba29
                   (Color.$fShowRGB_$cshowsPrec @ a $dShow)
                   (Color.$fShowRGB_$cshow @ a $dShow)
                   (Color.$fShowRGB_$cshowList @ a $dShow) -}
-515b78b64fda24957f32b3c4eeeceda3
+bbcbe58a5e4ad4ddeebe14470469f539
   $fShowRGB_$cshow ::
     GHC.Show.Show a => Color.RGB a -> GHC.Base.String
   {- Arity: 2, Strictness: <L,U(A,C(U),A)><S,1*U(U,U,U)>,
@@ -265,8 +422,8 @@ e4ec32ba8f026400be1de6f629f8ba29
      Unfolding: InlineRule (2, True, False)
                 (\ @ a (w :: GHC.Show.Show a) (w1 :: Color.RGB a) ->
                  case w1 of ww { Color.RGB ww1 ww2 ww3 ->
-                 Color.$w$cshow @ a w ww1 ww2 ww3 }) -}
-515b78b64fda24957f32b3c4eeeceda3
+                 Color.$w$cshow1 @ a w ww1 ww2 ww3 }) -}
+bbcbe58a5e4ad4ddeebe14470469f539
   $fShowRGB_$cshowList ::
     GHC.Show.Show a => [Color.RGB a] -> GHC.Show.ShowS
   {- Arity: 3, Strictness: <L,U(A,C(U),A)><S,1*U><L,U>,
@@ -280,11 +437,11 @@ e4ec32ba8f026400be1de6f629f8ba29
                     case x of ww { Color.RGB ww1 ww2 ww3 ->
                     GHC.Base.++
                       @ GHC.Types.Char
-                      (Color.$w$cshow @ a $dShow ww1 ww2 ww3)
+                      (Color.$w$cshow1 @ a $dShow ww1 ww2 ww3)
                       s1 })
                    ls
                    s) -}
-515b78b64fda24957f32b3c4eeeceda3
+bbcbe58a5e4ad4ddeebe14470469f539
   $fShowRGB_$cshowsPrec ::
     GHC.Show.Show a => GHC.Types.Int -> Color.RGB a -> GHC.Show.ShowS
   {- Arity: 4, Strictness: <L,U(A,C(U),A)><L,A><S,1*U(U,U,U)><L,1*U>,
@@ -306,68 +463,92 @@ e4ec32ba8f026400be1de6f629f8ba29
                       n
                       (Color.$fShowRGB_$cshow @ a $dShow x))
                    s) -}
-494b7fa93054a2160158f7e91483b3ea
+ec8e666e93147a2d38cc4c7e0cf16a58
+  $tc'HSL :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   1957233389282639192##
+                   12864676921262706450##
+                   Color.$trModule
+                   Color.$tc'HSL1) -}
+5a6c8ee6a5032edd5606d7f454b89d2d
+  $tc'HSL1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS "'HSL"#) -}
+51e27cf962368e466a2220e7418385ed
   $tc'Mat :: GHC.Types.TyCon
   {- HasNoCafRefs, Strictness: m,
      Unfolding: (GHC.Types.TyCon
-                   6705675231942163276##
-                   13393933987112119014##
+                   13543268499369647647##
+                   2900332425594789385##
                    Color.$trModule
                    Color.$tc'Mat1) -}
-8c7126a0f31ee5a70cde4bee15b58f70
+dc3ea66b2e69801857f2e85bec3f7c81
   $tc'Mat1 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS "'Mat"#) -}
-db314600f45df3c7feac833015e2b91a
+2aa281c55d6dfc4bbbf0206e2e536e98
   $tc'RGB :: GHC.Types.TyCon
   {- HasNoCafRefs, Strictness: m,
      Unfolding: (GHC.Types.TyCon
-                   6137988167305120540##
-                   1469941911654272509##
+                   14499295565597879691##
+                   3881941030788270450##
                    Color.$trModule
                    Color.$tc'RGB1) -}
-1b9c946fefb6480c32b7788bb3819b4d
+5bb5f06846bdc1376fff6bea21a75c9a
   $tc'RGB1 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS "'RGB"#) -}
-81cdb73fdceddc24dc3a00492dec3c69
+6ea9090ee21a20c26bfc7e7eab91ea7c
+  $tcHSL :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   7028243023928611628##
+                   8277671513883616107##
+                   Color.$trModule
+                   Color.$tcHSL1) -}
+fc6e7340ba988800c1118ff49188aa49
+  $tcHSL1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS "HSL"#) -}
+b42fc0c8a991da5f0625e30060396d81
   $tcMaterial :: GHC.Types.TyCon
   {- HasNoCafRefs, Strictness: m,
      Unfolding: (GHC.Types.TyCon
-                   5992973826375911106##
-                   14909068945727030903##
+                   2913953269191754207##
+                   7619993822793879355##
                    Color.$trModule
                    Color.$tcMaterial1) -}
-f9cf70ebbe752e9d247824a7c0d9fe3c
+4792a90682407cf7bebfc2698ff74f12
   $tcMaterial1 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS "Material"#) -}
-9b783556678806eb1b969a45dc9a31be
+38b8cc6f6fd806f3cec9f71798b925c6
   $tcRGB :: GHC.Types.TyCon
   {- HasNoCafRefs, Strictness: m,
      Unfolding: (GHC.Types.TyCon
-                   11917311899482328697##
-                   7744611134856186023##
+                   17151530001247323071##
+                   15923824984130274620##
                    Color.$trModule
                    Color.$tcRGB1) -}
-f52e5de944a9f5c61bd6bad69c1e2e58
+b22a21264a2a8612e8e92f093b04650d
   $tcRGB1 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS "RGB"#) -}
-29015dd4e8f25a830f975f02db538d78
+9f30b3772d259bf0a0242b96f6a8e1b4
   $trModule :: GHC.Types.Module
   {- HasNoCafRefs, Strictness: m,
      Unfolding: (GHC.Types.Module Color.$trModule2 Color.$trModule1) -}
-1f9c3874cdae786584746511a9a995a8
+5b9cb6263f693b3d5dcdded0fd712de8
   $trModule1 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS "Color"#) -}
-0dd4e02e0d1e6c4e93981e55697eae0a
+7159cef1c3de7d49524987767ea5ec38
   $trModule2 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS
-                   "squigly-trace-0.1.0.0-B2tPeVU0dH9BfPKJegt0x3"#) -}
-0e9562d08c617b105e08b372fce7fa3f
+                   "squigly-trace-0.1.0.0-5ozva8u4xtWJFkMKhtQb5C"#) -}
+4dc8bffa9766e332cedd7b8d726e6739
   $w$cshow :: GHC.Show.Show a => a -> a -> a -> GHC.Base.String
   {- Arity: 4, Strictness: <L,U(A,C(U),A)><L,U><L,U><L,U>,
      Inline: [0],
@@ -378,27 +559,58 @@ f52e5de944a9f5c61bd6bad69c1e2e58
                    (ww2 :: a) ->
                  GHC.Base.++
                    @ GHC.Types.Char
-                   Color.$fShowMaterial6
+                   Color.$fShowHSL2
                    (GHC.Types.:
                       @ GHC.Types.Char
-                      Color.$fShowMaterial5
+                      Color.$fShowHSL1
                       (GHC.Base.++
                          @ GHC.Types.Char
                          (GHC.Show.show @ a w ww)
                          (GHC.Types.:
                             @ GHC.Types.Char
-                            Color.$fShowMaterial5
+                            Color.$fShowHSL1
                             (GHC.Base.++
                                @ GHC.Types.Char
                                (GHC.Show.show @ a w ww1)
                                (GHC.Types.:
                                   @ GHC.Types.Char
-                                  Color.$fShowMaterial5
+                                  Color.$fShowHSL1
                                   (GHC.Base.++
                                      @ GHC.Types.Char
                                      (GHC.Show.show @ a w ww2)
                                      (GHC.Types.[] @ GHC.Types.Char)))))))) -}
-e6b33529cbd1136678c670e3527eb156
+900bdc1ddade7d8b5af73fe56b3351cc
+  $w$cshow1 :: GHC.Show.Show a => a -> a -> a -> GHC.Base.String
+  {- Arity: 4, Strictness: <L,U(A,C(U),A)><L,U><L,U><L,U>,
+     Inline: [0],
+     Unfolding: (\ @ a
+                   (w :: GHC.Show.Show a)
+                   (ww :: a)
+                   (ww1 :: a)
+                   (ww2 :: a) ->
+                 GHC.Base.++
+                   @ GHC.Types.Char
+                   Color.$fShowMaterial5
+                   (GHC.Types.:
+                      @ GHC.Types.Char
+                      Color.$fShowHSL1
+                      (GHC.Base.++
+                         @ GHC.Types.Char
+                         (GHC.Show.show @ a w ww)
+                         (GHC.Types.:
+                            @ GHC.Types.Char
+                            Color.$fShowHSL1
+                            (GHC.Base.++
+                               @ GHC.Types.Char
+                               (GHC.Show.show @ a w ww1)
+                               (GHC.Types.:
+                                  @ GHC.Types.Char
+                                  Color.$fShowHSL1
+                                  (GHC.Base.++
+                                     @ GHC.Types.Char
+                                     (GHC.Show.show @ a w ww2)
+                                     (GHC.Types.[] @ GHC.Types.Char)))))))) -}
+054756ebb301ace8cbcdf7f2bdc1f64e
   $w$cshowsPrec ::
     GHC.Show.Show a =>
     GHC.Prim.Int#
@@ -417,14 +629,14 @@ e6b33529cbd1136678c670e3527eb156
                    = \ (x :: GHC.Base.String)[OneShot] ->
                      GHC.Base.++
                        @ GHC.Types.Char
-                       Color.$fShowMaterial8
+                       Color.$fShowMaterial7
                        (GHC.Base.++
                           @ GHC.Types.Char
-                          Color.$fShowMaterial7
+                          Color.$fShowMaterial6
                           (case ww1 of ww3 { Color.RGB ww4 ww5 ww6 ->
                            GHC.Base.++
                              @ GHC.Types.Char
-                             (Color.$w$cshow @ a w ww4 ww5 ww6)
+                             (Color.$w$cshow1 @ a w ww4 ww5 ww6)
                              (GHC.Base.++
                                 @ GHC.Types.Char
                                 Color.$fShowMaterial4
@@ -434,7 +646,7 @@ e6b33529cbd1136678c670e3527eb156
                                    (case ww2 of ww7 { Color.RGB ww8 ww9 ww10 ->
                                     GHC.Base.++
                                       @ GHC.Types.Char
-                                      (Color.$w$cshow @ a w ww8 ww9 ww10)
+                                      (Color.$w$cshow1 @ a w ww8 ww9 ww10)
                                       (GHC.Base.++
                                          @ GHC.Types.Char
                                          Color.$fShowMaterial2
@@ -449,12 +661,204 @@ e6b33529cbd1136678c670e3527eb156
                         @ GHC.Types.Char
                         GHC.Show.shows7
                         (p (GHC.Types.: @ GHC.Types.Char GHC.Show.shows4 w1)) }) -}
-3e575c70247c8c8f412f89aa1a81fb0c
+f1681929ef1820e8e51b5b94403a993a
+  $waverageColors ::
+    GHC.Real.Fractional a => [Color.RGB a] -> (# a, a, a #)
+  {- Arity: 2, HasNoCafRefs,
+     Strictness: <L,U(1*U,C(C1(U)),A,A)><S,U>, Inline: [0],
+     Unfolding: (\ @ a
+                   (w :: GHC.Real.Fractional a)
+                   (w1 :: [Color.RGB a]) ->
+                 let {
+                   $dNum :: GHC.Num.Num a = GHC.Real.$p1Fractional @ a w
+                 } in
+                 let {
+                   f :: GHC.Integer.Type.Integer -> a = GHC.Num.fromInteger @ a $dNum
+                 } in
+                 letrec {
+                   $wgo4 :: [Color.RGB a] -> a -> a -> a -> (# a, a, a #)
+                     {- Arity: 4, Strictness: <S,1*U><L,U><L,U><L,U>, Inline: [0] -}
+                   = \ (w2 :: [Color.RGB a]) (ww :: a) (ww1 :: a) (ww2 :: a) ->
+                     case w2 of wild {
+                       [] -> (# ww, ww1, ww2 #)
+                       : y ys
+                       -> case y of ww3 { Color.RGB ww4 ww5 ww6 ->
+                          $wgo4
+                            ys
+                            (GHC.Num.+ @ a $dNum ww ww4)
+                            (GHC.Num.+ @ a $dNum ww1 ww5)
+                            (GHC.Num.+ @ a $dNum ww2 ww6) } }
+                 } in
+                 case $wgo4
+                        w1
+                        (f Color.averageColors1)
+                        (f Color.averageColors1)
+                        (f Color.averageColors1) of ww { (#,,#) ww1 ww2 ww3 ->
+                 let {
+                   ds :: a = Data.OldList.genericLength @ a @ (Color.RGB a) $dNum w1
+                 } in
+                 (# GHC.Real./ @ a w ww1 ds, GHC.Real./ @ a w ww2 ds,
+                    GHC.Real./ @ a w ww3 ds #) }) -}
+371f27b7ffaa2996e83c1d195881436f
+  $wgo2 :: [GHC.Types.Float] -> GHC.Prim.Float# -> GHC.Prim.Float#
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><L,U>, Inline: [0] -}
+68cd005ff4970c3dddf0302c4770d0ab
+  $wgo3 :: [GHC.Types.Float] -> GHC.Prim.Float# -> GHC.Prim.Float#
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><L,U>, Inline: [0] -}
+9e27370baacc8582a532a9ca55a6f27c
+  $wtoHSL ::
+    GHC.Types.Float
+    -> GHC.Types.Float
+    -> GHC.Types.Float
+    -> (# GHC.Types.Float, GHC.Types.Float, GHC.Types.Float #)
+  {- Arity: 3, Strictness: <L,U(U)><L,U(U)><L,U(U)>, Inline: [0],
+     Unfolding: (\ (ww :: GHC.Types.Float)
+                   (ww1 :: GHC.Types.Float)
+                   (ww2 :: GHC.Types.Float) ->
+                 let {
+                   min' :: GHC.Types.Float
+                   = case ww of ww3 { GHC.Types.F# ww4 ->
+                     case Color.$wgo3
+                            (GHC.Types.:
+                               @ GHC.Types.Float
+                               ww1
+                               (GHC.Types.:
+                                  @ GHC.Types.Float
+                                  ww2
+                                  (GHC.Types.[] @ GHC.Types.Float)))
+                            ww4 of ww5 { DEFAULT ->
+                     GHC.Types.F# ww5 } }
+                 } in
+                 let {
+                   max' :: GHC.Types.Float
+                   = case ww of ww3 { GHC.Types.F# ww4 ->
+                     case Color.$wgo2
+                            (GHC.Types.:
+                               @ GHC.Types.Float
+                               ww1
+                               (GHC.Types.:
+                                  @ GHC.Types.Float
+                                  ww2
+                                  (GHC.Types.[] @ GHC.Types.Float)))
+                            ww4 of ww5 { DEFAULT ->
+                     GHC.Types.F# ww5 } }
+                 } in
+                 let {
+                   chroma :: GHC.Types.Float
+                   = case max' of wild { GHC.Types.F# x ->
+                     case min' of wild1 { GHC.Types.F# y ->
+                     GHC.Types.F# (GHC.Prim.minusFloat# x y) } }
+                 } in
+                 let {
+                   l :: GHC.Types.Float
+                   = case max' of wild { GHC.Types.F# x ->
+                     case min' of wild1 { GHC.Types.F# y ->
+                     GHC.Types.F#
+                       (GHC.Prim.divideFloat# (GHC.Prim.plusFloat# x y) 2.0#) } }
+                 } in
+                 (# case chroma of wild { GHC.Types.F# x ->
+                    case GHC.Prim.tagToEnum#
+                           @ GHC.Types.Bool
+                           (GHC.Prim.eqFloat# x 0.0#) of wild1 {
+                      GHC.Types.False
+                      -> case max' of wild2 { GHC.Types.F# x1 ->
+                         case ww of wild3 { GHC.Types.F# y ->
+                         case GHC.Prim.tagToEnum#
+                                @ GHC.Types.Bool
+                                (GHC.Prim.eqFloat# x1 y) of wild4 {
+                           GHC.Types.False
+                           -> case ww1 of wild5 { GHC.Types.F# y1 ->
+                              case GHC.Prim.tagToEnum#
+                                     @ GHC.Types.Bool
+                                     (GHC.Prim.eqFloat# x1 y1) of wild6 {
+                                GHC.Types.False
+                                -> case ww2 of wild7 { GHC.Types.F# y2 ->
+                                   case GHC.Prim.tagToEnum#
+                                          @ GHC.Types.Bool
+                                          (GHC.Prim.eqFloat# x1 y2) of wild8 {
+                                     GHC.Types.False -> Color.toHSL3
+                                     GHC.Types.True
+                                     -> case GHC.Prim.divideFloat#
+                                               (GHC.Prim.minusFloat# y y1)
+                                               x of wild9 { DEFAULT ->
+                                        GHC.Types.F#
+                                          (GHC.Prim.timesFloat#
+                                             60.0#
+                                             (GHC.Prim.plusFloat# wild9 4.0#)) } } }
+                                GHC.Types.True
+                                -> case ww2 of wild7 { GHC.Types.F# x2 ->
+                                   case GHC.Prim.divideFloat#
+                                          (GHC.Prim.minusFloat# x2 y)
+                                          x of wild8 { DEFAULT ->
+                                   GHC.Types.F#
+                                     (GHC.Prim.timesFloat#
+                                        60.0#
+                                        (GHC.Prim.plusFloat# wild8 2.0#)) } } } }
+                           GHC.Types.True
+                           -> case Data.Fixed.mod'
+                                     @ GHC.Types.Float
+                                     GHC.Float.$fRealFloat
+                                     (case ww1 of wild5 { GHC.Types.F# x2 ->
+                                      case ww2 of wild6 { GHC.Types.F# y1 ->
+                                      case GHC.Prim.divideFloat#
+                                             (GHC.Prim.minusFloat# x2 y1)
+                                             x of wild7 { DEFAULT ->
+                                      GHC.Types.F# wild7 } } })
+                                     Color.toHSL2 of wild5 { GHC.Types.F# y1 ->
+                              GHC.Types.F# (GHC.Prim.timesFloat# 60.0# y1) } } } }
+                      GHC.Types.True -> Color.toHSL1 } },
+                    case l of wild { GHC.Types.F# x ->
+                    case GHC.Prim.tagToEnum#
+                           @ GHC.Types.Bool
+                           (GHC.Prim.eqFloat# x 1.0#) of wild1 {
+                      GHC.Types.False
+                      -> case chroma of wild2 { GHC.Types.F# x1 ->
+                         let {
+                           x2 :: GHC.Prim.Float#
+                           = GHC.Prim.minusFloat# (GHC.Prim.plusFloat# x x) 1.0#
+                         } in
+                         case GHC.Prim.tagToEnum#
+                                @ GHC.Types.Bool
+                                (GHC.Prim.eqFloat# x2 0.0#) of wild3 {
+                           GHC.Types.False
+                           -> case GHC.Prim.tagToEnum#
+                                     @ GHC.Types.Bool
+                                     (GHC.Prim.gtFloat# x2 0.0#) of wild4 {
+                                GHC.Types.False
+                                -> case GHC.Prim.divideFloat#
+                                          x1
+                                          (GHC.Prim.minusFloat#
+                                             1.0#
+                                             (GHC.Prim.negateFloat# x2)) of wild5 { DEFAULT ->
+                                   GHC.Types.F# wild5 }
+                                GHC.Types.True
+                                -> case GHC.Prim.divideFloat#
+                                          x1
+                                          (GHC.Prim.minusFloat# 1.0# x2) of wild5 { DEFAULT ->
+                                   GHC.Types.F# wild5 } }
+                           GHC.Types.True -> wild2 } }
+                      GHC.Types.True -> Color.toHSL1 } },
+                    l #)) -}
+2316020775701b7f5ec85f0cdd1b3d11
+  data HSL a = HSL a a a
+d0d97cf7966248f1fce2dae409fef618
   data Material a
     = Mat {color :: Color.RGB a, emittance :: Color.RGB a}
-515b78b64fda24957f32b3c4eeeceda3
+bbcbe58a5e4ad4ddeebe14470469f539
   data RGB a = RGB a a a
-d91ea6cad42a4e6c754b0efe99e7008e
+739b6fb20119c3d96cb696728b250e67
+  averageColors ::
+    GHC.Real.Fractional a => [Color.RGB a] -> Color.RGB a
+  {- Arity: 2, HasNoCafRefs,
+     Strictness: <L,U(1*U,C(C1(U)),A,A)><S,U>m, Inline: INLINE[0],
+     Unfolding: InlineRule (2, True, False)
+                (\ @ a (w :: GHC.Real.Fractional a) (w1 :: [Color.RGB a]) ->
+                 case Color.$waverageColors @ a w w1 of ww { (#,,#) ww1 ww2 ww3 ->
+                 Color.RGB @ a ww1 ww2 ww3 }) -}
+054b9be91e83b73debff6e4a4451c397
+  averageColors1 :: GHC.Integer.Type.Integer
+  {- HasNoCafRefs, Unfolding: (0) -}
+b5bf30399a2409ee28d5aeb1249c972c
   black :: GHC.Num.Num a => Color.RGB a
   {- Arity: 1, HasNoCafRefs, Strictness: <L,U(A,A,A,A,A,A,C(U))>m,
      Inline: INLINE[0],
@@ -462,27 +866,24 @@ d91ea6cad42a4e6c754b0efe99e7008e
                 (\ @ a (w :: GHC.Num.Num a) ->
                  Color.RGB
                    @ a
-                   (GHC.Num.fromInteger @ a w Color.black1)
-                   (GHC.Num.fromInteger @ a w Color.black1)
-                   (GHC.Num.fromInteger @ a w Color.black1)) -}
-8e17bab34dc4ffd5dd70dd90d039a1fd
-  black1 :: GHC.Integer.Type.Integer
-  {- HasNoCafRefs, Unfolding: (0) -}
-c5f13d6255e67378fc118d541ead8cef
+                   (GHC.Num.fromInteger @ a w Color.averageColors1)
+                   (GHC.Num.fromInteger @ a w Color.averageColors1)
+                   (GHC.Num.fromInteger @ a w Color.averageColors1)) -}
+9165bee0279714fc86b6bddeebbf8fc7
   color :: Color.Material a -> Color.RGB a
   RecSel Left Color.Material
   {- Arity: 1, HasNoCafRefs, Strictness: <S(SL),1*U(1*U(U,U,U),A)>m,
      Unfolding: InlineRule (1, True, False)
                 (\ @ a (ds :: Color.Material a) ->
                  case ds of wild { Color.Mat ds1 ds2 -> ds1 }) -}
-c35884fcb0f66c2633d62e241292add1
+0b822bc0dc1e1e6cdfb64b4806ad5871
   emittance :: Color.Material a -> Color.RGB a
   RecSel Left Color.Material
   {- Arity: 1, HasNoCafRefs, Strictness: <S(LS),1*U(A,1*U(U,U,U))>m,
      Unfolding: InlineRule (1, True, False)
                 (\ @ a (ds :: Color.Material a) ->
                  case ds of wild { Color.Mat ds1 ds2 -> ds2 }) -}
-97d96c10f6e1a706c38ac6021f72f162
+0f29f97107a44be6847b8b1948ea14e0
   gray :: GHC.Real.Fractional a => Color.RGB a
   {- Arity: 1, HasNoCafRefs, Strictness: <L,U(A,A,A,C(U))>m,
      Inline: INLINE[0],
@@ -493,20 +894,38 @@ c35884fcb0f66c2633d62e241292add1
                    (GHC.Real.fromRational @ a w Color.gray1)
                    (GHC.Real.fromRational @ a w Color.gray1)
                    (GHC.Real.fromRational @ a w Color.gray1)) -}
-aff077c7291da424fc2edd88472ede77
+2aee0b43dbc12fccf734f28ac2449adf
   gray1 :: GHC.Real.Ratio GHC.Integer.Type.Integer
   {- HasNoCafRefs, Strictness: m,
      Unfolding: (GHC.Real.:%
                    @ GHC.Integer.Type.Integer
                    Color.gray3
                    Color.gray2) -}
-f8edac0008776332947ce2fcad8a65b3
+baff67bb6f5b041a241a4b1ac9c2ec63
   gray2 :: GHC.Integer.Type.Integer
   {- HasNoCafRefs, Unfolding: (10) -}
-3ea66f56568659ad6210c544ec46580d
+df8b23e76ff8aa00f2708c40e19e8bdc
   gray3 :: GHC.Integer.Type.Integer
   {- HasNoCafRefs, Unfolding: (3) -}
-85cc289729bfaec0a6fdbd883044009a
+6559433a00388f5966ac63f861b1bbf6
+  toHSL :: Color.RGB GHC.Types.Float -> Color.HSL GHC.Types.Float
+  {- Arity: 1, Strictness: <S,1*U(U(U),U(U),U(U))>m,
+     Inline: INLINE[0],
+     Unfolding: InlineRule (1, True, False)
+                (\ (w :: Color.RGB GHC.Types.Float) ->
+                 case w of ww { Color.RGB ww1 ww2 ww3 ->
+                 case Color.$wtoHSL ww1 ww2 ww3 of ww4 { (#,,#) ww5 ww6 ww7 ->
+                 Color.HSL @ GHC.Types.Float ww5 ww6 ww7 } }) -}
+55242b16503dc3c057d985f58e0bef51
+  toHSL1 :: GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# 0.0#) -}
+ee7e489e19df5207f8c395a562abfcc1
+  toHSL2 :: GHC.Types.Float
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# 6.0#) -}
+787a4ec8ba298084e85d190662062546
+  toHSL3 :: GHC.Types.Float
+  {- Strictness: x -}
+16ec93015cf0684f671424c0b1c8a6fd
   white :: GHC.Num.Num a => Color.RGB a
   {- Arity: 1, HasNoCafRefs, Strictness: <L,U(A,A,A,A,A,A,C(U))>m,
      Inline: INLINE[0],
@@ -517,19 +936,19 @@ f8edac0008776332947ce2fcad8a65b3
                    (GHC.Num.fromInteger @ a w Color.white1)
                    (GHC.Num.fromInteger @ a w Color.white1)
                    (GHC.Num.fromInteger @ a w Color.white1)) -}
-e2c204ffd52a56ceb1cd6d058729bdf7
+c19fb0ab7130301137175e4364d3c11f
   white1 :: GHC.Integer.Type.Integer
   {- HasNoCafRefs, Unfolding: (1) -}
-instance [safe] GHC.Base.Functor [Color.RGB] = Color.$fFunctorRGB
-instance [safe] GHC.Num.Num [Color.RGB] = Color.$fNumRGB
-instance [safe] GHC.Show.Show [Color.Material]
-  = Color.$fShowMaterial
-instance [safe] GHC.Show.Show [Color.RGB] = Color.$fShowRGB
+instance GHC.Base.Functor [Color.RGB] = Color.$fFunctorRGB
+instance GHC.Num.Num [Color.RGB] = Color.$fNumRGB
+instance GHC.Show.Show [Color.HSL] = Color.$fShowHSL
+instance GHC.Show.Show [Color.Material] = Color.$fShowMaterial
+instance GHC.Show.Show [Color.RGB] = Color.$fShowRGB
 vectorised variables:
 vectorised tycons:
 vectorised reused tycons:
 parallel variables:
 parallel tycons:
-trusted: safe
+trusted: none
 require own pkg trusted: False
 

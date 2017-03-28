@@ -1,11 +1,11 @@
 
 ==================== FINAL INTERFACE ====================
-2017-03-25 10:00:53.5487827 UTC
+2017-03-28 05:56:59.0534714 UTC
 
 interface main@main:Main 8002
-  interface hash: f6b83426ba3fc7c0dff10d68a6e00b31
-  ABI hash: 6f6c2e662bd4a836f4b8af67a565f3d1
-  export-list hash: d0ee57351bffd8f1761a4a2d0a251769
+  interface hash: 01cc5fec57bb63d8795bc01a9cd1c17e
+  ABI hash: 94f74f40089fddf0d71ed76b40ea0d6b
+  export-list hash: 16fc4cad1d99abe35bad7c7d87876030
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: f3562ddcf4c83d57053dc100995dd8dd
   sig of: Nothing
@@ -50,7 +50,7 @@ package dependencies: StateVar-1.1.0.4@StateVar-1.1.0.4-5dJbnTVECtEAhfJXPZKdbO
                       reflection-2.1.2@reflection-2.1.2-Bem12O1xFGSHr4C2Hyu1c4
                       scientific-0.3.4.10@scientific-0.3.4.10-HRQd1hS6vMV6hvjSlMi8B0
                       semigroupoids-5.1@semigroupoids-5.1-Bv4gPJlZIgxJuJyrAzyy1i
-                      squigly-trace-0.1.0.0@squigly-trace-0.1.0.0-B2tPeVU0dH9BfPKJegt0x3
+                      squigly-trace-0.1.0.0@squigly-trace-0.1.0.0-5ozva8u4xtWJFkMKhtQb5C
                       stm-2.4.4.1@stm-2.4.4.1-JQn4hNPyYjP5m9AcbI88Ve
                       tagged-0.8.5@tagged-0.8.5-1mTloBSoUxv8dqUr8XBGBt
                       template-haskell-2.11.1.0
@@ -130,10 +130,9 @@ family instance modules: adjunctions-4.3@adjunctions-4.3-5CqTSM7liCdC9cb4N2IolK:
                          vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector.Unboxed
                          vector-0.11.0.0@vector-0.11.0.0-LMwQhhnXj8U3T5Bm1JFxG:Data.Vector.Unboxed.Base
 import  -/  base-4.9.1.0:Prelude 74b3e204395920329f6de9d97206abe9
-import  -/  base-4.9.1.0:System.IO 5daf3f384209c11d9566e3409af8ec5d
 import  -/  ghc-prim-0.5.0.0:GHC.Types 89f8de4f08018c9177c98d979eae0e45
-import  -/  squigly-trace-0.1.0.0@squigly-trace-0.1.0.0-B2tPeVU0dH9BfPKJegt0x3:Lib fa0b55b388446f1a82bf1dc987b52d3a
-import  -/  squigly-trace-0.1.0.0@squigly-trace-0.1.0.0-B2tPeVU0dH9BfPKJegt0x3:Obj f69be78ddd0167c947921f517a00f82c
+import  -/  squigly-trace-0.1.0.0@squigly-trace-0.1.0.0-5ozva8u4xtWJFkMKhtQb5C:Lib 5af1b4ad93257a8914593c3ba253fff8
+import  -/  squigly-trace-0.1.0.0@squigly-trace-0.1.0.0-5ozva8u4xtWJFkMKhtQb5C:Obj ebe0f0bd471d61e4ddb2cae5355bf834
 d6831ef04cb9301b090dfae6f7bb7ec7
   $trModule :: GHC.Types.Module
   {- HasNoCafRefs, Strictness: m,
@@ -146,39 +145,30 @@ d6831ef04cb9301b090dfae6f7bb7ec7
   $trModule2 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS "main"#) -}
-16e49011e669e835e51ffcc17cffdec1
+f2a10e00888dfccaf3f228d471d9470e
   main :: GHC.Types.IO ()
   {- Arity: 1, Strictness: <S,U>,
      Unfolding: InlineRule (0, True, True)
                 Main.main1 `cast` (Sym (GHC.Types.N:IO[0] <()>_R)) -}
-e59a5b39a42be991634764f4411316b8
+6b6d7beb23d7acb1d19848e64ab9e1d0
   main1 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 1, Strictness: <S,U>,
-     Unfolding: (\ (s :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
-                 case GHC.IO.Handle.FD.openFile1
-                        Main.main3
-                        GHC.IO.IOMode.ReadMode
-                        s of ds1 { (#,#) ipv ipv2 ->
-                 case GHC.IO.Handle.Text.hGetContents1
-                        ipv2
-                        ipv of ds2 { (#,#) ipv1 ipv3 ->
+     Unfolding: InlineRule (1, True, False)
+                (\ (w5 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  Lib.$wrender
-                   Main.main2
-                   Lib.testScene
+                   Obj.testScene
                    512#
                    512#
                    (GHC.Base.Nothing @ GHC.Base.String)
-                   ipv1 } }) -}
-833999e64c983b47fffe0e0dc3ee8874
+                   Main.main2
+                   w5) -}
+3e7e47462d80b86e2cd49b8328ba111a
   main2 :: GHC.Types.Float
-  {- HasNoCafRefs, Unfolding: (GHC.Types.F# -0.8#) -}
-5367964fec7a787e5a316bb66763b7b9
-  main3 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "./data/test.obj"#) -}
-3b148ac4cd681498a58c123b608be4e9
-  main4 ::
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.F# -1.0#) -}
+2d53812cd4d1f18029998db6faa39951
+  main3 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 1,
