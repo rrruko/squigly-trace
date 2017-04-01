@@ -10,6 +10,7 @@ module Color
      averageColors, 
      black, 
      gray, 
+     light,
      white,
      toHSL
     ) where
@@ -19,7 +20,6 @@ module Color
 -- so that mat clamps its args to [0,1] and emit to [0,inf)
 -- though maybe faces shouldn't have mat and emit in the first place
 
-import Control.Applicative
 import Control.Lens.Operators ((<&>))
 import Data.Fixed
 import Data.List (genericLength)
@@ -54,6 +54,9 @@ gray = RGB 0.3 0.3 0.3
 
 white :: Num a => RGB a
 white = RGB 1 1 1
+
+light :: Num a => RGB a
+light = RGB 500 500 500
 
 -- |Copied from https://en.wikipedia.org/wiki/HSL_and_HSV#General_approach
 -- Needs modification to work with RGB values greater than 1.

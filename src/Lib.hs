@@ -43,13 +43,16 @@ makeCamera :: Num a => a -> Camera a
 makeCamera x = Camera x
 
 resultImage :: StdGen -> Scene -> Int -> Int -> Camera Float -> ImageBuffer
-resultImage randgen scene w h (Camera camera) = B.pack imageAsList
-    where imageAsList = concat (zipWith' ($) [getColorAt x y | y <- [0..h - 1], x <- [0..w - 1]] (replicateStdGen randgen))
+resultImage randgen scene w h (Camera _) = B.pack imageAsList
+    where imageAsList = concat $ zipWith' ($)
+            [getColorAt x y | y <- [0..h - 1], x <- [0..w - 1]] 
+            (replicateStdGen randgen)
           getColorAt x y gen =
             let xoffs = (fromIntegral x - (fromIntegral w / 2)) / fromIntegral w
                 yoffs = (fromIntegral y - (fromIntegral h / 2)) / fromIntegral h
-                orig  = V3 (-1.5) 0 0
-                vert  = V3 camera xoffs yoffs
+                orig  = V3 0 7 0
+                cameraRotation = rotMatrixRads (pi/2) 0 0
+                vert  = ((V3 1 xoffs yoffs) `rotVert` cameraRotation) + orig
                 ray   = rayFromVerts orig vert
             in  rayToPixel scene ray gen
 
@@ -79,15 +82,15 @@ rayToPixel scene ray g = colorToPixel . averageOfRaySamples g scene $ ray
 colorToPixel :: RGB Float -> [Word8]
 colorToPixel (RGB r g b) = map badAtan [r, g, b] ++ [255]
     where badAtan   = floor . (*255) . (*(2/pi)) . atan
-          --badLog    = min 255 . floor . (\x -> log x * x) . (+1)
+          --badLog    = min 255 . floor . (\x -> log x * x * 100) . (+1)
           --badLinear = min 255 . floor
-
+          
 averageOfRaySamples :: StdGen -> Scene -> Ray -> RGB Float
 averageOfRaySamples g s r = 
     let samples = map f (take desiredSamples $ replicateStdGen g)
     in  averageColors samples
     where f gen = resultOfRay gen s r
-          desiredSamples = 3000
+          desiredSamples = 1
 
 replicateStdGen :: StdGen -> [StdGen]
 replicateStdGen gen =
@@ -99,41 +102,53 @@ Given a ray: if it intersects something, its color is equal to
 the incoming light times the color of the intersected surface, 
 plus the surface's emittance.
 If it intersects nothing, return black.
-
-The incoming light is determined by picking a random vector and flipping it so that
-its direction 'bounces' off the surface. (If the old ray points in the same hemisphere as
-the surface normal, the new ray should point in the opposite one, and vice versa.)
 -}
 resultOfRay :: StdGen -> Scene -> Ray -> RGB Float
 resultOfRay gen scene ray
     | bounces ray >= maxBounces = black
     | otherwise =
         case intersectInScene scene ray of
-            Just inter -> resultOfRay newGen scene (newRay inter) * color (mat inter) + emittance (mat inter)
-            Nothing -> black
-    where maxBounces = 8
+            Just inter -> 
+                resultOfRay newGen scene (newRay inter) * color (mat inter) + emittance (mat inter)
+            Nothing ->
+                black
+    where maxBounces = 5
+          newRay inter = bounceRay gen ray inter
           newGen = snd (next gen)
-          newRay inter =
-            let newDirection = randomVector gen
-                old = signum (direction ray `dot` surfNorm inter)
-                new = signum (newDirection  `dot` surfNorm inter)
-            in  if old == new then
-                    Ray (intersectPoint inter) (-newDirection) (bounces ray + 1)
-                else
-                    Ray (intersectPoint inter)   newDirection  (bounces ray + 1) 
+{-
+Pick a random vector and, if necessary, flip it so that its direction 'bounces' off the
+surface. (If the old ray points in the same hemisphere as the surface normal, the new 
+ray should point in the opposite one, and vice versa.)
+-}
+bounceRay :: StdGen -> Ray -> Intersection -> Ray
+bounceRay gen ray inter =
+    let newDir = randomVector gen
+        old = signum (direction ray `dot` surfNorm inter)
+        new = signum (newDir        `dot` surfNorm inter)
+    in  if old == new then
+        Ray (intersectPoint inter) (-newDir) (bounces ray + 1)
+    else
+        Ray (intersectPoint inter)   newDir  (bounces ray + 1)
 
 {-
 This should be decomposed into a intersect :: Ray -> Triangle -> Maybe (V3 Float) in Geometry
 and a intersectData :: Ray -> Triangle -> Maybe Intersection in Lib
+
+The magic number 0.01 here is acting as an epsilon, in case a ray is found to 
+intersect with the triangle it's bouncing off. If it's too high, light is able to slip
+through corners; if it's too small, rounding error can make light fail to bounce off.
+
+A better solution would be to always return Nothing on the intersection of a ray and the
+face that it's bouncing off. Not sure how to implement that.
 -}
 intersect :: Ray -> Triangle -> Maybe Intersection
-intersect ray tri
+intersect ray tri 
     | direction ray `dot` normal tri == 0 = Nothing
     | otherwise = 
         let rayDist = ((tFirst tri - vertex ray) `dot` normal tri) 
                       / (direction ray `dot` normal tri)
             inter = vertex ray + ((rayDist *) <$> (direction ray))
-        in  if rayDist > 0.1 && pointInTriangle inter tri then
+        in  if rayDist > 0.01 && pointInTriangle inter tri then
                 Just (Intersection inter rayDist (material tri) (normal tri))
             else
                 Nothing
@@ -151,3 +166,26 @@ intersectInScene scene ray =
     let checks = map (intersect ray) (tris scene)
         allIntersects = catMaybes checks
     in  listToMaybe . sortBy (compare `on` dist) $ allIntersects
+
+{-
+data AABB a = AABB { low :: V3 Float, high :: V3 Float, contents :: a } 
+    deriving (Show)
+
+bvh :: Scene -> AABB Triangle -> Tree (AABB Triangle)
+bvh scene box
+    | contents box == [] = Leaf box
+    | otherwise =
+        let (first, second) = split box
+        in  Branch (bvh scene first) (bvh scene second)
+
+Tree (Tree box empty) (Tree (Tree box empty) (Tree box empty))
+
+split :: AABB Triangle -> (AABB Triangle, AABB Triangle)
+split box = undefined
+    -- do heuristics to split the box so that there's an even number of
+    -- triangles in each child
+
+intersectBVH :: Ray -> Tree (AABB Triangle) -> Maybe Intersection
+intersectBVH ray = undefined
+    -- ???
+-}
