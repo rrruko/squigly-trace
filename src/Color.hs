@@ -7,13 +7,17 @@ Stability   : experimental
 module Color
     (Material(..),
      RGB(..),
-     averageColors, 
-     black, 
-     gray, 
-     light,
+     averageColors,
+     black,
+     diffuse,
+     emission,
+     gray,
+     noEmit,
      white,
+     whiteLight,
      toHSL
     ) where
+
 -- maybe there should be a type for material color and for emittance
 -- and then a class for things that can be treated as RGB.
 -- then the module only exposes functions mat, emit to make Mat, Emit types
@@ -55,8 +59,8 @@ gray = RGB 0.3 0.3 0.3
 white :: Num a => RGB a
 white = RGB 1 1 1
 
-light :: Num a => RGB a
-light = RGB 500 500 500
+noEmit :: Num a => RGB a
+noEmit = RGB 0 0 0
 
 -- |Copied from https://en.wikipedia.org/wiki/HSL_and_HSV#General_approach
 -- Needs modification to work with RGB values greater than 1.
@@ -65,7 +69,7 @@ toHSL (RGB r g b) =
     let max'   = maximum [r,g,b]
         min'   = minimum [r,g,b]
         chroma = max' - min'
-        h' | chroma == 0 = 0 
+        h' | chroma == 0 = 0
            | max' == r = ((g - b) / chroma) `mod'` 6
            | max' == g = ((b - r) / chroma) + 2
            | max' == b = ((r - g) / chroma) + 4
@@ -82,5 +86,13 @@ averageColors cs = (sum cs) <&> (/ genericLength cs)
 toRGB hsl@(HSL h s l) =
     let chroma = (1 - abs (2 * l - 1)) * s-}
 
-
 data Material a = Mat { color :: RGB a, emittance :: RGB a } deriving (Show)
+
+diffuse :: Num a => RGB a -> Material a
+diffuse rgb = Mat rgb noEmit
+
+emission :: Num a => RGB a -> Material a
+emission rgb = Mat black rgb
+
+whiteLight :: Num a => a -> Material a
+whiteLight intensity = Mat black (RGB intensity intensity intensity)

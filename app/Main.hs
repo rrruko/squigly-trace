@@ -1,14 +1,39 @@
 module Main where
 
-import Lib (makeCamera, render)
+import BIH
+import Geometry (rotMatrixRads)
+import Lib (Camera(..), render)
 import Obj (sceneFromObj)
+
+import Data.Time.Clock
+import Data.Time.Format
+import Linear.V3
+import System.IO
 
 main :: IO ()
 main = do
-    let cam = makeCamera undefined
-    let objPath = "./data/test3.obj"
-    putStrLn ("Loading .obj file: " ++ objPath)
-    obj <- readFile objPath
-    let scene = sceneFromObj obj
+    hSetBuffering stdin LineBuffering
+    let cam = Camera (V3 0 7 0.001) (rotMatrixRads (pi/2) 0 0)
+    putStrLn "Sample count? "
+    samples <- fmap read getLine
+    let objPath = "./data/test5-subdivide.obj"
+    scene <- loadScene objPath
+    let bih' = sceneBIH scene
+    print bih'
+    putStrLn $ "BIH height is " ++ show (height bih')
+    putStrLn $ "Length of longest leaf is " ++ show (longestLeaf bih')
+    putStrLn $ "Number of leaves is " ++ show (numLeaves bih')
     putStrLn "Rendering scene..."
-    render scene 540 540 Nothing cam
+    startTime <- getCurrentTime
+    putStrLn $ "Started at " ++ showTime startTime
+    render scene (540, 540) Nothing cam samples
+    endTime <- getCurrentTime
+    putStrLn $ "Finished at " ++ showTime endTime
+    let diff = diffUTCTime endTime startTime
+    putStrLn $ "Took " ++ show diff
+
+showTime :: FormatTime f => f -> String
+showTime time = formatTime defaultTimeLocale "%T%P UTC" time
+
+loadScene :: FilePath -> IO Scene
+loadScene path = fmap sceneFromObj (readFile path)
