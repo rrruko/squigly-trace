@@ -7,6 +7,7 @@ Stability   : experimental
 module Color
     (Material(..),
      RGB(..),
+     SurfaceType(..),
      averageColors,
      black,
      diffuse,
@@ -14,8 +15,7 @@ module Color
      gray,
      noEmit,
      white,
-     whiteLight,
-     toHSL
+     whiteLight
     ) where
 
 -- maybe there should be a type for material color and for emittance
@@ -25,7 +25,6 @@ module Color
 -- though maybe faces shouldn't have mat and emit in the first place
 
 import Control.Lens.Operators ((<&>))
-import Data.Fixed
 import Data.List (genericLength)
 
 -- |Datatype for light and material colors.
@@ -45,10 +44,12 @@ instance Num a => Num (RGB a) where
     signum = fmap signum
     fromInteger n = fmap fromInteger (RGB n n n)
 
+{-
 data HSL a = HSL a a a
 
 instance Show a => Show (HSL a) where
     show (HSL h s l) = unwords ["HSL", show h, show s, show l]
+-}
 
 black :: Num a => RGB a
 black = RGB 0 0 0
@@ -62,6 +63,7 @@ white = RGB 1 1 1
 noEmit :: Num a => RGB a
 noEmit = RGB 0 0 0
 
+{-
 -- |Copied from https://en.wikipedia.org/wiki/HSL_and_HSV#General_approach
 -- Needs modification to work with RGB values greater than 1.
 toHSL :: RGB Float -> HSL Float
@@ -78,21 +80,23 @@ toHSL (RGB r g b) =
         l = (max' + min') / 2
         s = if l == 1 then 0 else chroma / (1 - abs (2 * l - 1))
     in  HSL h s l
+-}
 
 averageColors :: Fractional a => [RGB a] -> RGB a
 averageColors cs = (sum cs) <&> (/ genericLength cs)
 
-{-toRGB :: HSL Float -> RGB Float
-toRGB hsl@(HSL h s l) =
-    let chroma = (1 - abs (2 * l - 1)) * s-}
+data SurfaceType = Diffuse | Emit | Reflect deriving (Eq, Ord, Show, Read)
 
-data Material a = Mat { color :: RGB a, emittance :: RGB a } deriving (Show)
+data Material a = Mat {
+    color :: RGB a,
+    surfaceType :: SurfaceType
+} deriving (Show)
 
 diffuse :: Num a => RGB a -> Material a
-diffuse rgb = Mat rgb noEmit
+diffuse rgb = Mat rgb Diffuse
 
 emission :: Num a => RGB a -> Material a
-emission rgb = Mat black rgb
+emission rgb = Mat rgb Emit
 
 whiteLight :: Num a => a -> Material a
-whiteLight intensity = Mat black (RGB intensity intensity intensity)
+whiteLight intensity = Mat (RGB intensity intensity intensity) Emit

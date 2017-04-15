@@ -94,13 +94,18 @@ resultOfRay gen scene ray
     | otherwise =
         case BIH.intersectBIH scene ray of
             Just inter ->
-                resultOfRay newGen scene (newRay inter) *
-                color (material (surface inter)) +
-                emittance (material (surface inter))
+                case surfaceType . material $ surface inter of
+                    Diffuse -> resultOfRay newGen scene (newRay inter) *
+                               color (material (surface inter))
+                    Emit    -> color (material (surface inter))
+                    Reflect -> resultOfRay newGen scene (newRayReflect inter) *
+                               color (material (surface inter))
+
             Nothing ->
                 black
     where maxBounces = 4
           newRay inter = bounceRay gen ray inter
+          newRayReflect inter = bounceRayReflect ray inter
           newGen = snd (next gen)
 {-
 Pick a random vector and, if necessary, flip it so that its direction 'bounces' off the
@@ -116,6 +121,13 @@ bounceRay gen ray inter =
         Ray (intersectPoint inter) (-newDir) (bounces ray + 1)
     else
         Ray (intersectPoint inter)   newDir  (bounces ray + 1)
+
+bounceRayReflect :: Ray -> Intersection -> Ray
+bounceRayReflect ray inter =
+    let dn = normalize $ normal (surface inter)
+        di = direction ray
+        newDir = di - fmap (* (2 * (dn `dot` di))) dn
+    in  Ray (intersectPoint inter) newDir (bounces ray + 1)
 
 randomVector :: StdGen -> V3 Float
 randomVector gen =

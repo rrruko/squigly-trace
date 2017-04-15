@@ -11,6 +11,7 @@ module Geometry
      dot,
      intersectTri,
      normal,
+     normalize,
      rayFromVerts,
      pointInTriangle,
      rotate,
@@ -115,7 +116,8 @@ dot (V3 a b c) (V3 d e f) = a*d + b*e + c*f
 rayFromVerts :: V3 Float -> V3 Float -> Ray
 rayFromVerts a b = Ray a (b - a) 0
 
-{-
-maybeIntersect :: Ray -> Triangle -> Maybe (V3 Float)
-maybeIntersect ray tri
--}
+magnitude :: V3 Float -> Float
+magnitude (V3 x y z) = sqrt (x * x + y * y + z * z)
+
+normalize :: V3 Float -> V3 Float
+normalize vec = fmap (/magnitude vec) vec

@@ -13,7 +13,7 @@ import System.IO
 main :: IO ()
 main = do
     hSetBuffering stdin LineBuffering
-    let cam = Camera (V3 0 7 0.001) (rotMatrixRads (pi/2) 0 0)
+    let cam = Camera (V3 0 7 0.75) (rotMatrixRads (pi/2) 0 (-pi/32))
     putStrLn "Sample count? "
     samples <- fmap read getLine
     let objPath = "./data/test5-subdivide.obj"
