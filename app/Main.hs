@@ -36,4 +36,6 @@ showTime :: FormatTime f => f -> String
 showTime time = formatTime defaultTimeLocale "%T%P UTC" time
 
 loadScene :: FilePath -> IO Scene
-loadScene path = fmap sceneFromObj (readFile path)
+loadScene path = do
+    obj <- readFile path
+    sceneFromObj obj

@@ -37,7 +37,7 @@ data Triangle = Triangle {
 }
 
 instance Show Triangle where
-    show (Triangle f s t _) = unwords [show f, show s, show t]
+    show (Triangle f s t m) = unwords [show f, show s, show t, show m]
 
 data Intersection = Intersection {
     intersectPoint :: V3 Float,
