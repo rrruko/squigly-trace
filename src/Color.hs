@@ -8,7 +8,7 @@ module Color
     (Material(..),
      RGB(..),
      SurfaceType(..),
-     averageColors,
+     average,
      black,
      diffuse,
      emission,
@@ -82,8 +82,8 @@ toHSL (RGB r g b) =
     in  HSL h s l
 -}
 
-averageColors :: Fractional a => [RGB a] -> RGB a
-averageColors cs = (sum cs) <&> (/ genericLength cs)
+average :: Fractional a => [RGB a] -> RGB a
+average cs = (sum cs) <&> (/ genericLength cs)
 
 data SurfaceType = Diffuse | Emit | Reflect deriving (Eq, Ord, Show, Read)
 

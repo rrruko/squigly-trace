@@ -1,0 +1,23 @@
+newmtl Material.004
+Type Diffuse
+RGB 0.050408 0.050408 0.050408
+
+newmtl Material.001
+Type Diffuse
+RGB 0.321582 0.043584 0.258514
+
+newmtl Material.003
+Type Diffuse
+RGB 0.908420 0.608420 0.658420
+
+newmtl Material.002
+Type Emit
+RGB 500 500 500
+
+newmtl Material
+Type Diffuse
+RGB 0.515584 0.024571 0.104109
+
+newmtl Material.005
+Type Reflect
+RGB 0.80000 0.80000 0.80000

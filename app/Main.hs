@@ -2,7 +2,7 @@ module Main where
 
 import BIH
 import Geometry (rotMatrixRads)
-import Lib (Camera(..), render)
+import Lib (Camera(..), Settings(..), render)
 import Obj (sceneFromObj)
 
 import Data.Time.Clock
@@ -26,7 +26,12 @@ main = do
     putStrLn "Rendering scene..."
     startTime <- getCurrentTime
     putStrLn $ "Started at " ++ showTime startTime
-    render scene (540, 540) Nothing cam samples
+    let settings = Settings {
+        dimensions = (540, 540),
+        path = "./render/result.png",
+        samples = samples
+    }
+    render scene cam settings
     endTime <- getCurrentTime
     putStrLn $ "Finished at " ++ showTime endTime
     let diff = diffUTCTime endTime startTime
