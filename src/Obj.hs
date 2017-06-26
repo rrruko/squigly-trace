@@ -38,10 +38,11 @@ particular when i want to make something not fully reflective or add refraction
 or something.
 -}
 
-import Color hiding (surfaceType)
+import Color (Material(..), RGB(..)) 
 import BIH hiding (bounds)
 import Geometry hiding (vertex)
 
+import Control.Monad (void)
 import qualified Debug.Trace as Trace
 import Linear.V3
 import Text.Parsec
@@ -51,18 +52,14 @@ import Text.Parsec.Combinator
 
 -- |Load the material referenced by a .obj file and generate a Scene.
 sceneFromObj :: String -> IO Scene
-sceneFromObj str = 
-    case parse loadObjFile "" str of
-        Right (mtllib, objs) -> do
-            mtlFile <- readFile ("./data/" ++ mtllib)
-            case parse loadMtlFile "" mtlFile of
-                Right mats -> do
-                    let triangles = makeScene objs mats
-                    Trace.trace (show $ head objs) (return ())
-                    Trace.trace (show mats) (return ())
-                    return $ Scene (boundingBox triangles) (makeBIH triangles)
-                Left err -> fail $ show err
-        Left _ -> fail "sceneFromObj: Couldn't parse OBJ file."
+sceneFromObj str = do 
+    let Right (mtllib, objs) = parse loadObjFile "" str
+    mtlFile <- readFile ("./data/" ++ mtllib)
+    let Right mats = parse loadMtlFile "" mtlFile
+    let triangles = makeScene objs mats
+    print $ head objs
+    print mats
+    return $ Scene (boundingBox triangles) (makeBIH triangles)
 
 -- |Match each object with it's material and return the resulting scene.
 makeScene :: [Object] -> [(String, Material)] -> [Triangle]
@@ -110,19 +107,16 @@ objectName = do
     spaces
     return name
 
-vertex :: Stream s m Char => ParsecT s u m (V3 Float)
+vertex :: Parser (V3 Float)
 vertex = do
     char 'v'
     spaces
-    v1 <- fractional
-    spaces
-    v2 <- fractional
-    spaces
-    v3 <- fractional
-    spaces
-    return (V3 v1 v3 v2)
+    fmap swapYZ vec3
 
-fractional :: Stream s m Char => ParsecT s u m Float
+swapYZ :: V3 Float -> V3 Float
+swapYZ (V3 x y z) = V3 x z y
+
+fractional :: Parser Float
 fractional = do
     m <- option "" $ string "-"
     d1 <- many digit
@@ -130,7 +124,7 @@ fractional = do
     d2 <- many digit
     return . read $ m ++ d1 ++ p ++ d2
 
-materialName :: Stream s m Char => ParsecT s u m String
+materialName :: Parser String
 materialName = do
     string "usemtl"
     spaces
@@ -138,7 +132,7 @@ materialName = do
     spaces
     return mtl
 
-mtllib :: Stream s m Char => ParsecT s u m String
+mtllib :: Parser String
 mtllib = do
     string "mtllib"
     spaces
@@ -146,14 +140,14 @@ mtllib = do
     spaces
     return filename
 
-parseS :: Stream s m Char => ParsecT s u m ()
+parseS :: Parser ()
 parseS = do
-    try (string "s on") <|> string "s off"
+    void $ try (string "s on") <|> string "s off"
     spaces
 
 face :: Parser (V3 Int)
 face = do
-    char 'f'
+    void $ char 'f'
     spaces
     f1 <- many1 digit
     spaces
@@ -168,8 +162,8 @@ loadMtlFile :: Parser [(String, Material)]
 loadMtlFile = many loadMtl
 
 loadMtl :: Parser (String, Material)
-loadMtl = do 
-    name <- (string "newmtl " >> many (noneOf " \t\n\r\f\v"))
+loadMtl = do
+    name <- string "newmtl " >> many (noneOf " \t\n\r\f\v")
     spaces
     ref <- string "reflective " >> fractional
     spaces
@@ -181,21 +175,9 @@ loadMtl = do
     spaces
     return (name, Mat ref refColor emit emitColor)
 
-{-
-reflective :: Parser Float
-reflective = do
-    string "reflective "
-    fractional
-
-emissive :: Parser Float
-emissive = do
-    string "emissive "
-    fractional
--}
-
 rgbColor :: Parser (RGB Float)
 rgbColor = do
-    string "RGB "
+    void $ string "RGB "
     V3 x y z <- vec3
     return (RGB x y z)
 
@@ -207,12 +189,4 @@ vec3 = do
     spaces
     v3 <- fractional
     spaces
-    return $ (V3 v1 v2 v3)
-
--- Diffuse/reflect not yet implemented but it might be in the file
-surfaceType :: Parser String
-surfaceType = do
-    string "Type "
-    surfType <- try (string "Diffuse") <|> try (string "Reflect") <|> string "Emit"
-    spaces
-    return surfType
+    return $ V3 v1 v2 v3
