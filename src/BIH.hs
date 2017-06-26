@@ -11,7 +11,6 @@ module BIH
      intersectBIH
     ) where
 
---uwu
 import Geometry
 
 import Control.Lens ((^.))
@@ -25,11 +24,6 @@ import Safe (maximumDef, minimumDef, minimumByMay)
 data Scene = Scene { bounds :: Bounds, sceneBIH :: BIH } deriving (Show)
 
 data Tree a b = Leaf b | Branch a (Tree a b) (Tree a b)
-type BIH = Tree BIHNode [Triangle]
-data Axis = X | Y | Z deriving (Show)
-data BIHNode = BIHN Axis Float Float
-    deriving (Show)
-
 instance (Show a, Show b) => Show (Tree a b) where
     show t = show' t 0
         where show' (Leaf a) level = times level "  " ++ show a
@@ -39,6 +33,11 @@ instance (Show a, Show b) => Show (Tree a b) where
                 "\n" ++ times (level+1) "  " ++ show' r (level+1)
               times n xs = concat (replicate n xs)
 
+data Axis = X | Y | Z 
+    deriving (Show)
+data BIHNode = BIHN Axis Float Float 
+    deriving (Show)
+type BIH = Tree BIHNode [Triangle]
 
 height :: Tree a b -> Int
 height (Leaf _)       = 1
@@ -68,9 +67,8 @@ makeBIH :: [Triangle] -> BIH
 makeBIH tris = bih (boundingBox tris) tris
 
 bih :: Bounds -> [Triangle] -> BIH
-bih _    []     = Leaf []
-bih _    [tri]  = Leaf [tri]
 bih bbox geom
+    | length geom < leafLimit = Leaf geom
     | null leftTris  = Branch (BIHN axis lmax rmin)
                               (Leaf [])
                               (Leaf rightTris)
@@ -81,6 +79,7 @@ bih bbox geom
                          (bih (boundingBox leftTris ) leftTris )
                          (bih (boundingBox rightTris) rightTris)
     where (leftTris, lmax, rightTris, rmin, axis) = split bbox geom
+          leafLimit = 15
 
 split :: Bounds -> [Triangle] -> ([Triangle], Float, [Triangle], Float, Axis)
 split bbox geom = (leftTris, lmax, rightTris, rmin, ax)
@@ -217,13 +216,13 @@ Prelude> intersections/rays
 
 This is progress, as I was previously worried that the function is just too
 slow. The new knowledge that boxes are being intersected too often indicates
-I should... maybe just try a different space partitioning scheme.
+I should... maybe just try a different acceleration structure.
 
 Though I should also refactor this whole program a lot, because it's a mess
 
 Is the scene I've been using just pathological?
     It might be since it consists of a box with a lot of stuff inside it.
-    However, a good space partitioning scheme should be able to handle that.
+    However, a good acceleration structure should be able to handle that.
 Is my BIH construction algorithm fucky?
     Seems likely, since it's a complex algorithm and I implemented it sloppily.
 Some other third thing?
@@ -251,7 +250,8 @@ getBounds verts =
         [maxX, maxY, maxZ] = map maximum [xProject, yProject, zProject]
     in  (V3 minX minY minZ, V3 maxX maxY maxZ)
 
-{-projectToPlane :: Axis -> V3 Float -> V2 FloatctsLeft  = intersectsBB left ray
+{-
+projectToPlane :: Axis -> V3 Float -> V2 FloatctsLeft  = intersectsBB left ray
           intersectsRight = intersectsBB right ray
           left =
               let (low, V3 x y z) = bbox
@@ -275,4 +275,5 @@ intersectsBB (low, high) (Ray v dir _) =
 projectToPlane ax (V3 x y z) = case ax of
     X -> V2 y z
     Y -> V2 x z
-    Z -> V2 x y-}
+    Z -> V2 x y
+-}

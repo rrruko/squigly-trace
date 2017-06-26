@@ -5,21 +5,27 @@ import Geometry (rotMatrixRads)
 import Lib (Camera(..), Settings(..), render)
 import Obj (sceneFromObj)
 
+import Control.Lens
+import Data.Maybe (fromMaybe)
 import Data.Time.Clock
 import Data.Time.Format
 import Linear.V3
+import System.Environment
 import System.IO
+
 
 main :: IO ()
 main = do
-    hSetBuffering stdin LineBuffering
+    args <- getArgs
+    let samples = fromMaybe 1 . fmap read $ args ^? element 0
+    let path    = fromMaybe "./render/result.png" $ args ^? element 1
+    let objPath = fromMaybe "./data/test5-subdivide.obj" $ args ^? element 2
     let cam = Camera (V3 0 7 0.75) (rotMatrixRads (pi/2) 0 (-pi/32))
-    putStrLn "Sample count? "
-    samples <- fmap read getLine
-    let objPath = "./data/test5-subdivide.obj"
     scene <- loadScene objPath
     let bih' = sceneBIH scene
-    print bih'
+    let bihSavePath = "./data/bih"
+    writeFile bihSavePath (show bih')
+    putStrLn $ "Wrote BIH to" ++ bihSavePath
     putStrLn $ "BIH height is " ++ show (height bih')
     putStrLn $ "Length of longest leaf is " ++ show (longestLeaf bih')
     putStrLn $ "Number of leaves is " ++ show (numLeaves bih')
@@ -28,7 +34,7 @@ main = do
     putStrLn $ "Started at " ++ showTime startTime
     let settings = Settings {
         dimensions = (540, 540),
-        path = "./render/result.png",
+        path = path,
         samples = samples
     }
     render scene cam settings

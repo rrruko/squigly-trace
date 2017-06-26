@@ -8,10 +8,8 @@ module Geometry
     (Intersection(..),
      Ray(..),
      Triangle(..),
-     dot,
      intersectTri,
      normal,
-     normalize,
      rayFromVerts,
      pointInTriangle,
      rotate,
@@ -21,8 +19,10 @@ module Geometry
     ) where
 
 import Color(Material)
+import Linear.Metric (dot, normalize)
 import Linear.V3
 import Data.Matrix (Matrix, (!), fromList)
+import Linear.Vector ((*^))
 
 data Ray = Ray {
     vertex :: V3 Float,
@@ -34,7 +34,7 @@ data Triangle = Triangle {
     tFirst :: V3 Float,
     tSecond :: V3 Float,
     tThird :: V3 Float,
-    material :: Material Float
+    material :: Material 
 }
 
 instance Show Triangle where
@@ -58,7 +58,7 @@ rotate :: Float -> Float -> Float -> V3 Float -> V3 Float
 rotate alp bet gam vert = rotVert vert (rotMatrixRads alp bet gam)
 
 rotMatrixRads :: Float -> Float -> Float -> Matrix Float
-rotMatrixRads alp bet gam = foldl1 (*) . map (fromList 3 3) $
+rotMatrixRads alp bet gam = foldr1 (*) . map (fromList 3 3) $
     [[cos alp,  -sin alp, 0,
       sin alp,  cos alp,  0,
       0,        0,        1]
@@ -94,14 +94,12 @@ and the face that it's bouncing off. Not sure how to implement that.
 intersectTri :: Ray -> Triangle -> Maybe Intersection
 intersectTri ray tri
     | direction ray `dot` normal tri == 0 = Nothing
-    | otherwise =
-        let rayDist = ((tFirst tri - vertex ray) `dot` normal tri)
-                      / (direction ray `dot` normal tri)
-            inter = vertex ray + ((rayDist *) <$> (direction ray))
-        in  if rayDist > 0.001 && pointInTriangle inter tri then
-                Just (Intersection inter rayDist tri)
-            else
-                Nothing
+    | rayDist > 0.001 && pointInTriangle inter tri = Just (Intersection inter rayDist tri)
+    | otherwise = Nothing
+        where rayDist = ((tFirst tri - vertex ray) `dot` normal tri)
+                  / (direction ray `dot` normal tri)
+              inter = vertex ray + (rayDist *^ direction ray)
+
 
 pointInTriangle :: V3 Float -> Triangle -> Bool
 pointInTriangle p tri@(Triangle a b c _) =
@@ -110,14 +108,5 @@ pointInTriangle p tri@(Triangle a b c _) =
         insideCA = (a - c) `cross` (p - c)
     in  all ((>0) . (`dot` normal tri)) [insideAB, insideBC, insideCA]
 
-dot :: Num a => V3 a -> V3 a -> a
-dot (V3 a b c) (V3 d e f) = a*d + b*e + c*f
-
 rayFromVerts :: V3 Float -> V3 Float -> Ray
 rayFromVerts a b = Ray a (b - a) 0
-
-magnitude :: V3 Float -> Float
-magnitude (V3 x y z) = sqrt (x * x + y * y + z * z)
-
-normalize :: V3 Float -> V3 Float
-normalize vec = fmap (/magnitude vec) vec

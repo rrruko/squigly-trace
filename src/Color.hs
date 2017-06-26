@@ -7,7 +7,6 @@ Stability   : experimental
 module Color
     (Material(..),
      RGB(..),
-     SurfaceType(..),
      average,
      black,
      diffuse,
@@ -28,7 +27,7 @@ import Control.Lens.Operators ((<&>))
 import Data.List (genericLength)
 
 -- |Datatype for light and material colors.
-data RGB a = RGB a a a
+data RGB a = RGB a a a deriving (Eq)
 
 instance Functor RGB where
     fmap f (RGB r g b) = RGB (f r) (f g) (f b)
@@ -43,6 +42,11 @@ instance Num a => Num (RGB a) where
     abs = fmap abs
     signum = fmap signum
     fromInteger n = fmap fromInteger (RGB n n n)
+
+instance Fractional a => Fractional (RGB a) where
+    (RGB r g b) / (RGB r2 g2 b2) = RGB (r/r2) (g/g2) (b/b2)
+    recip (RGB r g b) = RGB (1/r) (1/g) (1/b)
+    fromRational rat = RGB (fromRational rat) (fromRational rat) (fromRational rat)
 
 {-
 data HSL a = HSL a a a
@@ -83,20 +87,20 @@ toHSL (RGB r g b) =
 -}
 
 average :: Fractional a => [RGB a] -> RGB a
-average cs = (sum cs) <&> (/ genericLength cs)
+average cs = sum cs <&> (/ genericLength cs)
 
-data SurfaceType = Diffuse | Emit | Reflect deriving (Eq, Ord, Show, Read)
-
-data Material a = Mat {
-    color :: RGB a,
-    surfaceType :: SurfaceType
+data Material = Mat {
+    reflective :: Float, -- ^ 0 = diffuse, 1 = reflective
+    surfColor :: RGB Float, -- ^ surface color
+    emissive :: Float, -- ^ multiplied by emit color
+    emitColor :: RGB Float -- ^ color of light the material emits
 } deriving (Show)
 
-diffuse :: Num a => RGB a -> Material a
-diffuse rgb = Mat rgb Diffuse
+diffuse :: RGB Float -> Material
+diffuse rgb = Mat 0 rgb 0 0
 
-emission :: Num a => RGB a -> Material a
-emission rgb = Mat rgb Emit
+emission :: RGB Float -> Material
+emission rgb = Mat 0 0 1 rgb
 
-whiteLight :: Num a => a -> Material a
-whiteLight intensity = Mat (RGB intensity intensity intensity) Emit
+whiteLight :: Float -> RGB Float -> Material
+whiteLight = Mat 0 0

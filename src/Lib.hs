@@ -18,8 +18,12 @@ import           Color
 import           Geometry
 
 import           Codec.Picture
+import           Control.Parallel
 import           Data.Matrix   (Matrix)
+import qualified Data.Vector.Storable as V
+import           Linear.Metric (dot, normalize)
 import           Linear.V3
+import           Linear.Vector
 import           System.Random
 
 data Camera = Camera { position :: V3 Float, rotation :: Matrix Float }
@@ -55,21 +59,21 @@ makeRay (w,h) cam gen x y =
     let ww = fromIntegral w
         hh = fromIntegral h
         (dx, gen') = randomR (0,1) gen  -- random slight offset for 
-        (dy, _   ) = randomR (0,1) gen' --     antialiasing
+        (dy, _   ) = randomR (0,1) gen' --    cheap antialiasing
         xoffs = (fromIntegral x + dx - (ww / 2)) / ww
         yoffs = ((hh / 2) - fromIntegral y + dy) / hh
         dir = V3 1 xoffs yoffs `rotVert` rotation cam
     in  Ray (position cam) dir 0
 
 -- | Take an RGB Float representing unbounded light intensity in each color,
--- and turn it into a PixelRGB8, which is bounded at 255. There are a couple ways 
+-- and turn it into a PixelRGB8, which is bounded at 255. There are a couple ways
 -- to approach this:
 --  - Clamp all light above a certain intensity down to 255
 --    (unrealistic, but easy)
---  - Create a new pixel with the same hue as the light and brightness 
+--  - Create a new pixel with the same hue as the light and brightness
 --    corresponding to the log of the brightness of the original
 --    (this is close to how human vision works)
--- I did the second thing, but used atan instead of log. 
+-- I did the second thing, but used atan instead of log.
 -- It is debatable wheeher atan is a better choice; while it provides a continuous
 -- map from R+ to [0,1], its derivative tapers off much more quickly than log's,
 -- meaning that the difference between high intensities might be less apparent.
@@ -114,18 +118,25 @@ resultOfRay gen scene ray
     | otherwise =
         case BIH.intersectBIH scene ray of
             Just inter ->
-                case surfaceType . material $ surface inter of
-                    Diffuse -> resultOfRay newGen scene (newRay inter) *
-                               color (material (surface inter))
-                    Emit    -> color (material (surface inter))
-                    Reflect -> resultOfRay newGen scene (newRayReflect inter) *
-                               color (material (surface inter))
+                let Mat ref refColor emit emitColor = material $ surface inter
+                in  resultOfRay newGen scene (newRay' inter) * refColor
+                        + fmap (*emit) emitColor
             Nothing ->
                 black
     where maxBounces = 4
           newRay = bounceRay gen ray
           newRayReflect = bounceRayReflect ray
+          newRay' = bounceRay' gen ray
           newGen = snd (next gen)
+
+bounceRay' :: StdGen -> Ray -> Intersection -> Ray
+bounceRay' gen ray inter =
+    let Mat ref refColor emit emitColor = material $ surface inter
+        x = fst $ randomR (0,1) gen
+    in  if ref < x then -- ref% chance of scattering
+            bounceRay gen ray inter
+        else -- (1-ref)% chance of reflecting
+            bounceRayReflect ray inter
 
 -- | Pick a random vector and, if necessary, flip it so that its direction
 -- bounces off the surface. (If the old ray points in the same hemisphere
@@ -147,7 +158,7 @@ bounceRayReflect :: Ray -> Intersection -> Ray
 bounceRayReflect ray inter =
     let dn = normalize $ normal (surface inter)
         di = direction ray
-        newDir = di - fmap (* (2 * (dn `dot` di))) dn
+        newDir = di - dn ^* (2 * (dn `dot` di))
     in  Ray (intersectPoint inter) newDir (bounces ray + 1)
 
 -- | Turn a random number generator into a vector of length 1 with
