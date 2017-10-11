@@ -18,9 +18,7 @@ import           Color
 import           Geometry
 
 import           Codec.Picture
-import           Control.Parallel
 import           Data.Matrix   (Matrix)
-import qualified Data.Vector.Storable as V
 import           Linear.Metric (dot, normalize)
 import           Linear.V3
 import           Linear.Vector
@@ -89,12 +87,6 @@ colorToPixelRGB8 col =
           lightness col'  = (mx col' + mn col') / 2
           atansity x      = atan x / (pi / 2)
 
-avgOfRaySamples :: Scene -> Ray -> StdGen -> Int -> RGB Float
-avgOfRaySamples scene ray randgen sampleCount =
-    let samples' = map f (take sampleCount $ replicateStdGen randgen)
-    in  average samples'
-    where f gen = resultOfRay gen scene ray
-
 -- | This is used to split the RNG belonging to each pixel into a separate
 -- RNG for each sample of the pixel.
 replicateStdGen :: StdGen -> [StdGen]
@@ -119,16 +111,16 @@ resultOfRay gen scene ray
         case BIH.intersectBIH scene ray of
             Nothing -> black
             Just inter ->
-                let Mat ref refColor emit emitColor = material $ surface inter
+                let Mat _ref refColor emit emitCol = material $ surface inter
                     newRay = bounceRay gen ray inter
                     newGen = snd (next gen)
                 in  resultOfRay newGen scene newRay * refColor
-                        + fmap (*emit) emitColor
+                        + fmap (*emit) emitCol
     where maxBounces = 4
 
 bounceRay :: StdGen -> Ray -> Intersection -> Ray
 bounceRay gen ray inter =
-    let Mat ref refColor emit emitColor = material $ surface inter
+    let Mat ref _ _ _ = material $ surface inter
         x = fst $ randomR (0,1) gen
     in  if ref < x then -- ref% chance of scattering
             scatterRay gen ray inter
