@@ -46,19 +46,19 @@ render scene cam settings@(Settings (w,h) path' _) = do
 -- its value (with an rng to allow randomness down the pipeline)
 -- This is called exactly once per pixel.
 computePixel :: Scene -> Camera -> Settings -> StdGen -> Int -> Int -> (StdGen, PixelRGB8)
-computePixel scene cam (Settings (w,h) _ samples') randgen x y =
-    (newRand, colorToPixelRGB8 $ average rays)
-    where newRand = snd (last raysTup)
-          rays = map (\(f,gen) -> resultOfRay gen scene (f gen)) raysTup
-          raysTup = zip (replicate samples' (\g -> makeRay (w,h) cam g x y))
-                        (replicateStdGen randgen)
+computePixel scene cam (Settings (w,h) _ numSamples) randgen x y =
+    (newRand, colorToPixelRGB8 $ average rays')
+    where newRand = last gens
+          rays' = map getRay gens
+          gens = take numSamples $ replicateStdGen randgen
+          getRay gen' = resultOfRay gen' scene $ makeRay (w,h) cam gen' x y
 
 -- | Called once per sample per pixel.
 makeRay :: (Int, Int) -> Camera -> StdGen -> Int -> Int -> Ray
-makeRay (w,h) cam gen x y = 
+makeRay (w,h) cam gen x y =
     let ww = fromIntegral w
         hh = fromIntegral h
-        (dx, gen') = randomR (0,1) gen  -- random slight offset for 
+        (dx, gen') = randomR (0,1) gen  -- random slight offset for
         (dy, _   ) = randomR (0,1) gen' --    cheap antialiasing
         xoffs = (fromIntegral x + dx - (ww / 2)) / ww
         yoffs = ((hh / 2) - fromIntegral y + dy) / hh
@@ -94,7 +94,7 @@ avgOfRaySamples scene ray randgen sampleCount =
     let samples' = map f (take sampleCount $ replicateStdGen randgen)
     in  average samples'
     where f gen = resultOfRay gen scene ray
-        
+
 -- | This is used to split the RNG belonging to each pixel into a separate
 -- RNG for each sample of the pixel.
 replicateStdGen :: StdGen -> [StdGen]
@@ -104,10 +104,10 @@ replicateStdGen gen =
 
 -- | A ray that intersects nothing returns black.
 -- Otherwise, the color is determined by the type of surface:
--- Diffuse: the ray's original color times the surface color 
+-- Diffuse: the ray's original color times the surface color
 --     (the ray reflects randomly)
 -- Emit: the color of the emissive surface
--- Reflect: the ray's original color times the surface color 
+-- Reflect: the ray's original color times the surface color
 --     (the ray reflects deterministically)
 -- Since raytracing works backwards by tracing from the camera into the scene,
 -- the "original color" is determined later in time by bouncing the ray.
@@ -117,33 +117,30 @@ resultOfRay gen scene ray
     | bounces ray >= maxBounces = black
     | otherwise =
         case BIH.intersectBIH scene ray of
+            Nothing -> black
             Just inter ->
                 let Mat ref refColor emit emitColor = material $ surface inter
-                in  resultOfRay newGen scene (newRay' inter) * refColor
+                    newRay = bounceRay gen ray inter
+                    newGen = snd (next gen)
+                in  resultOfRay newGen scene newRay * refColor
                         + fmap (*emit) emitColor
-            Nothing ->
-                black
     where maxBounces = 4
-          newRay = bounceRay gen ray
-          newRayReflect = bounceRayReflect ray
-          newRay' = bounceRay' gen ray
-          newGen = snd (next gen)
 
-bounceRay' :: StdGen -> Ray -> Intersection -> Ray
-bounceRay' gen ray inter =
+bounceRay :: StdGen -> Ray -> Intersection -> Ray
+bounceRay gen ray inter =
     let Mat ref refColor emit emitColor = material $ surface inter
         x = fst $ randomR (0,1) gen
     in  if ref < x then -- ref% chance of scattering
-            bounceRay gen ray inter
+            scatterRay gen ray inter
         else -- (1-ref)% chance of reflecting
-            bounceRayReflect ray inter
+            reflectRay ray inter
 
 -- | Pick a random vector and, if necessary, flip it so that its direction
 -- bounces off the surface. (If the old ray points in the same hemisphere
--- as the surface normal, the new ray should point in the opposite one, and 
+-- as the surface normal, the new ray should point in the opposite one, and
 -- vice versa.)
-bounceRay :: StdGen -> Ray -> Intersection -> Ray
-bounceRay gen ray inter =
+scatterRay :: StdGen -> Ray -> Intersection -> Ray
+scatterRay gen ray inter =
     let newDir = randomVector gen
         old = signum (direction ray `dot` normal (surface inter))
         new = signum (newDir        `dot` normal (surface inter))
@@ -154,8 +151,8 @@ bounceRay gen ray inter =
 
 -- | This does not take a StdGen parameter because it deterministically reflects
 -- the ray.
-bounceRayReflect :: Ray -> Intersection -> Ray
-bounceRayReflect ray inter =
+reflectRay :: Ray -> Intersection -> Ray
+reflectRay ray inter =
     let dn = normalize $ normal (surface inter)
         di = direction ray
         newDir = di - dn ^* (2 * (dn `dot` di))
