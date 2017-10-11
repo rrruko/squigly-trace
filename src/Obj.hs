@@ -25,7 +25,7 @@ RGB $EX $EY $EZ
 
 where $NAME is any string containing alphanumeric characters or . or _
       $REF indicates the degree of reflectiveness, which is between 0 and 1
-      $EM indicates the brightness of the emitted light 
+      $EM indicates the brightness of the emitted light
       $X, $Y, and $Z can be read as floating point numbers
 
 It does not accept regular mtl files bc that format is based on Phong shading
@@ -38,7 +38,7 @@ particular when i want to make something not fully reflective or add refraction
 or something.
 -}
 
-import Color (Material(..), RGB(..)) 
+import Color (Material(..), RGB(..))
 import BIH hiding (bounds)
 import Geometry hiding (vertex)
 
@@ -52,7 +52,7 @@ import Text.Parsec.Combinator
 
 -- |Load the material referenced by a .obj file and generate a Scene.
 sceneFromObj :: String -> IO Scene
-sceneFromObj str = do 
+sceneFromObj str = do
     let Right (mtllib, objs) = parse loadObjFile "" str
     mtlFile <- readFile ("./data/" ++ mtllib)
     let Right mats = parse loadMtlFile "" mtlFile
@@ -103,7 +103,7 @@ objectName :: Parser String
 objectName = do
     char 'o'
     spaces
-    name <- many1 (alphaNum <|> oneOf "._") -- many1 $ noneOf " \t\n\r\f\v"
+    name <- many1 (alphaNum <|> oneOf "._")
     spaces
     return name
 

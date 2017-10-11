@@ -11,7 +11,6 @@ import Data.Time.Clock
 import Data.Time.Format
 import Linear.V3
 import System.Environment
-import System.IO
 
 
 main :: IO ()
@@ -25,7 +24,7 @@ main = do
     let bih' = sceneBIH scene
     let bihSavePath = "./data/bih"
     writeFile bihSavePath (show bih')
-    putStrLn $ "Wrote BIH to" ++ bihSavePath
+    putStrLn $ "Wrote BIH to " ++ bihSavePath
     putStrLn $ "BIH height is " ++ show (height bih')
     putStrLn $ "Length of longest leaf is " ++ show (longestLeaf bih')
     putStrLn $ "Number of leaves is " ++ show (numLeaves bih')
