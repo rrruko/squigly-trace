@@ -26,8 +26,8 @@ main = do
     writeFile bihSavePath (show bih')
     putStrLn $ "Wrote BIH to " ++ bihSavePath
     putStrLn $ "BIH height is " ++ show (height bih')
-    putStrLn $ "Length of longest leaf is " ++ show (longestLeaf bih')
-    putStrLn $ "Number of leaves is " ++ show (numLeaves bih')
+    putStrLn $ "Length of longest leaf is " ++ show (longestLeafv bih')
+    putStrLn $ "Number of leaves is " ++ show (numLeavesv bih')
     putStrLn "Rendering scene..."
     startTime <- getCurrentTime
     putStrLn $ "Started at " ++ showTime startTime

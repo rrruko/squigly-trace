@@ -5,8 +5,10 @@ module BIH
      flatten,
      height,
      longestLeaf,
+     longestLeafv,
      makeBIH,
      numLeaves,
+     numLeavesv,
      intersectsBB,
      intersectBIH
     ) where
@@ -20,40 +22,45 @@ import Data.Ord
 import Linear.V2
 import Linear.V3
 import Safe (maximumDef, minimumDef, minimumByMay)
+import qualified Data.Vector as V
+import Data.Vector (Vector)
+import Data.Semigroup
 
 data Scene = Scene { bounds :: Bounds, sceneBIH :: BIH } deriving (Show)
 
-data Tree a b = Leaf b | Branch a (Tree a b) (Tree a b)
-instance (Show a, Show b) => Show (Tree a b) where
-    show t = show' t 0
-        where show' (Leaf a) level = times level "  " ++ show a
-              show' (Branch x l r) level =
-                        times level     "  " ++ "Br " ++ show x ++
-                "\n" ++ times (level+1) "  " ++ show' l (level+1) ++
-                "\n" ++ times (level+1) "  " ++ show' r (level+1)
-              times n xs = concat (replicate n xs)
+data Tree a b = Leaf b | Branch a (Tree a b) (Tree a b) deriving (Show)
 
-data Axis = X | Y | Z 
+pretty :: BIH -> String
+pretty t = show' t 0
+    where show' (Leaf a) level = times level "  " ++ show a
+          show' (Branch x l r) level =
+                    times level     "  " ++ "Br " ++ show x ++
+            "\n" ++ times (level+1) "  " ++ show' l (level+1) ++
+            "\n" ++ times (level+1) "  " ++ show' r (level+1)
+          times n xs = concat (replicate n xs)
+
+data Axis = X | Y | Z
     deriving (Show)
-data BIHNode = BIHN Axis Float Float 
+data BIHNode = BIHN Axis Float Float
     deriving (Show)
-type BIH = Tree BIHNode [Triangle]
+
+type BIH = Tree BIHNode (Vector Triangle)
 
 height :: Tree a b -> Int
 height (Leaf _)       = 1
 height (Branch _ l r) = 1 + max (height l) (height r)
 
-flatten :: Tree BIHNode [Triangle] -> [Triangle]
+flatten :: BIH -> Vector Triangle
 flatten (Leaf x) = x
-flatten (Branch _ l r) = flatten l ++ flatten r
+flatten (Branch _ l r) = flatten l <> flatten r
 
-numLeaves :: Tree BIHNode [Triangle] -> Int
+numLeaves :: BIH -> Int
 numLeaves (Branch _ l r) = numLeaves l + numLeaves r
 numLeaves _ = 1
 
-longestLeaf :: Tree a [b] -> Int
+longestLeaf :: Tree a (Vector b) -> Int
 longestLeaf (Branch _ l r) = max (longestLeaf l) (longestLeaf r)
-longestLeaf (Leaf l) = length l
+longestLeaf (Leaf l) = V.length l
 
 {-
 An axis-aligned bounding box can be defined by only two points,
@@ -64,21 +71,21 @@ length 1 is (V3 -0.5 -0.5 -0.5, V3 0.5 0.5 0.5)
 type Bounds = (V3 Float, V3 Float)
 
 makeBIH :: [Triangle] -> BIH
-makeBIH tris = bih (boundingBox tris) tris
+makeBIH tris = bih (boundingBox tris) (V.fromList tris)
 
-bih :: Bounds -> [Triangle] -> BIH
+bih :: Bounds -> Vector Triangle -> BIH
 bih bbox geom
     | length geom < leafLimit = Leaf geom
-    | null leftTris  = Branch (BIHN axis lmax rmin)
-                              (Leaf [])
-                              (Leaf rightTris)
+    | null leftTris = Branch (BIHN axis lmax rmin)
+                             (Leaf V.empty)
+                             (Leaf $ V.fromList rightTris)
     | null rightTris = Branch (BIHN axis lmax rmin)
-                              (Leaf leftTris)
-                              (Leaf [])
+                              (Leaf $ V.fromList leftTris)
+                              (Leaf V.empty)
     | otherwise = Branch (BIHN axis lmax rmin)
-                         (bih (boundingBox leftTris ) leftTris )
-                         (bih (boundingBox rightTris) rightTris)
-    where (leftTris, lmax, rightTris, rmin, axis) = split bbox geom
+                         (bih (boundingBox leftTris) $ V.fromList leftTris)
+                         (bih (boundingBox rightTris) $ V.fromList rightTris)
+    where (leftTris, lmax, rightTris, rmin, axis) = split bbox $ V.toList geom
           leafLimit = 15
 
 split :: Bounds -> [Triangle] -> ([Triangle], Float, [Triangle], Float, Axis)
@@ -109,16 +116,16 @@ averagePoints verts = fmap (/genericLength verts) (sum verts)
 -- V3 0.5 0.5 0.5
 
 dimX, dimY, dimZ :: Bounds -> Float
-dimX b = (snd b)^._x - (fst b)^._x
-dimY b = (snd b)^._y - (fst b)^._y
-dimZ b = (snd b)^._z - (fst b)^._z
+dimX b = snd b ^. _x - fst b ^. _x
+dimY b = snd b ^. _y - fst b ^. _y
+dimZ b = snd b ^. _z - fst b ^. _z
 
 longestAxis :: Bounds -> Axis
 longestAxis b =
     fst . maximumBy (comparing snd) $ zip [X,Y,Z] [dimX b, dimY b, dimZ b]
 
 boundingBox :: [Triangle] -> Bounds
-boundingBox geom = getBounds . concatMap vertices $ geom
+boundingBox = getBounds . concatMap vertices
 
 projectToAxis :: Axis -> V3 Float -> Float
 projectToAxis ax (V3 x y z) =
@@ -129,55 +136,37 @@ projectToAxis ax (V3 x y z) =
 
 {- Convenience function -}
 intersectBIH :: Scene -> Ray -> Maybe Intersection
-intersectBIH scene ray =
-    intersectBIH' (bounds scene) (sceneBIH scene) ray
+intersectBIH scene =
+    intersectBIH (bounds scene) (sceneBIH scene) 
 
-intersectBIH' :: Bounds -> BIH -> Ray -> Maybe Intersection
+intersectBIH' :: Bounds -> BIHV -> Ray -> Maybe Intersection
 intersectBIH' _ (Leaf geom) ray =
-        let intersections = catMaybes (map (intersectTri ray) geom)
-        in  case intersections of
-                [] -> Nothing
-                _  -> Just (minimumBy (comparing dist) intersections)
+    let intersections = V.mapMaybe (intersectTri ray) geom
+    in  if V.null intersections
+            then Nothing
+            else Just $ minimumBy (comparing dist) intersections
 
-{-
-Recursively intersect each child in the order that the ray reaches it. I
-previously wrote this:
-| intersectsLeft && intersectsRight =
-    case signum (projectToAxis ax (direction ray)) of
-        1.0  -> intersectBIH' left l ray <|> intersectBIH' right r ray
-        -1.0 -> intersectBIH' right r ray <|> intersectBIH' left l ray
-        0.0  -> let intersections = catMaybes
-                        [intersectBIH' left l ray, intersectBIH' right r ray]
-                in  minimumByMay (comparing dist) intersections
-This assumes that if the ray is going left to right and intersects both left
-and right bounding boxes, then any intersections in the left bounding box will
-be closer than those in the right one.
-
-Which isn't correct, because boxes can overlap and so members of the right child
-can be closer than members of the left child.
--}
 intersectBIH' bbox (Branch (BIHN ax lmax rmin) l r) ray
-    | intersectsLeft && intersectsRight =
-        let intersections = catMaybes
-                [intersectBIH' left l ray, intersectBIH' right r ray]
+    | intersectsLeft && intersectsRight = 
+        let intersections = catMaybes [intersectBIH' left l ray, intersectBIH' right r ray]
         in  minimumByMay (comparing dist) intersections
     | intersectsLeft  = intersectBIH' left l ray
     | intersectsRight = intersectBIH' right r ray
     | otherwise       = Nothing
-    where intersectsLeft  = intersectsBB left ray
-          intersectsRight = intersectsBB right ray
-          left =
-              let (low, V3 x y z) = bbox
-              in  case ax of
-                      X -> (low, V3 lmax y z)
-                      Y -> (low, V3 x lmax z)
-                      Z -> (low, V3 x y lmax)
-          right =
-              let (V3 x y z, high) = bbox
-              in  case ax of
-                      X -> (V3 rmin y z, high)
-                      Y -> (V3 x rmin z, high)
-                      Z -> (V3 x y rmin, high)
+        where intersectsLeft  = intersectsBB left ray
+              intersectsRight = intersectsBB right ray
+              left =
+                  let (low, V3 x y z) = bbox
+                  in  case ax of
+                          X -> (low, V3 lmax y z)
+                          Y -> (low, V3 x lmax z)
+                          Z -> (low, V3 x y lmax)
+              right =
+                  let (V3 x y z, high) = bbox
+                  in  case ax of
+                          X -> (V3 rmin y z, high)
+                          Y -> (V3 x rmin z, high)
+                          Z -> (V3 x y rmin, high)
 
 intersectsBB' :: Bounds -> Ray -> Bool
 intersectsBB' (low, high) (Ray v dir _) =
@@ -249,31 +238,3 @@ getBounds verts =
         [minX, minY, minZ] = map minimum [xProject, yProject, zProject]
         [maxX, maxY, maxZ] = map maximum [xProject, yProject, zProject]
     in  (V3 minX minY minZ, V3 maxX maxY maxZ)
-
-{-
-projectToPlane :: Axis -> V3 Float -> V2 FloatctsLeft  = intersectsBB left ray
-          intersectsRight = intersectsBB right ray
-          left =
-              let (low, V3 x y z) = bbox
-              in  case ax of
-                      X -> (low, V3 lmax y z)
-                      Y -> (low, V3 x lmax z)
-                      Z -> (low, V3 x y lmax)
-          right =
-              let (V3 x y z, high) = bbox
-              in  case ax of
-                      X -> (V3 rmin y z, high)
-                      Y -> (V3 x rmin z, high)
-                      Z -> (V3 x y rmin, high)
-
-intersectsBB :: Bounds -> Ray -> Bool
-intersectsBB (low, high) (Ray v dir _) =
-    let dirfrac = fmap (1/) dir
-        t1 = (low^._x  - v^._x) * dirfrac^._x
-        t2 = (high^._x - v^._x) * dirfrac^._x
-        t3 = (low^._y  - v^._
-projectToPlane ax (V3 x y z) = case ax of
-    X -> V2 y z
-    Y -> V2 x z
-    Z -> V2 x y
--}
