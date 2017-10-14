@@ -5,10 +5,8 @@ module BIH
      flatten,
      height,
      longestLeaf,
-     longestLeafv,
      makeBIH,
      numLeaves,
-     numLeavesv,
      intersectsBB,
      intersectBIH
     ) where
@@ -137,9 +135,9 @@ projectToAxis ax (V3 x y z) =
 {- Convenience function -}
 intersectBIH :: Scene -> Ray -> Maybe Intersection
 intersectBIH scene =
-    intersectBIH (bounds scene) (sceneBIH scene) 
+    intersectBIH' (bounds scene) (sceneBIH scene)
 
-intersectBIH' :: Bounds -> BIHV -> Ray -> Maybe Intersection
+intersectBIH' :: Bounds -> BIH -> Ray -> Maybe Intersection
 intersectBIH' _ (Leaf geom) ray =
     let intersections = V.mapMaybe (intersectTri ray) geom
     in  if V.null intersections
