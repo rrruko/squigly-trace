@@ -13,10 +13,9 @@ module BIH
 
 import Geometry
 
-import Control.Lens ((^.))
 import Data.List
 import Data.Maybe
-import Data.Ord
+import Data.Ord (comparing)
 import Linear.V2
 import Linear.V3
 import Safe (maximumDef, minimumDef, minimumByMay)
@@ -38,8 +37,6 @@ pretty t = show' t 0
             "\n" ++ times (level+1) "  " ++ show' r (level+1)
           times n xs = concat (replicate n xs)
 
-data Axis = X | Y | Z
-    deriving (Show)
 data BIHNode = BIHN Axis Float Float
     deriving (Show)
 

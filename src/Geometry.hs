@@ -5,13 +5,21 @@ Maintainer  : rukokarasu@gmail.com
 Stability   : experimental
 -}
 module Geometry
-    (Intersection(..),
+    (Axis(..),
+     Bounds,
+     Intersection(..),
      Ray(..),
      Triangle(..),
+     averagePoints,
+     boundingBox,
+     dim,
+     longestAxis,
+     intersectsBB,
      intersectTri,
      normal,
      rayFromVerts,
      pointInTriangle,
+     projectToAxis,
      rotate,
      rotMatrixRads,
      rotVert,
@@ -19,10 +27,14 @@ module Geometry
     ) where
 
 import Color(Material)
-import Linear.Metric (dot, normalize)
-import Linear.V3
+
+import Control.Lens ((^.))
+import Data.List
 import Data.Matrix (Matrix, (!), fromList)
+import Data.Ord (comparing)
 import Linear.Vector ((*^))
+import Linear.Metric (dot)
+import Linear.V3
 
 data Ray = Ray {
     vertex :: V3 Float,
@@ -36,6 +48,9 @@ data Triangle = Triangle {
     tThird :: V3 Float,
     material :: Material 
 }
+
+data Axis = X | Y | Z
+    deriving (Show)
 
 instance Show Triangle where
     show (Triangle f s t m) = unwords [show f, show s, show t, show m]
@@ -128,42 +143,6 @@ getBounds verts =
         [maxX, maxY, maxZ] = map maximum [xProject, yProject, zProject]
     in  (V3 minX minY minZ, V3 maxX maxY maxZ)
 
-{-
-This cuts run time by a few percentage points over intersectsBB'
-
-Intersecting bounding boxes is taking up the most time in this program, as
-one would expect.
-
-I ran a profile with a resolution of 540x540 with only 1 sample.
-This function was entered 59809853 times, which gives an average of 205 entries
-per ray. I would have expected about 20! The best possible would be about
-log2(6000) = 13, but that's only if 1) the boxes always split the candidate
-triangles in half and 2) every ray intersects only one box, rather than
-several, which are both unrealistic expectations. Still, 200 seems very wrong.
-
-[ruko ~ 20:38] $ ghci
-GHCi, version 8.0.1: http://www.haskell.org/ghc/  :? for help
-Prelude> let intersections = 59809853
-Prelude> let rays = 540 * 540 * 1 -- 540x540px, 1 sample
-Prelude> rays
-291600
-Prelude> intersections/rays
-205.10923525377228
-
-This is progress, as I was previously worried that the function is just too
-slow. The new knowledge that boxes are being intersected too often indicates
-I should... maybe just try a different acceleration structure.
-
-Though I should also refactor this whole program a lot, because it's a mess
-
-Is the scene I've been using just pathological?
-    It might be since it consists of a box with a lot of stuff inside it.
-    However, a good acceleration structure should be able to handle that.
-Is my BIH construction algorithm fucky?
-    Seems likely, since it's a complex algorithm and I implemented it sloppily.
-Some other third thing?
-    Probably, because computers hate me.
--}
 intersectsBB :: Bounds -> Ray -> Bool
 intersectsBB ((V3 lx ly lz), (V3 hx hy hz)) (Ray (V3 vx vy vz) (V3 dirx diry dirz) _) =
     let (V3 dfx dfy dfz) = V3 (1/dirx) (1/diry) (1/dirz)
@@ -180,19 +159,14 @@ intersectsBB ((V3 lx ly lz), (V3 hx hy hz)) (Ray (V3 vx vy vz) (V3 dirx diry dir
 averagePoints :: [V3 Float] -> V3 Float
 averagePoints verts = fmap (/genericLength verts) (sum verts)
 
--- genericLength [V3 1 1 1, V3 0 0 0] = 2.0
--- fmap (/2.0) $ sum [V3 1 1 1, V3 0 0 0]
--- fmap (/2.0) $ V3 1 1 1
--- V3 0.5 0.5 0.5
-
-dimX, dimY, dimZ :: Bounds -> Float
-dimX b = snd b ^. _x - fst b ^. _x
-dimY b = snd b ^. _y - fst b ^. _y
-dimZ b = snd b ^. _z - fst b ^. _z
+dim :: Axis -> Bounds -> Float
+dim X b = snd b ^. _x - fst b ^. _x
+dim Y b = snd b ^. _y - fst b ^. _y
+dim Z b = snd b ^. _z - fst b ^. _z
 
 longestAxis :: Bounds -> Axis
 longestAxis b =
-    fst . maximumBy (comparing snd) $ zip [X,Y,Z] [dimX b, dimY b, dimZ b]
+    fst . maximumBy (comparing snd) $ zip [X,Y,Z] [dim X b, dim Y b, dim Z b]
 
 boundingBox :: [Triangle] -> Bounds
 boundingBox = getBounds . concatMap vertices
