@@ -13,6 +13,7 @@ module Geometry
      averagePoints,
      boundingBox,
      dim,
+     getBounds,
      longestAxis,
      intersectsBB,
      intersectTri,
@@ -33,7 +34,7 @@ import Data.List
 import Data.Matrix (Matrix, (!), fromList)
 import Data.Ord (comparing)
 import Linear.Vector ((*^))
-import Linear.Metric (dot)
+import Linear.Metric (dot, norm)
 import Linear.V3
 
 data Ray = Ray {
@@ -178,4 +179,5 @@ projectToAxis ax (V3 x y z) =
         Y -> y
         Z -> z
 
-
+area :: Triangle -> Float
+area (Triangle a b c _) = norm ((b - a) `cross` (c - a)) / 2
