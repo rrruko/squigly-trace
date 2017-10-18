@@ -52,7 +52,7 @@ computePixel scene cam (Settings (w,h) _ numSamples) randgen x y =
     where newRand = last gens
           rays' = map getRay gens
           gens = take numSamples $ replicateStdGen randgen
-          getRay gen' = raytrace gen' scene $ makeRay (w,h) cam gen' x y
+          getRay gen' = raytrace gen' scene (makeRay (w,h) cam gen' x y) 0
 
 -- | Called once per sample per pixel.
 makeRay :: (Int, Int) -> Camera -> StdGen -> Int -> Int -> Ray
@@ -108,19 +108,17 @@ replicateStdGen gen =
 -- the "original color" is determined later in time by bouncing the ray.
 -- If a ray bounces enough times without hitting a light source, we can assume
 -- it's black.
-raytrace :: StdGen -> Scene a -> Ray -> RGB Float
-raytrace gen scene@(Scene geom isect) ray
-    | bounces ray >= maxBounces = black
-    | otherwise =
-        case isect geom ray of
-            Nothing -> black
-            Just inter ->
-                let Mat _ref refColor emit emitCol = material $ surface inter
-                    newRay = bounceRay gen ray inter
-                    newGen = snd (next gen)
-                in  raytrace newGen scene newRay * refColor
-                        + fmap (*emit) emitCol
-    where maxBounces = 4
+raytrace :: StdGen -> Scene a -> Ray -> Int -> RGB Float
+raytrace _ _ _ 4 = black
+raytrace gen scene@(Scene geom isect) ray bounces =
+    case isect geom ray of
+        Nothing -> black
+        Just inter ->
+            let Mat _ref refColor emit emitCol = material $ surface inter
+                newRay = bounceRay gen ray inter
+                newGen = snd (next gen)
+            in  raytrace newGen scene newRay (bounces + 1) * refColor
+                    + fmap (*emit) emitCol
 
 raycast :: Scene a -> Ray -> RGB Float
 raycast (Scene geom isect) ray =
@@ -156,9 +154,9 @@ scatterRay gen ray inter =
         old = signum (direction ray `dot` normal (surface inter))
         new = signum (newDir        `dot` normal (surface inter))
     in  if old == new then
-        Ray (intersectPoint inter) (-newDir) (bounces ray + 1)
+        Ray (intersectPoint inter) (-newDir)
     else
-        Ray (intersectPoint inter)   newDir  (bounces ray + 1)
+        Ray (intersectPoint inter)   newDir
 
 -- | This does not take a StdGen parameter because it deterministically reflects
 -- the ray.
@@ -167,7 +165,7 @@ reflectRay ray inter =
     let dn = normalize $ normal (surface inter)
         di = direction ray
         newDir = di - dn ^* (2 * (dn `dot` di))
-    in  Ray (intersectPoint inter) newDir (bounces ray + 1)
+    in  Ray (intersectPoint inter) newDir
 
 -- | Turn a random number generator into a vector of length 1 with
 -- an equal chance of any angle.
