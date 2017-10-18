@@ -21,7 +21,6 @@ import           Geometry
 
 import           Codec.Picture
 import           Data.Matrix   (Matrix)
-import           Data.Maybe
 import           Linear.Metric (dot, norm, normalize)
 import           Linear.V3
 import           Linear.Vector
@@ -52,7 +51,7 @@ computePixel scene cam (Settings (w,h) _ numSamples) randgen x y =
     where newRand = last gens
           rays' = map getRay gens
           gens = take numSamples $ replicateStdGen randgen
-          getRay gen' = raytrace gen' scene (makeRay (w,h) cam gen' x y) 0
+          getRay gen' = raycast scene (makeRay (w,h) cam gen' x y)
 
 -- | Called once per sample per pixel.
 makeRay :: (Int, Int) -> Camera -> StdGen -> Int -> Int -> Ray
@@ -64,7 +63,7 @@ makeRay (w,h) cam gen x y =
         xoffs = (fromIntegral x + dx - (ww / 2)) / ww
         yoffs = ((hh / 2) - fromIntegral y + dy) / hh
         dir = V3 1 xoffs yoffs `rotVert` rotation cam
-    in  Ray (position cam) dir 0
+    in  Ray (position cam) dir
 
 -- | Take an RGB Float representing unbounded light intensity in each color,
 -- and turn it into a PixelRGB8, which is bounded at 255. There are a couple ways
@@ -126,13 +125,10 @@ raycast (Scene geom isect) ray =
         Nothing -> black
         Just inter ->
             let Mat _ refColor _ _ = material $ surface inter
-                heaven = V3 0 2 1
-                shadowRay = Ray (intersectPoint inter)
-                                (heaven - intersectPoint inter)
-                                0
+                heaven = V3 0 3 (-1)
+                shadowRay = intersectPoint inter `to` heaven
                 distanceToHeaven = norm (intersectPoint inter - heaven)
-                shadowed = let s = isect geom shadowRay
-                           in  isJust s && dist (fromJust s) < distanceToHeaven
+                shadowed = maybe False ((< distanceToHeaven) . dist) (isect geom shadowRay)
             in  if shadowed then black else (*(2/distanceToHeaven)) <$> refColor
 
 bounceRay :: StdGen -> Ray -> Intersection -> Ray

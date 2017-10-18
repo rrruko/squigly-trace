@@ -20,12 +20,12 @@ module Geometry
      intersectTri,
      naiveIntersect,
      normal,
-     rayFromVerts,
      pointInTriangle,
      projectToAxis,
      rotate,
      rotMatrixRads,
      rotVert,
+     to,
      vertices
     ) where
 
@@ -65,7 +65,7 @@ data Scene a = Scene {
 }
 
 instance Show a => Show (Scene a) where
-  show (Scene g i) = show g
+  show (Scene g _) = show g
 
 data Intersection = Intersection {
     intersectPoint :: V3 Float,
@@ -143,8 +143,8 @@ pointInTriangle p tri@(Triangle a b c _) =
         insideCA = (a - c) `cross` (p - c)
     in  all ((>0) . (`dot` normal tri)) [insideAB, insideBC, insideCA]
 
-rayFromVerts :: V3 Float -> V3 Float -> Ray
-rayFromVerts a b = Ray a (b - a) 0
+to :: V3 Float -> V3 Float -> Ray
+a `to` b = Ray a (b - a)
 
 {-
 An axis-aligned bounding box can be defined by only two points,
@@ -164,7 +164,7 @@ getBounds verts =
     in  (V3 minX minY minZ, V3 maxX maxY maxZ)
 
 intersectsBB :: Bounds -> Ray -> Bool
-intersectsBB (V3 lx ly lz, V3 hx hy hz) (Ray (V3 vx vy vz) (V3 dirx diry dirz) _) =
+intersectsBB (V3 lx ly lz, V3 hx hy hz) (Ray (V3 vx vy vz) (V3 dirx diry dirz)) =
     let (V3 dfx dfy dfz) = V3 (1/dirx) (1/diry) (1/dirz)
         t1 = (lx  - vx) * dfx
         t2 = (hx - vx) * dfx
