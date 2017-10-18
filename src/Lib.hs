@@ -120,6 +120,22 @@ raytrace gen scene@(Scene geom isect) ray
                         + fmap (*emit) emitCol
     where maxBounces = 4
 
+-- | Non-recursive analogue to raytrace.
+raycast :: Scene a -> Ray -> RGB Float
+raycast (Scene geom isect) ray =
+    case isect geom ray of
+        Nothing -> black
+        Just inter ->
+            let Mat _ refColor _ _ = material $ surface inter
+                heaven = V3 0 2 1
+                shadowRay = Ray (intersectPoint inter)
+                                (heaven - intersectPoint inter)
+                                0
+                distanceToHeaven = norm (intersectPoint inter - heaven)
+                shadowed = let s = isect geom shadowRay
+                           in  isJust s && dist (fromJust s) < distanceToHeaven
+            in  if shadowed then black else (*(2/distanceToHeaven)) <$> refColor
+
 bounceRay :: StdGen -> Ray -> Intersection -> Ray
 bounceRay gen ray inter =
     let Mat ref _ _ _ = material $ surface inter
