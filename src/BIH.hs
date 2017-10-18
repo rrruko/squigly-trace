@@ -1,5 +1,5 @@
 module BIH
-    (BIH,
+    (BIH(..),
      Scene(..),
      boundingBox,
      flatten,
@@ -9,6 +9,7 @@ module BIH
      numLeaves,
      intersectsBB,
      intersectBIH,
+     pretty,
     ) where
 
 import Geometry
@@ -16,13 +17,11 @@ import Geometry
 import Data.List
 import Data.Maybe
 import Data.Ord (comparing)
-import Linear.V2
 import Linear.V3
 import Safe (maximumDef, minimumDef, minimumByMay)
 import qualified Data.Vector as V
 import Data.Vector (Vector)
 import Data.Semigroup
-import Debug.Trace
 
 data Tree a b = Leaf b | Branch a (Tree a b) (Tree a b) deriving (Show)
 
@@ -42,7 +41,7 @@ type BIHTree = Tree BIHNode (Vector Triangle)
 data BIH = BIH {
     bounds :: Bounds,
     tree :: BIHTree
-}
+} deriving (Show)
 
 height :: Tree a b -> Int
 height (Leaf _)       = 1
@@ -100,7 +99,7 @@ split bbox geom = (leftTris, lmax, rightTris, rmin, ax)
           -- of a bounding box. they introduce no graphical distortion.
 
 intersectBIH :: BIH -> Ray -> Maybe Intersection
-intersectBIH bih = intersectBIH' (bounds bih) (tree bih)
+intersectBIH b = intersectBIH' (bounds b) (tree b)
 
 intersectBIH' :: Bounds -> BIHTree -> Ray -> Maybe Intersection
 intersectBIH' _ (Leaf geom) ray =

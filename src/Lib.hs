@@ -10,6 +10,8 @@
 module Lib
     ( Camera(..)
     , Settings(..)
+    , raytrace
+    , raycast
     , render
     ) where
 
@@ -120,7 +122,6 @@ raytrace gen scene@(Scene geom isect) ray
                         + fmap (*emit) emitCol
     where maxBounces = 4
 
--- | Non-recursive analogue to raytrace.
 raycast :: Scene a -> Ray -> RGB Float
 raycast (Scene geom isect) ray =
     case isect geom ray of

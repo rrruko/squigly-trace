@@ -8,7 +8,7 @@ Stability   : experimental
 {-# LANGUAGE FlexibleContexts #-}
 
 module Obj
-    (sceneFromObj
+    (trisFromObj
     ) where
 
 {-
@@ -39,29 +39,26 @@ or something.
 -}
 
 import Color (Material(..), RGB(..))
-import BIH hiding (bounds)
 import Geometry hiding (vertex)
 
-import Control.Monad (void)
-import qualified Debug.Trace as Trace
+import Control.Monad (when, void)
 import Linear.V3
 import Text.Parsec
-import Text.Parsec.Char
 import Text.Parsec.String
-import Text.Parsec.Combinator
 
--- |Load the material referenced by a .obj file and generate a Scene.
-sceneFromObj :: String -> IO (Scene BIH)
-sceneFromObj str = do
-    let Right (mtllib, objs) = parse loadObjFile "" str
-    mtlFile <- readFile ("./data/" ++ mtllib)
+-- |Load the material referenced by a .obj file and generate triangles.
+trisFromObj :: Bool -> String -> IO [Triangle]
+trisFromObj debug str = do
+    let Right (mtllib', objs) = parse loadObjFile "" str
+    mtlFile <- readFile ("./data/" ++ mtllib')
     let Right mats = parse loadMtlFile "" mtlFile
     let triangles = makeScene objs mats
-    print $ head objs
-    print mats
-    return $ Scene (makeBIH triangles) intersectBIH
+    when debug $ do
+        print $ head objs
+        print mats
+    return triangles
 
--- |Match each object with it's material and return the resulting scene.
+-- |Match each object with its material and return the resulting scene.
 makeScene :: [Object] -> [(String, Material)] -> [Triangle]
 makeScene objs mats =
     let matches = [(obj, mat) | obj <- objs, mat <- mats, mtl obj == fst mat]
@@ -70,11 +67,11 @@ makeScene objs mats =
 
 -- |Convert the object to a list of triangles all having the given material.
 makeTris :: [V3 Float] -> (Object, (String, Material)) -> [Triangle]
-makeTris vertices (obj, mat) = map makeTri $ faces obj
+makeTris vs (obj, mat) = map makeTri $ faces obj
     where makeTri (V3 a b c) =
-              Triangle (vertices !! (a-1))
-                       (vertices !! (b-1))
-                       (vertices !! (c-1))
+              Triangle (vs !! (a-1))
+                       (vs !! (b-1))
+                       (vs !! (c-1))
                        (snd mat)
 
 data Object = Object {
@@ -101,7 +98,7 @@ parseObj = do
 
 objectName :: Parser String
 objectName = do
-    char 'o'
+    void $ char 'o'
     spaces
     name <- many1 (alphaNum <|> oneOf "._")
     spaces
@@ -109,7 +106,7 @@ objectName = do
 
 vertex :: Parser (V3 Float)
 vertex = do
-    char 'v'
+    void $ char 'v'
     spaces
     fmap swapYZ vec3
 
@@ -126,7 +123,7 @@ fractional = do
 
 materialName :: Parser String
 materialName = do
-    string "usemtl"
+    void $ string "usemtl"
     spaces
     mtl <- many1 $ noneOf " \t\n\r\f\v"
     spaces
@@ -134,7 +131,7 @@ materialName = do
 
 mtllib :: Parser String
 mtllib = do
-    string "mtllib"
+    void $ string "mtllib"
     spaces
     filename <- many1 $ noneOf " \t\n\r\f\v"
     spaces
