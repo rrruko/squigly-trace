@@ -43,8 +43,7 @@ import Linear.V3
 
 data Ray = Ray {
     vertex :: V3 Float,
-    direction :: V3 Float,
-    bounces :: Int
+    direction :: V3 Float
 } deriving (Show)
 
 data Triangle = Triangle {
