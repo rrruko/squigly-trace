@@ -9,6 +9,7 @@ module Geometry
      Bounds,
      Intersection(..),
      Ray(..),
+     Scene(..),
      Triangle(..),
      averagePoints,
      boundingBox,
@@ -17,6 +18,7 @@ module Geometry
      longestAxis,
      intersectsBB,
      intersectTri,
+     naiveIntersect,
      normal,
      rayFromVerts,
      pointInTriangle,
@@ -30,9 +32,11 @@ module Geometry
 import Color(Material)
 
 import Control.Lens ((^.))
-import Data.List
+import Data.List hiding (intersect)
 import Data.Matrix (Matrix, (!), fromList)
+import Data.Maybe (catMaybes)
 import Data.Ord (comparing)
+import Debug.Trace (trace)
 import Linear.Vector ((*^))
 import Linear.Metric (dot, norm)
 import Linear.V3
@@ -47,7 +51,7 @@ data Triangle = Triangle {
     tFirst :: V3 Float,
     tSecond :: V3 Float,
     tThird :: V3 Float,
-    material :: Material 
+    material :: Material
 }
 
 data Axis = X | Y | Z
@@ -55,6 +59,14 @@ data Axis = X | Y | Z
 
 instance Show Triangle where
     show (Triangle f s t m) = unwords [show f, show s, show t, show m]
+
+data Scene a = Scene {
+    geometry :: a,
+    intersect :: a -> Ray -> Maybe Intersection
+}
+
+instance Show a => Show (Scene a) where
+  show (Scene g i) = show g
 
 data Intersection = Intersection {
     intersectPoint :: V3 Float,
@@ -112,9 +124,17 @@ intersectTri ray tri
     | direction ray `dot` normal tri == 0 = Nothing
     | rayDist > 0.001 && pointInTriangle inter tri = Just (Intersection inter rayDist tri)
     | otherwise = Nothing
-        where rayDist = ((tFirst tri - vertex ray) `dot` normal tri)
+        where normDir = norm $ direction ray
+              rayDist = ((tFirst tri - vertex ray) `dot` normal tri)
                   / (direction ray `dot` normal tri)
               inter = vertex ray + (rayDist *^ direction ray)
+
+naiveIntersect :: [Triangle] -> Ray -> Maybe Intersection
+naiveIntersect tris ray =
+    let intersections = catMaybes $ intersectTri ray <$> tris
+    in  case intersections of
+            [] -> Nothing
+            xs -> Just $ minimumBy (comparing dist) xs
 
 
 pointInTriangle :: V3 Float -> Triangle -> Bool
@@ -145,7 +165,7 @@ getBounds verts =
     in  (V3 minX minY minZ, V3 maxX maxY maxZ)
 
 intersectsBB :: Bounds -> Ray -> Bool
-intersectsBB ((V3 lx ly lz), (V3 hx hy hz)) (Ray (V3 vx vy vz) (V3 dirx diry dirz) _) =
+intersectsBB (V3 lx ly lz, V3 hx hy hz) (Ray (V3 vx vy vz) (V3 dirx diry dirz) _) =
     let (V3 dfx dfy dfz) = V3 (1/dirx) (1/diry) (1/dirz)
         t1 = (lx  - vx) * dfx
         t2 = (hx - vx) * dfx

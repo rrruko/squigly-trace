@@ -51,7 +51,7 @@ import Text.Parsec.String
 import Text.Parsec.Combinator
 
 -- |Load the material referenced by a .obj file and generate a Scene.
-sceneFromObj :: String -> IO Scene
+sceneFromObj :: String -> IO (Scene BIH)
 sceneFromObj str = do
     let Right (mtllib, objs) = parse loadObjFile "" str
     mtlFile <- readFile ("./data/" ++ mtllib)
@@ -59,7 +59,7 @@ sceneFromObj str = do
     let triangles = makeScene objs mats
     print $ head objs
     print mats
-    return $ Scene (boundingBox triangles) (makeBIH triangles)
+    return $ Scene (makeBIH triangles) intersectBIH
 
 -- |Match each object with it's material and return the resulting scene.
 makeScene :: [Object] -> [(String, Material)] -> [Triangle]

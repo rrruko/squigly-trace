@@ -8,7 +8,7 @@ module BIH
      makeBIH,
      numLeaves,
      intersectsBB,
-     intersectBIH
+     intersectBIH,
     ) where
 
 import Geometry
@@ -24,12 +24,10 @@ import Data.Vector (Vector)
 import Data.Semigroup
 import Debug.Trace
 
-data Scene = Scene { bounds :: Bounds, sceneBIH :: BIH } deriving (Show)
-
 data Tree a b = Leaf b | Branch a (Tree a b) (Tree a b) deriving (Show)
 
-pretty :: BIH -> String
-pretty t = show' t 0
+pretty :: Scene BIH -> String
+pretty scene = show' (tree $ geometry scene) 0
     where show' (Leaf a) level = times level "  " ++ show a
           show' (Branch x l r) level =
                     times level     "  " ++ "Br " ++ show x ++
@@ -40,17 +38,21 @@ pretty t = show' t 0
 data BIHNode = BIHN Axis Float Float
     deriving (Show)
 
-type BIH = Tree BIHNode (Vector Triangle)
+type BIHTree = Tree BIHNode (Vector Triangle)
+data BIH = BIH {
+    bounds :: Bounds,
+    tree :: BIHTree
+}
 
 height :: Tree a b -> Int
 height (Leaf _)       = 1
 height (Branch _ l r) = 1 + max (height l) (height r)
 
-flatten :: BIH -> Vector Triangle
+flatten :: BIHTree -> Vector Triangle
 flatten (Leaf x) = x
 flatten (Branch _ l r) = flatten l <> flatten r
 
-numLeaves :: BIH -> Int
+numLeaves :: BIHTree -> Int
 numLeaves (Branch _ l r) = numLeaves l + numLeaves r
 numLeaves _ = 1
 
@@ -59,9 +61,11 @@ longestLeaf (Branch _ l r) = max (longestLeaf l) (longestLeaf r)
 longestLeaf (Leaf l) = V.length l
 
 makeBIH :: [Triangle] -> BIH
-makeBIH tris = bih (boundingBox tris) (V.fromList tris)
+makeBIH tris =
+    let bbox = boundingBox tris
+    in  BIH bbox (bih bbox (V.fromList tris))
 
-bih :: Bounds -> Vector Triangle -> BIH
+bih :: Bounds -> Vector Triangle -> BIHTree
 bih bbox geom
     | length geom < leafLimit = Leaf geom
     | null leftTris = Branch (BIHN axis lmax rmin)
@@ -95,12 +99,10 @@ split bbox geom = (leftTris, lmax, rightTris, rmin, ax)
           -- cause some geometry to be missed due to being on the edge
           -- of a bounding box. they introduce no graphical distortion.
 
-{- Convenience function -}
-intersectBIH :: Scene -> Ray -> Maybe Intersection
-intersectBIH scene =
-    intersectBIH' (bounds scene) (sceneBIH scene)
+intersectBIH :: BIH -> Ray -> Maybe Intersection
+intersectBIH bih = intersectBIH' (bounds bih) (tree bih)
 
-intersectBIH' :: Bounds -> BIH -> Ray -> Maybe Intersection
+intersectBIH' :: Bounds -> BIHTree -> Ray -> Maybe Intersection
 intersectBIH' _ (Leaf geom) ray =
     let intersections = V.mapMaybe (intersectTri ray) geom
     in  if V.null intersections

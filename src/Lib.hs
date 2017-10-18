@@ -19,7 +19,8 @@ import           Geometry
 
 import           Codec.Picture
 import           Data.Matrix   (Matrix)
-import           Linear.Metric (dot, normalize)
+import           Data.Maybe
+import           Linear.Metric (dot, norm, normalize)
 import           Linear.V3
 import           Linear.Vector
 import           System.Random
@@ -34,7 +35,7 @@ data Settings = Settings {
 }
 
 -- | Compute the image and write it to a file
-render :: Scene -> Camera -> Settings -> IO ()
+render :: Scene a -> Camera -> Settings -> IO ()
 render scene cam settings@(Settings (w,h) path' _) = do
     rng <- getStdGen
     let (_, png) = generateFoldImage (computePixel scene cam settings) rng w h
@@ -43,13 +44,13 @@ render scene cam settings@(Settings (w,h) path' _) = do
 -- | Compute the ray corresponding to a pair of screen coordinates and return
 -- its value (with an rng to allow randomness down the pipeline)
 -- This is called exactly once per pixel.
-computePixel :: Scene -> Camera -> Settings -> StdGen -> Int -> Int -> (StdGen, PixelRGB8)
+computePixel :: Scene a -> Camera -> Settings -> StdGen -> Int -> Int -> (StdGen, PixelRGB8)
 computePixel scene cam (Settings (w,h) _ numSamples) randgen x y =
     (newRand, colorToPixelRGB8 $ average rays')
     where newRand = last gens
           rays' = map getRay gens
           gens = take numSamples $ replicateStdGen randgen
-          getRay gen' = resultOfRay gen' scene $ makeRay (w,h) cam gen' x y
+          getRay gen' = raytrace gen' scene $ makeRay (w,h) cam gen' x y
 
 -- | Called once per sample per pixel.
 makeRay :: (Int, Int) -> Camera -> StdGen -> Int -> Int -> Ray
@@ -103,18 +104,19 @@ replicateStdGen gen =
 --     (the ray reflects deterministically)
 -- Since raytracing works backwards by tracing from the camera into the scene,
 -- the "original color" is determined later in time by bouncing the ray.
--- If a ray has bounced 4 times, its original color is defined as black.
-resultOfRay :: StdGen -> Scene -> Ray -> RGB Float
-resultOfRay gen scene ray
+-- If a ray bounces enough times without hitting a light source, we can assume
+-- it's black.
+raytrace :: StdGen -> Scene a -> Ray -> RGB Float
+raytrace gen scene@(Scene geom isect) ray
     | bounces ray >= maxBounces = black
     | otherwise =
-        case BIH.intersectBIH scene ray of
+        case isect geom ray of
             Nothing -> black
             Just inter ->
                 let Mat _ref refColor emit emitCol = material $ surface inter
                     newRay = bounceRay gen ray inter
                     newGen = snd (next gen)
-                in  resultOfRay newGen scene newRay * refColor
+                in  raytrace newGen scene newRay * refColor
                         + fmap (*emit) emitCol
     where maxBounces = 4
 

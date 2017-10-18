@@ -1,7 +1,7 @@
 module Main where
 
 import BIH
-import Geometry (rotMatrixRads)
+import Geometry (Scene(..), Triangle(..), rotMatrixRads)
 import Lib (Camera(..), Settings(..), render)
 import Obj (sceneFromObj)
 
@@ -21,13 +21,13 @@ main = do
     let objPath = fromMaybe "./data/test5-subdivide.obj" $ args ^? element 2
     let cam = Camera (V3 0 7 0.75) (rotMatrixRads (pi/2) 0 (-pi/32))
     scene <- loadScene objPath
-    let bih' = sceneBIH scene
-    let bihSavePath = "./data/bih"
+    let bih' = geometry scene
+    {-let bihSavePath = "./data/bih"
     writeFile bihSavePath (show bih')
     putStrLn $ "Wrote BIH to " ++ bihSavePath
     putStrLn $ "BIH height is " ++ show (height bih')
     putStrLn $ "Length of longest leaf is " ++ show (longestLeaf bih')
-    putStrLn $ "Number of leaves is " ++ show (numLeaves bih')
+    putStrLn $ "Number of leaves is " ++ show (numLeaves bih')-}
     putStrLn "Rendering scene..."
     startTime <- getCurrentTime
     putStrLn $ "Started at " ++ showTime startTime
@@ -45,7 +45,7 @@ main = do
 showTime :: FormatTime f => f -> String
 showTime time = formatTime defaultTimeLocale "%T%P UTC" time
 
-loadScene :: FilePath -> IO Scene
+loadScene :: FilePath -> IO (Scene BIH)
 loadScene path = do
     obj <- readFile path
     sceneFromObj obj
