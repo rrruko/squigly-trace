@@ -59,13 +59,13 @@ computePixel :: Scene a -> Camera -> Settings -> StdGen -> Int -> Int -> (StdGen
 computePixel scene cam settings randgen x y =
     (newRand, colorToPixelRGB8 $ average rays')
     where numSamples = samples settings
-          dim = dimensions settings
+          wh = dimensions settings
           newRand = last gens
           rays' = map getRay gens
           gens = take numSamples $ replicateStdGen randgen
           getRay gen'
-              | cast settings = raycast scene (makeRay dim cam gen' x y)
-              | otherwise = raytrace gen' scene (makeRay dim cam gen' x y) 0
+              | cast settings = raycast scene (makeRay wh cam gen' x y)
+              | otherwise = raytrace gen' scene (makeRay wh cam gen' x y) 0
 
 -- | Called once per sample per pixel.
 makeRay :: (Int, Int) -> Camera -> StdGen -> Int -> Int -> Ray
