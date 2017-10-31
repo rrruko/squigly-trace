@@ -1,0 +1,23 @@
+newmtl Material.004
+reflective 0 0.050408 0.050408 0.050408
+emissive 0 0 0 0
+
+newmtl Material.001
+reflective 0.2 0.043584 0.258515 0.321582
+emissive 0 0 0 0
+
+newmtl Material.003
+reflective 0.2 0.608420 0.608420 0.608420
+emissive 0 0 0 0
+
+newmtl Material.002
+reflective 0 0 0 0
+emissive 100 1 1 1
+
+newmtl Material
+reflective 0.2 0.515584 0.024571 0.104109
+emissive 0 0 0 0
+
+newmtl Material.005
+reflective 1 0.80000 0.80000 0.80000
+emissive 0 0 0 0
