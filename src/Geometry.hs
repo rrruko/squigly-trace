@@ -120,7 +120,7 @@ intersectTri ray tri
         where normDir = normalize $ direction ray
               rayDist = ((tFirst tri - vertex ray) `dot` normal tri)
                   / (normDir `dot` normal tri)
-              inter = vertex ray + (rayDist *^ direction ray)
+              inter = vertex ray + rayDist *^ normDir
 
 naiveIntersect :: [Triangle] -> Ray -> Maybe Intersection
 naiveIntersect tris ray =
