@@ -23,7 +23,8 @@ in `/data`.
 
 Example usage: `stack exec squigly-trace -- -s 100 -p "~/scene.obj"` will parse
 a scene from the file `scene.obj` in your home directory, and look there for any
-.sq files referenced by `scene.obj`.
+.sq files referenced by `scene.obj`. After parsing, it will render the scene
+with 100 samples per pixel.
 
 # .sq file
 
