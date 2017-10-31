@@ -7,6 +7,8 @@
 --
 -----------------------------------------------------------------------------
 
+{-# LANGUAGE DeriveDataTypeable #-}
+
 module Lib
     ( Camera(..)
     , Settings(..)
@@ -20,7 +22,9 @@ import           Color
 import           Geometry
 
 import           Codec.Picture
+import           Data.Data (Data)
 import           Data.Matrix   (Matrix)
+import           Data.Typeable (Typeable)
 import           Linear.Metric (dot, norm, normalize)
 import           Linear.V3
 import           Linear.Vector
@@ -29,15 +33,21 @@ import           System.Random
 data Camera = Camera { position :: V3 Float, rotation :: Matrix Float }
     deriving (Show)
 
-data Settings = Settings {
-    dimensions :: (Int, Int),
-    path :: String,
-    samples :: Int
-}
+data Settings = Settings
+    { samples :: Int
+    , dimensions :: (Int, Int)
+    , savePath :: FilePath
+    , objPath :: FilePath
+    , debug :: Bool
+    , debugPath :: FilePath
+    , cast :: Bool
+    } deriving (Show, Data, Typeable)
 
 -- | Compute the image and write it to a file
 render :: Scene a -> Camera -> Settings -> IO ()
-render scene cam settings@(Settings (w,h) path' _) = do
+render scene cam settings = do
+    let (w,h) = dimensions settings
+    let path' = savePath settings
     rng <- getStdGen
     let (_, png) = generateFoldImage (computePixel scene cam settings) rng w h
     png `seq` writePng path' png -- evaluate it before trying to write it
@@ -46,12 +56,16 @@ render scene cam settings@(Settings (w,h) path' _) = do
 -- its value (with an rng to allow randomness down the pipeline)
 -- This is called exactly once per pixel.
 computePixel :: Scene a -> Camera -> Settings -> StdGen -> Int -> Int -> (StdGen, PixelRGB8)
-computePixel scene cam (Settings (w,h) _ numSamples) randgen x y =
+computePixel scene cam settings randgen x y =
     (newRand, colorToPixelRGB8 $ average rays')
-    where newRand = last gens
+    where numSamples = samples settings
+          dim = dimensions settings
+          newRand = last gens
           rays' = map getRay gens
           gens = take numSamples $ replicateStdGen randgen
-          getRay gen' = raycast scene (makeRay (w,h) cam gen' x y)
+          getRay gen'
+              | cast settings = raycast scene (makeRay dim cam gen' x y)
+              | otherwise = raytrace gen' scene (makeRay dim cam gen' x y) 0
 
 -- | Called once per sample per pixel.
 makeRay :: (Int, Int) -> Camera -> StdGen -> Int -> Int -> Ray

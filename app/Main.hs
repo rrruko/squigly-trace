@@ -12,19 +12,32 @@ import Data.Time.Clock
 import Data.Time.Format
 import Linear.V3
 import System.Environment
+import System.Console.CmdArgs
 
+squigly = Settings
+    { samples = 10 &= name "s"
+        &= help "How many samples per pixel to trace"
+    , dimensions = (540, 540) &= name "d"
+        &= help "Dimensions of the resulting image"
+    , savePath = "./render/result.png" &= typFile &= name "p"
+        &= help "Where to save the output"
+    , objPath = "./data/scene.obj" &= typFile
+        &= help "File to load .obj from"
+    , debug = def
+        &= help "Run in debug mode"
+    , debugPath = def &= typFile
+        &= help "File to write debug info to"
+    , cast = def
+        &= help "Raycast instead of raytracing (i.e. don't bounce rays)"
+    } &=
+    help "A cute raytracer" &=
+    summary "squigly-trace was made by Ruko (https://github.com/rukokarasu/)"
 
 main :: IO ()
 main = do
-    args <- getArgs
-    let settings = Settings {
-        dimensions = (540, 540),
-        samples = maybe 1 read $ args ^? element 0,
-        path    = fromMaybe "./render/result.png" $ args ^? element 1
-    }
-    let objPath = fromMaybe "./data/test5-subdivide.obj" $ args ^? element 2
+    settings <- cmdArgs squigly
     let cam = Camera (V3 0 7 0.75) (rotMatrixRads (pi/2) 0 (-pi/32))
-    scene <- sceneFromBIH <$> loadBIH True objPath
+    scene <- sceneFromBIH <$> loadBIH settings
     putStrLn "Rendering scene..."
     startTime <- getCurrentTime
     putStrLn $ "Started at " ++ showTime startTime
@@ -48,13 +61,13 @@ loadTris debug path = do
     obj <- readFile path
     trisFromObj debug obj
 
-loadBIH :: Bool -> FilePath -> IO BIH
-loadBIH debug path = do
-    tris <- loadTris debug path
+loadBIH :: Settings -> IO BIH
+loadBIH settings = do
+    tris <- loadTris (debug settings) (objPath settings)
     let bih = makeBIH tris
     let btree = tree bih
-    when debug $ do
-        let bihSavePath = "./data/bih"
+    when (debug settings) $ do
+        let bihSavePath = debugPath settings
         writeFile bihSavePath (show bih)
         putStrLn $ "Wrote BIH to " ++ bihSavePath
         putStrLn $ "BIH height is " ++ show (height btree)
