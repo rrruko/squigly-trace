@@ -1,19 +1,18 @@
 module Main where
 
 import BIH
-import Geometry (Scene(..), Triangle(..), naiveIntersect, rotMatrixRads)
-import Lib (Camera(..), Settings(..), render)
-import Obj (trisFromObj)
+import Geometry               (Scene (..), Triangle (..),
+                                         naiveIntersect, rotMatrixRads)
+import Lib                    (Camera (..), Settings (..), render)
+import Obj                    (trisFromObj)
 
-import Control.Lens
-import Control.Monad (when)
-import Data.Maybe (fromMaybe)
+import Control.Monad          (when)
 import Data.Time.Clock
 import Data.Time.Format
 import Linear.V3
-import System.Environment
 import System.Console.CmdArgs
 
+squigly :: Settings
 squigly = Settings
     { samples = 10 &= name "s"
         &= help "How many samples per pixel to trace"
@@ -56,14 +55,14 @@ sceneFromTris tris = Scene tris naiveIntersect
 sceneFromBIH :: BIH -> Scene BIH
 sceneFromBIH bih = Scene bih intersectBIH
 
-loadTris :: Bool -> FilePath -> IO [Triangle]
-loadTris debug path = do
-    obj <- readFile path
-    trisFromObj debug obj
+loadTris :: Settings -> IO [Triangle]
+loadTris settings = do
+    obj <- readFile (objPath settings)
+    trisFromObj (debug settings) obj
 
 loadBIH :: Settings -> IO BIH
 loadBIH settings = do
-    tris <- loadTris (debug settings) (objPath settings)
+    tris <- loadTris settings
     let bih = makeBIH tris
     let btree = tree bih
     when (debug settings) $ do
