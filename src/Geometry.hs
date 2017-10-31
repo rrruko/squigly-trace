@@ -11,6 +11,7 @@ module Geometry
      Ray(..),
      Scene(..),
      Triangle(..),
+     area,
      averagePoints,
      boundingBox,
      dim,
@@ -36,9 +37,8 @@ import Data.List hiding (intersect)
 import Data.Matrix (Matrix, (!), fromList)
 import Data.Maybe (catMaybes)
 import Data.Ord (comparing)
-import Debug.Trace (trace)
 import Linear.Vector ((*^))
-import Linear.Metric (dot, norm)
+import Linear.Metric (dot, norm, normalize)
 import Linear.V3
 
 data Ray = Ray {
@@ -104,12 +104,6 @@ rotVert vert matr = toV3 (fromV3 vert * matr)
           fromV3 (V3 x y z) = fromList 1 3 [x, y, z]
 
 {-
-Known bug: rayDist is inversely proportional to direction ray, which is NOT
-required to be normalized. Therefore, if `direction ray` is small, the distance
-returned is big, so it doesn't reflect the actual distance. This might not be
-seen by testing this program, since there's not much difference in length among
-the initial rays.
-
 The magic number 0.001 here is acting as an epsilon, in case a ray is found to
 intersect with the triangle it's bouncing off. If it's too high, light is able
 to slip through corners; if it's too small, rounding error can make light fail
@@ -123,9 +117,9 @@ intersectTri ray tri
     | direction ray `dot` normal tri == 0 = Nothing
     | rayDist > 0.001 && pointInTriangle inter tri = Just (Intersection inter rayDist tri)
     | otherwise = Nothing
-        where normDir = norm $ direction ray
+        where normDir = normalize $ direction ray
               rayDist = ((tFirst tri - vertex ray) `dot` normal tri)
-                  / (direction ray `dot` normal tri)
+                  / (normDir `dot` normal tri)
               inter = vertex ray + (rayDist *^ direction ray)
 
 naiveIntersect :: [Triangle] -> Ray -> Maybe Intersection
