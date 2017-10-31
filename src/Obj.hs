@@ -5,8 +5,6 @@ Maintainer  : rukokarasu@gmail.com
 Stability   : experimental
 -}
 
-{-# LANGUAGE FlexibleContexts #-}
-
 module Obj
     (trisFromObj
     ) where
