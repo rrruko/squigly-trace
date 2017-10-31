@@ -39,11 +39,11 @@ reflective REF R G B
 emissive EM R G B
 ```
 
-where NAME is any string containing alphanumeric characters or . or _
-      REF indicates the degree of reflectiveness (0-1)
-      EM indicates the brightness of the emitted light (0-1)
-      R, G and B are the red, green, and blue components
-      RGB should be 0-1 for REF and can be any positive number for EM
++ NAME is any string containing alphanumeric characters or . or _
++ REF indicates the degree of reflectiveness (0-1)
++ EM indicates the brightness of the emitted light (0-1)
++ R, G and B are the red, green, and blue components
++ RGB should be 0-1 for REF and can be any positive number for EM
       
 squigly-trace doesn't use mtl files bc that format is based on Phong shading
 and this is a raytracer, hence only the diffuse color can be relevant and the
