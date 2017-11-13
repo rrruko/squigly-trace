@@ -67,12 +67,15 @@ data Scene a = Scene {
 instance Show a => Show (Scene a) where
   show (Scene g _) = show g
 
+-- |Clump of data describing a successful intersection test.
 data Intersection = Intersection {
-    intersectPoint :: V3 Float,
-    dist :: Float,
-    surface :: Triangle
+    intersectPoint :: V3 Float, -- ^ The point where the intersection happened
+    dist :: Float, -- ^ The distance from the ray's origin to @`intersectPoint`@
+    surface :: Triangle -- ^ The object hit, because we need its texture later
 } deriving (Show)
 
+-- |All squigly-trace triangles are double-sided, which means a triangle is
+-- treated exactly the same if its normal is multiplied by -1.
 normal :: Triangle -> V3 Float
 normal (Triangle a b c _) = (b - a) `cross` (c - a)
 
@@ -112,6 +115,7 @@ to bounce off.
 A better solution would be to always return Nothing on the intersection of a ray
 and the face that it's bouncing off. Not sure how to implement that.
 -}
+-- |Get the intersection of a ray and a triangle (if there is one).
 intersectTri :: Ray -> Triangle -> Maybe Intersection
 intersectTri ray tri
     | direction ray `dot` normal tri == 0 = Nothing
@@ -122,6 +126,7 @@ intersectTri ray tri
                   / (normDir `dot` normal tri)
               inter = vertex ray + rayDist *^ normDir
 
+-- |Try to intersect every triangle with a ray, without even trying to optimize.
 naiveIntersect :: [Triangle] -> Ray -> Maybe Intersection
 naiveIntersect tris ray =
     let intersections = catMaybes $ intersectTri ray <$> tris
@@ -129,7 +134,7 @@ naiveIntersect tris ray =
             [] -> Nothing
             xs -> Just $ minimumBy (comparing dist) xs
 
-
+-- |Point-in-triangle test using barycentric coordinates.
 pointInTriangle :: V3 Float -> Triangle -> Bool
 pointInTriangle p tri@(Triangle a b c _) =
     let insideAB = (b - a) `cross` (p - a)
@@ -137,15 +142,14 @@ pointInTriangle p tri@(Triangle a b c _) =
         insideCA = (a - c) `cross` (p - c)
     in  all ((>0) . (`dot` normal tri)) [insideAB, insideBC, insideCA]
 
+-- | @a \`to\` b@ makes a Ray that points from @a@ to @b@.
 to :: V3 Float -> V3 Float -> Ray
 a `to` b = Ray a (b - a)
 
-{-
-An axis-aligned bounding box can be defined by only two points,
-where one is the low bound on each axis and the other is the high
-bound on each axis. e.g. a cube centered at the origin with side
-length 1 is (V3 -0.5 -0.5 -0.5, V3 0.5 0.5 0.5)
--}
+-- |An axis-aligned bounding box is uniquely defined by its minimum and maximum
+-- extents on each axis.
+-- For example, a cube centered at the origin with side length 1 is
+-- (V3 -0.5 -0.5 -0.5, V3 0.5 0.5 0.5)
 type Bounds = (V3 Float, V3 Float)
 
 getBounds :: [V3 Float] -> Bounds
@@ -157,6 +161,7 @@ getBounds verts =
         [maxX, maxY, maxZ] = map maximum [xProject, yProject, zProject]
     in  (V3 minX minY minZ, V3 maxX maxY maxZ)
 
+-- |Whether a ray intersects with a bounding box.
 intersectsBB :: Bounds -> Ray -> Bool
 intersectsBB (V3 lx ly lz, V3 hx hy hz) (Ray (V3 vx vy vz) (V3 dirx diry dirz)) =
     let (V3 dfx dfy dfz) = V3 (1/dirx) (1/diry) (1/dirz)
@@ -170,21 +175,27 @@ intersectsBB (V3 lx ly lz, V3 hx hy hz) (Ray (V3 vx vy vz) (V3 dirx diry dirz)) 
         tmax = min (min (max t1 t2) (max t3 t4)) (max t5 t6)
     in  tmax > 0 && tmin < tmax
 
+-- |The average of a list of vectors. If the vectors represent vertices, this
+-- gets their center of mass.
 averagePoints :: [V3 Float] -> V3 Float
 averagePoints verts = fmap (/genericLength verts) (sum verts)
 
+-- |The size of an axis-aligned bounding box along the given axis.
 dim :: Axis -> Bounds -> Float
 dim X b = snd b ^. _x - fst b ^. _x
 dim Y b = snd b ^. _y - fst b ^. _y
 dim Z b = snd b ^. _z - fst b ^. _z
 
+-- |The longest axis of an axis-aligned bounding box.
 longestAxis :: Bounds -> Axis
 longestAxis b =
     fst . maximumBy (comparing snd) $ zip [X,Y,Z] [dim X b, dim Y b, dim Z b]
 
+-- |The smallest axis-aligned bounding box of a list of triangles.
 boundingBox :: [Triangle] -> Bounds
 boundingBox = getBounds . concatMap vertices
 
+-- |Get the X, Y, or Z component of a vector.
 projectToAxis :: Axis -> V3 Float -> Float
 projectToAxis ax (V3 x y z) =
     case ax of
@@ -192,5 +203,6 @@ projectToAxis ax (V3 x y z) =
         Y -> y
         Z -> z
 
+-- |The area of a triangle.
 area :: Triangle -> Float
 area (Triangle a b c _) = norm ((b - a) `cross` (c - a)) / 2

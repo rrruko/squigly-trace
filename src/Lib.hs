@@ -49,7 +49,7 @@ render scene cam settings = do
     let (w,h) = dimensions settings
     let path' = savePath settings
     rng <- getStdGen
-    let (_, png) = generateFoldImage (computePixel scene cam settings) rng w h
+    let png = snd $ generateFoldImage (computePixel scene cam settings) rng w h
     png `seq` writePng path' png -- evaluate it before trying to write it
 
 -- | Compute the ray corresponding to a pair of screen coordinates and return
@@ -122,16 +122,17 @@ replicateStdGen gen =
 -- If a ray bounces enough times without hitting a light source, we can assume
 -- it's black.
 raytrace :: StdGen -> Scene a -> Ray -> Int -> RGB Float
-raytrace _ _ _ 4 = black
-raytrace gen scene@(Scene geom isect) ray bounces =
-    case isect geom ray of
-        Nothing -> black
-        Just inter ->
-            let Mat _ref refColor emit emitCol = material $ surface inter
-                newRay = bounceRay gen ray inter
-                newGen = snd (next gen)
-            in  raytrace newGen scene newRay (bounces + 1) * refColor
-                    + fmap (*emit) emitCol
+raytrace gen scene@(Scene geom isect) ray bounces
+    | bounces == 4 = black
+    | otherwise =
+        case isect geom ray of
+            Nothing -> black
+            Just inter ->
+                let Mat _ref refColor emit emitCol = material $ surface inter
+                    newRay = bounceRay gen ray inter
+                    newGen = snd (next gen)
+                in  raytrace newGen scene newRay (bounces + 1) * refColor
+                        + fmap (*emit) emitCol
 
 raycast :: Scene a -> Ray -> RGB Float
 raycast (Scene geom isect) ray =
@@ -147,7 +148,7 @@ raycast (Scene geom isect) ray =
 
 bounceRay :: StdGen -> Ray -> Intersection -> Ray
 bounceRay gen ray inter =
-    let Mat ref _ _ _ = material $ surface inter
+    let ref = reflective . material $ surface inter
         x = fst $ randomR (0,1) gen
     in  if ref < x then -- ref% chance of scattering
             scatterRay gen ray inter
