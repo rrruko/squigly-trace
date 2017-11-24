@@ -86,7 +86,7 @@ loadObjFile = do
 
 parseObj :: Parser Object
 parseObj = do
-  void $ objectName
+  void objectName
   verts <- many vertex
   mtl <- materialName
   optional parseS
@@ -170,9 +170,7 @@ loadMtl = do
     return (name, Mat ref refColor emit emitColor)
 
 rgbColor :: Parser (RGB Float)
-rgbColor = do
-    V3 x y z <- vec3
-    return (RGB x y z)
+rgbColor = vec3
 
 vec3 :: Parser (V3 Float)
 vec3 = do

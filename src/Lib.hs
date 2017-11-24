@@ -94,12 +94,12 @@ makeRay (w,h) cam gen x y =
 -- This is something you have to experiment with.
 colorToPixelRGB8 :: RGB Float -> PixelRGB8
 colorToPixelRGB8 col =
-    let (RGB r g b) = newRGB
+    let (V3 r g b) = newRGB
     in  PixelRGB8 r g b
     where newRGB = (min 255 . floor . (* 255)) <$> scaleTo1 col
           scaleTo1 col' = fmap (* (atansity (lightness col') / mx col')) col'
-          mx (RGB r g b)  = maximum [r,g,b]
-          mn (RGB r g b)  = minimum [r,g,b]
+          mx (V3 r g b)  = maximum [r,g,b]
+          mn (V3 r g b)  = minimum [r,g,b]
           lightness col'  = (mx col' + mn col') / 2
           atansity x      = atan x / (pi / 2)
 

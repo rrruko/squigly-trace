@@ -6,13 +6,14 @@ Stability   : experimental
 -}
 module Color
     (Material(..),
-     RGB(..),
+     RGB,
      average,
      black,
      diffuse,
      emission,
      gray,
      noEmit,
+     rgb,
      white,
      whiteLight
     ) where
@@ -25,28 +26,13 @@ module Color
 
 import Control.Lens.Operators ((<&>))
 import Data.List (genericLength)
+import Linear.V3
 
 -- |Datatype for light and material colors.
-data RGB a = RGB a a a deriving (Eq)
+type RGB = V3
 
-instance Functor RGB where
-    fmap f (RGB r g b) = RGB (f r) (f g) (f b)
-
-instance Show a => Show (RGB a) where
-    show (RGB r g b) = unwords ["RGB", show r, show g, show b]
-
-instance Num a => Num (RGB a) where
-    (RGB r g b) + (RGB r2 g2 b2) = RGB (r + r2) (g + g2) (b + b2)
-    (RGB r g b) - (RGB r2 g2 b2) = RGB (r - r2) (g - g2) (b - b2)
-    (RGB r g b) * (RGB r2 g2 b2) = RGB (r * r2) (g * g2) (b * b2)
-    abs = fmap abs
-    signum = fmap signum
-    fromInteger n = fmap fromInteger (RGB n n n)
-
-instance Fractional a => Fractional (RGB a) where
-    (RGB r g b) / (RGB r2 g2 b2) = RGB (r/r2) (g/g2) (b/b2)
-    recip (RGB r g b) = RGB (1/r) (1/g) (1/b)
-    fromRational rat = RGB (fromRational rat) (fromRational rat) (fromRational rat)
+rgb :: Num a => a -> a -> a -> RGB a
+rgb = V3
 
 {-
 data HSL a = HSL a a a
@@ -56,16 +42,16 @@ instance Show a => Show (HSL a) where
 -}
 
 black :: Num a => RGB a
-black = RGB 0 0 0
+black = rgb 0 0 0
 
 gray :: Fractional a => RGB a
-gray = RGB 0.3 0.3 0.3
+gray = rgb 0.3 0.3 0.3
 
 white :: Num a => RGB a
-white = RGB 1 1 1
+white = rgb 1 1 1
 
 noEmit :: Num a => RGB a
-noEmit = RGB 0 0 0
+noEmit = rgb 0 0 0
 
 {-
 -- |Copied from https://en.wikipedia.org/wiki/HSL_and_HSV#General_approach
