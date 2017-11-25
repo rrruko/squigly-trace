@@ -6,7 +6,8 @@ Stability   : experimental
 -}
 
 module Obj
-    (trisFromObj
+    ( loadCamera
+    , trisFromObj
     ) where
 
 import Color (Material(..), RGB(..))
@@ -55,6 +56,18 @@ trisFromObj debug str = do
         print $ head objs
         print mats
     return triangles
+
+loadCamera :: IO Camera
+loadCamera = do
+    cameraFile <- readFile "./data/camera"
+    case parse p "" cameraFile of
+        Right cam -> pure cam
+        Left  err -> error "Failed to parse /data/camera"
+
+p = do
+    loc <- vec3
+    V3 rx ry rz <- vec3
+    pure $ Camera loc (rotMatrixRads rx ry rz)
 
 -- |Match each object with its material and return the resulting scene.
 makeScene :: [Object] -> [(String, Material)] -> [Triangle]

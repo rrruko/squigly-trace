@@ -10,8 +10,7 @@
 {-# LANGUAGE DeriveDataTypeable #-}
 
 module Lib
-    ( Camera(..)
-    , Settings(..)
+    ( Settings(..)
     , raytrace
     , raycast
     , render
@@ -29,9 +28,6 @@ import           Linear.Metric (dot, norm, normalize)
 import           Linear.V3
 import           Linear.Vector
 import           System.Random
-
-data Camera = Camera { position :: V3 Float, rotation :: Matrix Float }
-    deriving (Show)
 
 data Settings = Settings
     { samples :: Int
@@ -139,12 +135,12 @@ raycast (Scene geom isect) ray =
     case isect geom ray of
         Nothing -> black
         Just inter ->
-            let Mat _ refColor _ _ = material $ surface inter
+            let color = surfColor . material $ surface inter
                 heaven = V3 0 3 (-1)
                 shadowRay = intersectPoint inter `to` heaven
                 distanceToHeaven = norm (intersectPoint inter - heaven)
                 shadowed = maybe False ((< distanceToHeaven) . dist) (isect geom shadowRay)
-            in  if shadowed then black else (*(2/distanceToHeaven)) <$> refColor
+            in  if shadowed then black else (*(2/distanceToHeaven)) <$> color
 
 bounceRay :: StdGen -> Ray -> Intersection -> Ray
 bounceRay gen ray inter =

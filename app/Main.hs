@@ -1,10 +1,10 @@
 module Main where
 
 import BIH
-import Geometry               (Scene (..), Triangle (..),
+import Geometry               (Camera (..), Scene (..), Triangle (..),
                                          naiveIntersect, rotMatrixRads)
-import Lib                    (Camera (..), Settings (..), render)
-import Obj                    (trisFromObj)
+import Lib                    (Settings (..), render)
+import Obj                    (loadCamera, trisFromObj)
 
 import Control.Monad          (when)
 import Data.Time.Clock
@@ -35,7 +35,7 @@ squigly = Settings
 main :: IO ()
 main = do
     settings <- cmdArgs squigly
-    let cam = Camera (V3 0 7 0.75) (rotMatrixRads (pi/2) 0 (-pi/32))
+    cam <- loadCamera
     scene <- sceneFromBIH <$> loadBIH settings
     putStrLn "Rendering scene..."
     startTime <- getCurrentTime

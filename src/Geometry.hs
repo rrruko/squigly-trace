@@ -7,6 +7,7 @@ Stability   : experimental
 module Geometry
     (Axis(..),
      Bounds,
+     Camera(..),
      Intersection(..),
      Ray(..),
      Scene(..),
@@ -40,6 +41,9 @@ import Data.Ord (comparing)
 import Linear.Vector ((*^))
 import Linear.Metric (dot, norm, normalize)
 import Linear.V3
+
+data Camera = Camera { position :: V3 Float, rotation :: Matrix Float }
+    deriving (Show)
 
 data Ray = Ray {
     vertex :: V3 Float,
@@ -143,6 +147,7 @@ pointInTriangle p tri@(Triangle a b c _) =
     in  all ((>0) . (`dot` normal tri)) [insideAB, insideBC, insideCA]
 
 -- | @a \`to\` b@ makes a Ray that points from @a@ to @b@.
+{-# INLINE to #-}
 to :: V3 Float -> V3 Float -> Ray
 a `to` b = Ray a (b - a)
 
