@@ -7,6 +7,9 @@ module BVH (
 
 import Geometry
 
+import Control.Monad (when)
+import Control.Monad.ST
+import Data.STRef
 import Data.Vector ((!), (//), Vector)
 import qualified Data.Vector as V
 
@@ -48,23 +51,23 @@ build tris leafSize_ nLeaves_ nNodes_ =
 
     where go todo buildnodes stackptr nLeaves_ nNodes_
 
-              | stackptr > 0 =
-                  let bnode   = todo ! (stackptr - 1)
+              | stackptr > 0 = runST $ do
+                  stackPtrRef <- newSTRef stackptr
+                  modifySTRef stackPtrRef pred
+                  stackPtrNew <- readSTRef stackPtrRef
+                  let bnode   = todo ! stackPtrNew
                       startn  = start bnode
                       endn    = end bnode
                       nPrimsn = endn - startn
                       bb      = bound    (range startn endn tris)
                       bc      = centroid (range startn endn tris)
-                      node    = Node bb startn nPrimsn untouched
-                  in  if nPrimsn <= leafSize_ then
-                          -- This is a leaf! We need to increment nLeaves_ if we get here
-                          let node = Node bb startn nPrimsn 0
-                          in  if parent bnode /= 0xfffffffc then
-                                  undefined -- child touches parent
-                              else
-                                  undefined
-                      else
-                          undefined
+                  nLeavesRef <- newSTRef nLeaves_
+                  node <- newSTRef (Node bb startn nPrimsn untouched)
+                  when (nPrimsn <= leafSize_) $
+                      modifySTRef nLeavesRef succ
+                  nLeavesNew <- readSTRef nLeavesRef
+
+                  pure $ go todo buildnodes stackPtrNew nLeavesNew nNodes_
 
               | otherwise = BVH nNodes_
                                 nLeaves_
