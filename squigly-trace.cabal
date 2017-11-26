@@ -15,7 +15,7 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     BIH, Color, Geometry, Lib, Obj
+  exposed-modules:     BIH, BVH, Color, Geometry, Lib, Obj
   build-depends:       base >= 4.7 && < 5
                      , JuicyPixels
                      , lens
