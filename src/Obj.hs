@@ -60,11 +60,12 @@ trisFromObj debug str = do
 loadCamera :: IO Camera
 loadCamera = do
     cameraFile <- readFile "./data/camera"
-    case parse p "" cameraFile of
+    case parse parseCamera "" cameraFile of
         Right cam -> pure cam
         Left  err -> error "Failed to parse /data/camera"
 
-p = do
+parseCamera :: Parser Camera
+parseCamera = do
     loc <- vec3
     V3 rx ry rz <- vec3
     pure $ Camera loc (rotMatrixRads rx ry rz)
