@@ -57,9 +57,9 @@ trisFromObj debug str = do
         print mats
     return triangles
 
-loadCamera :: IO Camera
-loadCamera = do
-    cameraFile <- readFile "./data/camera"
+loadCamera :: FilePath -> IO Camera
+loadCamera path = do
+    cameraFile <- readFile path
     case parse p "" cameraFile of
         Right cam -> pure cam
         Left  err -> error "Failed to parse /data/camera"

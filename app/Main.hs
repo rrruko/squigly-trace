@@ -22,6 +22,8 @@ squigly = Settings
         &= help "Where to save the output"
     , objPath = "./data/scene.obj" &= typFile
         &= help "File to load .obj from"
+    , cameraPath = "./data/camera" &= typFile &= name "c"
+        &= help "File to load camera data from"
     , debug = def
         &= help "Run in debug mode"
     , debugPath = def &= typFile
@@ -35,7 +37,7 @@ squigly = Settings
 main :: IO ()
 main = do
     settings <- cmdArgs squigly
-    cam <- loadCamera
+    cam <- loadCamera $ cameraPath settings
     scene <- sceneFromBIH <$> loadBIH settings
     putStrLn "Rendering scene..."
     startTime <- getCurrentTime

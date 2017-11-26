@@ -34,6 +34,7 @@ data Settings = Settings
     , dimensions :: (Int, Int)
     , savePath :: FilePath
     , objPath :: FilePath
+    , cameraPath :: FilePath
     , debug :: Bool
     , debugPath :: FilePath
     , cast :: Bool
