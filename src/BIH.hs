@@ -103,7 +103,7 @@ intersectBIH b = intersectBIH' (bounds b) (tree b)
 
 intersectBIH' :: Bounds -> BIHTree -> Ray -> Maybe Intersection
 intersectBIH' _ (Leaf geom) ray =
-    let intersections = V.mapMaybe (intersectTri ray) geom
+    let intersections = V.mapMaybe (mollerTrumbore ray) geom
     in  if V.null intersections
             then Nothing
             else Just $ minimumBy (comparing dist) intersections

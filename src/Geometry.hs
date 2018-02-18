@@ -20,6 +20,7 @@ module Geometry
      longestAxis,
      intersectsBB,
      intersectTri,
+     mollerTrumbore,
      naiveIntersect,
      normal,
      pointInTriangle,
@@ -110,25 +111,6 @@ rotVert vert matr = toV3 (fromV3 vert * matr)
     where toV3 m  = V3 (m ! (1,1)) (m ! (1,2)) (m ! (1,3))
           fromV3 (V3 x y z) = fromList 1 3 [x, y, z]
 
-{-
-The magic number 0.001 here is acting as an epsilon, in case a ray is found to
-intersect with the triangle it's bouncing off. If it's too high, light is able
-to slip through corners; if it's too small, rounding error can make light fail
-to bounce off.
-
-A better solution would be to always return Nothing on the intersection of a ray
-and the face that it's bouncing off. Not sure how to implement that.
--}
--- |Get the intersection of a ray and a triangle (if there is one).
-intersectTri :: Ray -> Triangle -> Maybe Intersection
-intersectTri ray@(Ray (V3 ox oy oz) (V3 dx dy dz)) tri@(Triangle (V3 ax ay az) (V3 bx by bz) (V3 cx cy cz) _)
-    | rayDist > 0.001 && pointInTriangle inter tri = Just (Intersection inter rayDist tri)
-    | otherwise = Nothing
-        where normDir = normalize $ direction ray
-              rayDist = ((tFirst tri - vertex ray) `dot` normal tri)
-                  / (normDir `dot` normal tri)
-              inter = vertex ray + rayDist *^ normDir
-
 -- |Try to intersect every triangle with a ray, without even trying to optimize.
 naiveIntersect :: [Triangle] -> Ray -> Maybe Intersection
 naiveIntersect tris ray =
@@ -137,13 +119,32 @@ naiveIntersect tris ray =
             [] -> Nothing
             xs -> Just $ minimumBy (comparing dist) xs
 
--- |Point-in-triangle test using barycentric coordinates.
-pointInTriangle :: V3 Float -> Triangle -> Bool
-pointInTriangle p tri@(Triangle a b c _) =
-    let insideAB = (b - a) `cross` (p - a)
-        insideBC = (c - b) `cross` (p - b)
-        insideCA = (a - c) `cross` (p - c)
-    in  all ((>0) . (`dot` normal tri)) [insideAB, insideBC, insideCA]
+mollerTrumbore :: Ray -> Triangle -> Maybe Intersection
+mollerTrumbore ray tri
+    | a > -eps && a < eps = Nothing
+    | u < 0 || u > 1      = Nothing
+    | v < 0 || u + v > 1  = Nothing
+    | t > eps             = Just $ Intersection outInter rayDist tri
+    | otherwise           = Nothing
+    where
+        rayVert = vertex ray
+        rayDir  = direction ray
+        vertex0 = tFirst tri
+        vertex1 = tSecond tri
+        vertex2 = tThird tri
+        edge1 = vertex1 - vertex0
+        edge2 = vertex2 - vertex0
+        h = rayDir `cross` edge2
+        a = edge1 `dot` h
+        outInter = rayVert + t *^ rayDir
+        f = 1 / a
+        s = rayVert - vertex0
+        u = f * (s `dot` h)
+        q = s `cross` edge1
+        v = f * rayDir `dot` q
+        t = f * edge2 `dot` q
+        rayDist = norm (outInter - rayVert)
+        eps = 0.0001
 
 -- | @a \`to\` b@ makes a Ray that points from @a@ to @b@.
 {-# INLINE to #-}
