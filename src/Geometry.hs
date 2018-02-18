@@ -121,8 +121,7 @@ and the face that it's bouncing off. Not sure how to implement that.
 -}
 -- |Get the intersection of a ray and a triangle (if there is one).
 intersectTri :: Ray -> Triangle -> Maybe Intersection
-intersectTri ray tri
-    | direction ray `dot` normal tri == 0 = Nothing
+intersectTri ray@(Ray (V3 ox oy oz) (V3 dx dy dz)) tri@(Triangle (V3 ax ay az) (V3 bx by bz) (V3 cx cy cz) _)
     | rayDist > 0.001 && pointInTriangle inter tri = Just (Intersection inter rayDist tri)
     | otherwise = Nothing
         where normDir = normalize $ direction ray
