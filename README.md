@@ -53,10 +53,10 @@ emissive EM R G B
 + R, G and B are the red, green, and blue components
 + RGB should be 0-1 for REF and can be any positive number for EM
 
-squigly-trace doesn't use mtl files bc that format is based on Phong shading
-and this is a raytracer, hence only the diffuse color can be relevant and the
-rest is just noise. My test models don't need many materials so it's not too
-much work to just manually enter the material data.
+squigly-trace doesn't use mtl files because that format is based on Phong
+shading and this is a raytracer, hence only the diffuse color can be relevant
+and the rest is just noise. My test models don't need many materials so it's
+not too much work to just manually enter the material data.
 
 # Resources
 
