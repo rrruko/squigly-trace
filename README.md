@@ -17,7 +17,7 @@ Let me know if something is amiss.
 You should have [stack](https://docs.haskellstack.org/en/stable/README/)
 installed.
 
-Clone the repo and run `stack build --ghc-options="-O2"`.
+Clone the repo and run `stack build`.
 
 # Running
 
