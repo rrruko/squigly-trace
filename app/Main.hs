@@ -1,15 +1,13 @@
 module Main where
 
 import BIH
-import Geometry               (Camera (..), Scene (..), Triangle (..),
-                                         naiveIntersect, rotMatrixRads)
+import Geometry               (Scene (..), Triangle (..), naiveIntersect)
 import Lib                    (Settings (..), render)
 import Obj                    (loadCamera, trisFromObj)
 
 import Control.Monad          (when)
 import Data.Time.Clock
 import Data.Time.Format
-import Linear.V3
 import System.Console.CmdArgs
 
 squigly :: Settings
