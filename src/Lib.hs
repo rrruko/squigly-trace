@@ -7,7 +7,7 @@
 --
 -----------------------------------------------------------------------------
 
-{-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE DeriveDataTypeable, MultiWayIf #-}
 
 module Lib
     ( Settings(..)
@@ -144,27 +144,23 @@ raycast (Scene geom isect) ray =
             in  if shadowed then black else (*(2/distanceToHeaven)) <$> color
 
 bounceRay :: StdGen -> Ray -> Intersection -> Ray
-bounceRay gen ray inter =
-    let ref = reflective . material $ surface inter
-        x = fst $ randomR (0,1) gen
-    in  if ref < x then -- ref% chance of scattering
-            scatterRay gen ray inter
-        else -- (1-ref)% chance of reflecting
-            reflectRay ray inter
+bounceRay gen ray inter
+    | ref < x   = scatterRay gen ray inter -- ref% chance of scattering
+    | otherwise = reflectRay ray inter -- (1-ref)% chance of reflecting
+    where ref = reflective . material $ surface inter
+          x = fst $ randomR (0,1) gen
 
 -- | Pick a random vector and, if necessary, flip it so that its direction
 -- bounces off the surface. (If the old ray points in the same hemisphere
 -- as the surface normal, the new ray should point in the opposite one, and
 -- vice versa.)
 scatterRay :: StdGen -> Ray -> Intersection -> Ray
-scatterRay gen ray inter =
-    let newDir = randomVector gen
-        old = signum (direction ray `dot` normal (surface inter))
-        new = signum (newDir        `dot` normal (surface inter))
-    in  if old == new then
-        Ray (intersectPoint inter) (-newDir)
-    else
-        Ray (intersectPoint inter)   newDir
+scatterRay gen ray inter
+    | old == new = Ray (intersectPoint inter) (-newDir)
+    | otherwise  = Ray (intersectPoint inter)   newDir
+    where newDir = randomVector gen
+          old = signum (direction ray `dot` normal (surface inter))
+          new = signum (newDir        `dot` normal (surface inter))
 
 -- | This does not take a StdGen parameter because it deterministically reflects
 -- the ray.
