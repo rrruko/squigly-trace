@@ -6,7 +6,7 @@ Stability   : experimental
 -}
 module Geometry
     (Axis(..),
-     Bounds,
+     Bounds(..),
      Camera(..),
      Intersection(..),
      Ray(..),
@@ -155,7 +155,9 @@ a `to` b = Ray a (b - a)
 -- extents on each axis.
 -- For example, a cube centered at the origin with side length 1 is
 -- (V3 -0.5 -0.5 -0.5, V3 0.5 0.5 0.5)
-type Bounds = (V3 Float, V3 Float)
+data Bounds = Bounds {-# UNPACK #-} !(V3 Float)
+                     {-# UNPACK #-} !(V3 Float)
+                     deriving Show
 
 getBounds :: [V3 Float] -> Bounds
 getBounds verts =
@@ -164,11 +166,11 @@ getBounds verts =
         zProject = map (^._z) verts
         [minX, minY, minZ] = map minimum [xProject, yProject, zProject]
         [maxX, maxY, maxZ] = map maximum [xProject, yProject, zProject]
-    in  (V3 minX minY minZ, V3 maxX maxY maxZ)
+    in  Bounds (V3 minX minY minZ) (V3 maxX maxY maxZ)
 
 -- |Whether a ray intersects with a bounding box.
 intersectsBB :: Bounds -> Ray -> Bool
-intersectsBB (V3 lx ly lz, V3 hx hy hz) (Ray (V3 vx vy vz) (V3 dirx diry dirz)) =
+intersectsBB (Bounds (V3 lx ly lz) (V3 hx hy hz)) (Ray (V3 vx vy vz) (V3 dirx diry dirz)) =
     let (V3 dfx dfy dfz) = V3 (1/dirx) (1/diry) (1/dirz)
         t1 = (lx  - vx) * dfx
         t2 = (hx - vx) * dfx
@@ -187,9 +189,9 @@ averagePoints verts = fmap (/genericLength verts) (sum verts)
 
 -- |The size of an axis-aligned bounding box along the given axis.
 dim :: Axis -> Bounds -> Float
-dim X b = snd b ^. _x - fst b ^. _x
-dim Y b = snd b ^. _y - fst b ^. _y
-dim Z b = snd b ^. _z - fst b ^. _z
+dim X (Bounds lo hi) = hi ^. _x - lo ^. _x
+dim Y (Bounds lo hi) = hi ^. _y - lo ^. _y
+dim Z (Bounds lo hi) = hi ^. _z - lo ^. _z
 
 -- |The longest axis of an axis-aligned bounding box.
 longestAxis :: Bounds -> Axis

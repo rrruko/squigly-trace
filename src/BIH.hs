@@ -80,12 +80,12 @@ bih bbox geom
           leafLimit = 15
 
 split :: Bounds -> [Triangle] -> ([Triangle], Float, [Triangle], Float, Axis)
-split bbox geom = (leftTris, lmax, rightTris, rmin, ax)
+split bbox@(Bounds lo hi) geom = (leftTris, lmax, rightTris, rmin, ax)
     where ax = longestAxis bbox
           leftTris  = filter underSplit         geom
           rightTris = filter (not . underSplit) geom
-          leftSide  = projectToAxis ax (fst bbox)
-          rightSide = projectToAxis ax (snd bbox)
+          leftSide  = projectToAxis ax lo
+          rightSide = projectToAxis ax hi
           splitPlane = projectToAxis ax $ averagePoints
               [averagePoints (vertices tri) | tri <- geom]
           underSplit tri = (< splitPlane) . projectToAxis ax . averagePoints $
@@ -121,14 +121,14 @@ intersectBIH' bbox (Branch (BIHN ax lmax rmin) l r) ray
               intersectsLeft  = intersectsBB left ray
               intersectsRight = intersectsBB right ray
               left =
-                  let (low, V3 x y z) = bbox
+                  let Bounds low (V3 x y z) = bbox
                   in  case ax of
-                          X -> (low, V3 lmax y z)
-                          Y -> (low, V3 x lmax z)
-                          Z -> (low, V3 x y lmax)
+                          X -> Bounds low (V3 lmax y z)
+                          Y -> Bounds low (V3 x lmax z)
+                          Z -> Bounds low (V3 x y lmax)
               right =
-                  let (V3 x y z, high) = bbox
+                  let Bounds (V3 x y z) high = bbox
                   in  case ax of
-                          X -> (V3 rmin y z, high)
-                          Y -> (V3 x rmin z, high)
-                          Z -> (V3 x y rmin, high)
+                          X -> Bounds (V3 rmin y z) high
+                          Y -> Bounds (V3 x rmin z) high
+                          Z -> Bounds (V3 x y rmin) high
