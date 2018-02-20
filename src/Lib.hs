@@ -7,7 +7,9 @@
 --
 -----------------------------------------------------------------------------
 
-{-# LANGUAGE DeriveDataTypeable, MultiWayIf #-}
+{-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE MultiWayIf         #-}
+{-# LANGUAGE RecordWildCards    #-}
 
 module Lib
     ( Settings(..)
@@ -20,91 +22,80 @@ import           BIH
 import           Color
 import           Geometry
 
-import           Codec.Picture
 import           Data.Data (Data)
+import           Data.Massiv.Array (Array, Ix2(..), Comp(..), D(..), S(..),
+                     computeAs, makeArray)
+import           Data.Massiv.Array.IO
 import           Data.Typeable (Typeable)
+import           Graphics.ColorSpace (Word8)
+import qualified Graphics.ColorSpace as M
 import           Linear.Metric (dot, norm, normalize)
 import           Linear.V3
 import           Linear.Vector
 import           System.Random
 
 data Settings = Settings
-    { samples :: Int
+    { samples    :: Int
     , dimensions :: (Int, Int)
-    , savePath :: FilePath
-    , objPath :: FilePath
+    , savePath   :: FilePath
+    , objPath    :: FilePath
     , cameraPath :: FilePath
-    , debug :: Bool
-    , debugPath :: FilePath
-    , cast :: Bool
+    , debug      :: Bool
+    , debugPath  :: FilePath
+    , cast       :: Bool
     } deriving (Show, Data, Typeable)
+
+type Pixel = M.Pixel M.RGB Word8
 
 -- | Compute the image and write it to a file
 render :: Scene a -> Camera -> Settings -> IO ()
-render scene cam settings = do
-    let (w,h) = dimensions settings
-    let path' = savePath settings
-    rng <- getStdGen
-    let png = snd $ generateFoldImage (computePixel scene cam settings) rng w h
-    png `seq` writePng path' png -- evaluate it before trying to write it
+render scene cam Settings {..} =
+    let (w,h) = dimensions
+        dims = (w :. h)
+        shader = renderPixel scene cam samples cast dims
+        buf = makeArray Par dims shader :: Array D Ix2 Pixel
+        img = computeAs S buf
+    in  img `seq` writeImage savePath img
+    -- ^ evaluate it before trying to write it
 
--- | Compute the ray corresponding to a pair of screen coordinates and return
--- its value (with an rng to allow randomness down the pipeline)
--- This is called exactly once per pixel.
-computePixel :: Scene a -> Camera -> Settings -> StdGen -> Int -> Int -> (StdGen, PixelRGB8)
-computePixel scene cam settings randgen x y =
-    (newRand, colorToPixelRGB8 $ average rays')
-    where numSamples = samples settings
-          wh = dimensions settings
-          newRand = last gens
-          rays' = map getRay gens
-          gens = take numSamples $ replicateStdGen randgen
-          getRay gen'
-              | cast settings = raycast scene (makeRay wh cam gen' x y)
-              | otherwise = raytrace gen' scene (makeRay wh cam gen' x y) 0
+-- | For each pixel, cast @sampleCount@ rays and average the results.
+renderPixel :: Scene a -> Camera -> Int -> Bool -> Ix2 -> Ix2 -> Pixel
+renderPixel scene cam sampleCount cast dims@(w :. _) ix@(y :. x) =
+    let ray = makeRay dims ix cam
+        traceMethod
+            | cast      = \_ -> raycast    scene ray
+            | otherwise = \r -> raytrace r scene ray 0
+        uniqGen = mkStdGen (x + y * w)
+        outcomes = map traceMethod
+            (take sampleCount $ iterate (snd . next) uniqGen)
+        avg = fst $ foldr
+            (\rayOutcome (col, i) -> ((1 / i) *^ (rayOutcome + col), i + 1))
+            (V3 0 0 0, 1 :: Float)
+            outcomes
+    in  rgbFloatToPixelRGB avg
 
--- | Called once per sample per pixel.
-makeRay :: (Int, Int) -> Camera -> StdGen -> Int -> Int -> Ray
-makeRay (w,h) cam gen x y =
+-- | Scale unbounded floating-point color to 3-byte RGB color.
+-- Use atan instead of the more standard log.
+rgbFloatToPixelRGB :: RGB Float -> Pixel
+rgbFloatToPixelRGB inColor@(V3 r g b) =
+    let maxComponent = max (max r g) b
+        minComponent = min (min r g) b
+        avg x y      = 0.5 * (x + y)
+        lightness    = avg maxComponent minComponent
+        intensity    = atan lightness / (pi / 2)
+        scaledTo1    = fmap (* (intensity / maxComponent)) inColor
+        V3 outR outG outB = min 255 . floor . (* 255) <$> scaledTo1
+    in  M.PixelRGB outR outG outB
+
+-- | Called once per pixel.
+makeRay :: Ix2 -> Ix2 -> Camera -> Ray
+makeRay (w :. h) (y :. x) cam =
     let ww = fromIntegral w
         hh = fromIntegral h
-        (dx, gen') = randomR (0,1) gen  -- random slight offset for
-        (dy, _   ) = randomR (0,1) gen' --    cheap antialiasing
-        xoffs = (fromIntegral x + dx - (ww / 2)) / ww
-        yoffs = ((hh / 2) - fromIntegral y + dy) / hh
+        xoffs = (fromIntegral x - (ww / 2)) / ww
+        yoffs = ((hh / 2) - fromIntegral y) / hh
         dir = V3 1 xoffs yoffs `rotVert` rotation cam
     in  Ray (position cam) dir
-
--- | Take an RGB Float representing unbounded light intensity in each color,
--- and turn it into a PixelRGB8, which is bounded at 255. There are a couple ways
--- to approach this:
---  - Clamp all light above a certain intensity down to 255
---    (unrealistic, but easy)
---  - Create a new pixel with the same hue as the light and brightness
---    corresponding to the log of the brightness of the original
---    (this is close to how human vision works)
--- I did the second thing, but used atan instead of log.
--- It is debatable wheeher atan is a better choice; while it provides a continuous
--- map from R+ to [0,1], its derivative tapers off much more quickly than log's,
--- meaning that the difference between high intensities might be less apparent.
--- This is something you have to experiment with.
-colorToPixelRGB8 :: RGB Float -> PixelRGB8
-colorToPixelRGB8 col =
-    let (V3 r g b) = newRGB
-    in  PixelRGB8 r g b
-    where newRGB = (min 255 . floor . (* 255)) <$> scaleTo1 col
-          scaleTo1 col' = fmap (* (atansity (lightness col') / mx col')) col'
-          mx (V3 r g b)  = maximum [r,g,b]
-          mn (V3 r g b)  = minimum [r,g,b]
-          lightness col'  = (mx col' + mn col') / 2
-          atansity x      = atan x / (pi / 2)
-
--- | This is used to split the RNG belonging to each pixel into a separate
--- RNG for each sample of the pixel.
-replicateStdGen :: StdGen -> [StdGen]
-replicateStdGen gen =
-    let (g1,g2) = split gen
-    in  g1 : replicateStdGen g2
 
 -- | A ray that intersects nothing returns black.
 -- Otherwise, the color is determined by the type of surface:
@@ -120,27 +111,26 @@ replicateStdGen gen =
 raytrace :: StdGen -> Scene a -> Ray -> Int -> RGB Float
 raytrace gen scene@(Scene geom isect) ray bounces
     | bounces == 4 = black
-    | otherwise =
-        case isect geom ray of
-            Nothing -> black
-            Just inter ->
-                let Mat _ref refColor emit emitCol = material $ surface inter
-                    newRay = bounceRay gen ray inter
-                    newGen = snd (next gen)
-                in  raytrace newGen scene newRay (bounces + 1) * refColor
-                        + fmap (*emit) emitCol
+    | Nothing    <- isectResult = black
+    | Just inter <- isectResult =
+        let Mat _ref refColor emit emitCol = material $ surface inter
+            newRay = bounceRay gen ray inter
+            newGen = snd (next gen)
+        in  raytrace newGen scene newRay (bounces + 1) * refColor
+                + fmap (*emit) emitCol
+    where isectResult = isect geom ray
 
 raycast :: Scene a -> Ray -> RGB Float
-raycast (Scene geom isect) ray =
-    case isect geom ray of
-        Nothing -> black
-        Just inter ->
-            let color = surfColor . material $ surface inter
-                heaven = V3 0 3 (-1)
-                shadowRay = intersectPoint inter `to` heaven
-                distanceToHeaven = norm (intersectPoint inter - heaven)
-                shadowed = maybe False ((< distanceToHeaven) . dist) (isect geom shadowRay)
-            in  if shadowed then black else (*(2/distanceToHeaven)) <$> color
+raycast (Scene geom isect) ray
+    | Nothing    <- isectResult = black
+    | Just inter <- isectResult =
+        let color = surfColor . material $ surface inter
+            heaven = V3 0 3 (-1)
+            shadowRay = intersectPoint inter `to` heaven
+            distanceToHeaven = norm (intersectPoint inter - heaven)
+            shadowed = maybe False ((< distanceToHeaven) . dist) (isect geom shadowRay)
+        in  if shadowed then black else (*(2/distanceToHeaven)) <$> color
+    where isectResult = isect geom ray
 
 bounceRay :: StdGen -> Ray -> Intersection -> Ray
 bounceRay gen ray inter

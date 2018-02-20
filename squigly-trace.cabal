@@ -23,6 +23,8 @@ library
                      , linear
                      , bytestring
                      , bmp
+                     , massiv
+                     , massiv-io
                      , matrix
                      , random
                      , deepseq
