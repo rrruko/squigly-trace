@@ -22,7 +22,6 @@ import           Geometry
 
 import           Codec.Picture
 import           Data.Data (Data)
-import           Data.Matrix   (Matrix)
 import           Data.Typeable (Typeable)
 import           Linear.Metric (dot, norm, normalize)
 import           Linear.V3

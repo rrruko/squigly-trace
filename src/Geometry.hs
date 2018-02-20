@@ -19,11 +19,9 @@ module Geometry
      getBounds,
      longestAxis,
      intersectsBB,
-     intersectTri,
      mollerTrumbore,
      naiveIntersect,
      normal,
-     pointInTriangle,
      projectToAxis,
      rotate,
      rotMatrixRads,
@@ -40,7 +38,7 @@ import Data.Matrix (Matrix, (!), fromList)
 import Data.Maybe (catMaybes)
 import Data.Ord (comparing)
 import Linear.Vector ((*^))
-import Linear.Metric (dot, norm, normalize)
+import Linear.Metric (dot, norm)
 import Linear.V3
 
 data Camera = Camera { position :: V3 Float, rotation :: Matrix Float }
@@ -114,7 +112,7 @@ rotVert vert matr = toV3 (fromV3 vert * matr)
 -- |Try to intersect every triangle with a ray, without even trying to optimize.
 naiveIntersect :: [Triangle] -> Ray -> Maybe Intersection
 naiveIntersect tris ray =
-    let intersections = catMaybes $ intersectTri ray <$> tris
+    let intersections = catMaybes $ mollerTrumbore ray <$> tris
     in  case intersections of
             [] -> Nothing
             xs -> Just $ minimumBy (comparing dist) xs
@@ -164,8 +162,8 @@ getBounds verts =
     let xProject = map (^._x) verts
         yProject = map (^._y) verts
         zProject = map (^._z) verts
-        [minX, minY, minZ] = map minimum [xProject, yProject, zProject]
-        [maxX, maxY, maxZ] = map maximum [xProject, yProject, zProject]
+        V3 minX minY minZ = minimum <$> V3 xProject yProject zProject
+        V3 maxX maxY maxZ = maximum <$> V3 xProject yProject zProject
     in  Bounds (V3 minX minY minZ) (V3 maxX maxY maxZ)
 
 -- |Whether a ray intersects with a bounding box.

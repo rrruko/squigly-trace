@@ -31,7 +31,7 @@ import Linear.V3
 -- |Datatype for light and material colors.
 type RGB = V3
 
-rgb :: Num a => a -> a -> a -> RGB a
+rgb :: a -> a -> a -> RGB a
 rgb = V3
 
 {-
@@ -83,10 +83,10 @@ data Material = Mat {
 } deriving (Show)
 
 diffuse :: RGB Float -> Material
-diffuse rgb = Mat 0 rgb 0 0
+diffuse col = Mat 0 col 0 0
 
 emission :: RGB Float -> Material
-emission rgb = Mat 0 0 1 rgb
+emission col = Mat 0 0 1 col
 
 whiteLight :: Float -> RGB Float -> Material
 whiteLight = Mat 0 0
