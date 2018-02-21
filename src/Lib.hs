@@ -69,8 +69,8 @@ renderPixel scene cam sampleCount cast dims@(w :. h) ix@(y :. x) =
         traceMethod
             | cast      = \_ -> raycast    scene ray
             | otherwise = \r -> raytrace r scene ray 0
-        rix      = 13 * 7 * sampleCount * (x + y * w)
-        rngs     = take sampleCount $ map mkTFGen [rix..rix + sampleCount]
+        rix      = sampleCount * (x + y * w)
+        rngs     = take sampleCount $ map mkTFGen [rix..]
         outcomes = map traceMethod rngs
         avg = (1 / fromIntegral sampleCount) *^ sum outcomes
     in  rgbFloatToPixelRGB avg
@@ -128,11 +128,10 @@ raycast (Scene geom isect) ray = fromMaybe black $ do
         heaven = V3 0 3 (-1)
         shadowRay = intersectPoint inter `to` heaven
         distanceToHeaven = norm (intersectPoint inter - heaven)
-        notShadowed = do
-            blockedAt <- isect geom shadowRay
-            pure $ dist blockedAt > distanceToHeaven
-    guard =<< notShadowed
-    pure $ (2/distanceToHeaven) *^ surfColor
+    guard $ maybe True
+        (\pos -> dist pos > distanceToHeaven)
+        (isect geom shadowRay)
+    pure $ (2 / distanceToHeaven) *^ surfColor
 
 -- | Bounce a ray off a surface, either sending it in a random direction or
 -- reflecting it like a mirror with a probability dependent on the material.
