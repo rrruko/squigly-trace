@@ -60,14 +60,14 @@ render scene cam Settings {..} =
 
 -- | For each pixel, cast @sampleCount@ rays and average the results.
 renderPixel :: Scene a -> Camera -> Int -> Bool -> Ix2 -> Ix2 -> Pixel
-renderPixel scene cam sampleCount cast dims@(w :. _) ix@(y :. x) =
+renderPixel scene cam sampleCount cast dims@(w :. h) ix@(y :. x) =
     let ray = makeRay dims ix cam
         traceMethod
             | cast      = \_ -> raycast    scene ray
             | otherwise = \r -> raytrace r scene ray 0
-        uniqGen = mkStdGen (x + y * w)
-        outcomes = map traceMethod
-            (take sampleCount $ iterate (snd . next) uniqGen)
+        rix      = sampleCount * (x + y * w)
+        rngs     = take sampleCount $ map mkStdGen [rix..rix + sampleCount]
+        outcomes = map traceMethod rngs
         avg = fst $ foldr
             (\rayOutcome (col, i) -> ((1 / i) *^ (rayOutcome + col), i + 1))
             (V3 0 0 0, 1 :: Float)
@@ -83,7 +83,7 @@ rgbFloatToPixelRGB inColor@(V3 r g b) =
         avg x y      = 0.5 * (x + y)
         lightness    = avg maxComponent minComponent
         intensity    = atan lightness / (pi / 2)
-        scaledTo1    = fmap (* (intensity / maxComponent)) inColor
+        scaledTo1    = (intensity / maxComponent) *^ inColor
         V3 outR outG outB = min 255 . floor . (* 255) <$> scaledTo1
     in  M.PixelRGB outR outG outB
 
@@ -120,6 +120,8 @@ raytrace gen scene@(Scene geom isect) ray bounces
                 + fmap (*emit) emitCol
     where isectResult = isect geom ray
 
+-- I'm not interested in properly implementing raycasting right now so there's
+-- just a single light here at a hardcoded position.
 raycast :: Scene a -> Ray -> RGB Float
 raycast (Scene geom isect) ray
     | Nothing    <- isectResult = black
@@ -128,10 +130,14 @@ raycast (Scene geom isect) ray
             heaven = V3 0 3 (-1)
             shadowRay = intersectPoint inter `to` heaven
             distanceToHeaven = norm (intersectPoint inter - heaven)
-            shadowed = maybe False ((< distanceToHeaven) . dist) (isect geom shadowRay)
-        in  if shadowed then black else (*(2/distanceToHeaven)) <$> color
+            shadowed = maybe False
+                ((< distanceToHeaven) . dist)
+                (isect geom shadowRay)
+            in  if shadowed then black else (2/distanceToHeaven) *^ color
     where isectResult = isect geom ray
 
+-- | Bounce a ray off a surface, either sending it in a random direction or
+-- reflecting it like a mirror with a probability dependent on the material.
 bounceRay :: StdGen -> Ray -> Intersection -> Ray
 bounceRay gen ray inter
     | ref < x   = scatterRay gen ray inter -- ref% chance of scattering
