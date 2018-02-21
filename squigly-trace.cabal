@@ -29,6 +29,7 @@ library
                      , random
                      , deepseq
                      , safe
+                     , tf-random
                      , parsec
                      , parallel
                      , vector
