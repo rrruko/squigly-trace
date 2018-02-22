@@ -30,29 +30,29 @@ module Geometry
      vertices
     ) where
 
-import Color(Material)
+import           Color         (Material)
 
-import Control.Lens ((^.))
-import Data.List hiding (intersect)
-import Data.Matrix (Matrix, (!), fromList)
-import Data.Maybe (catMaybes)
-import Data.Ord (comparing)
-import Linear.Vector ((*^))
-import Linear.Metric (dot, norm)
-import Linear.V3
+import           Control.Lens  ((^.))
+import           Data.List     hiding (intersect)
+import           Data.Matrix   (Matrix, fromList, (!))
+import           Data.Maybe    (catMaybes)
+import           Data.Ord      (comparing)
+import           Linear.Metric (dot, norm)
+import           Linear.V3
+import           Linear.Vector ((*^))
 
 data Camera = Camera { position :: V3 Float, rotation :: Matrix Float }
     deriving (Show)
 
 data Ray = Ray {
-    vertex :: V3 Float,
+    vertex    :: V3 Float,
     direction :: V3 Float
 } deriving (Show)
 
 data Triangle = Triangle {
-    tFirst :: V3 Float,
-    tSecond :: V3 Float,
-    tThird :: V3 Float,
+    tFirst   :: V3 Float,
+    tSecond  :: V3 Float,
+    tThird   :: V3 Float,
     material :: Material
 }
 
@@ -63,7 +63,7 @@ instance Show Triangle where
     show (Triangle f s t m) = unwords [show f, show s, show t, show m]
 
 data Scene a = Scene {
-    geometry :: a,
+    geometry  :: a,
     intersect :: a -> Ray -> Maybe Intersection
 }
 
@@ -73,8 +73,8 @@ instance Show a => Show (Scene a) where
 -- |Clump of data describing a successful intersection test.
 data Intersection = Intersection {
     intersectPoint :: V3 Float, -- ^ The point where the intersection happened
-    dist :: Float, -- ^ The distance from the ray's origin to @`intersectPoint`@
-    surface :: Triangle -- ^ The object hit, because we need its texture later
+    dist           :: Float, -- ^ The distance from the ray's origin to @`intersectPoint`@
+    surface        :: Triangle -- ^ The object hit, because we need its texture later
 } deriving (Show)
 
 -- |All squigly-trace triangles are double-sided, which means a triangle is

@@ -12,16 +12,16 @@ module BIH
      pretty,
     ) where
 
-import Geometry
+import           Geometry
 
-import Data.List
-import Data.Maybe
-import Data.Ord (comparing)
-import Linear.V3
-import Safe (maximumDef, minimumDef, minimumByMay)
-import qualified Data.Vector as V
-import Data.Vector (Vector)
-import Data.Semigroup
+import           Data.List
+import           Data.Maybe
+import           Data.Ord       (comparing)
+import           Data.Semigroup
+import           Data.Vector    (Vector)
+import qualified Data.Vector    as V
+import           Linear.V3
+import           Safe           (maximumDef, minimumByMay, minimumDef)
 
 data Tree a b = Leaf b | Branch a (Tree a b) (Tree a b) deriving (Show)
 
@@ -40,7 +40,7 @@ data BIHNode = BIHN Axis Float Float
 type BIHTree = Tree BIHNode (Vector Triangle)
 data BIH = BIH {
     bounds :: Bounds,
-    tree :: BIHTree
+    tree   :: BIHTree
 } deriving (Show)
 
 height :: Tree a b -> Int
@@ -48,16 +48,16 @@ height (Leaf _)       = 1
 height (Branch _ l r) = 1 + max (height l) (height r)
 
 flatten :: BIHTree -> Vector Triangle
-flatten (Leaf x) = x
+flatten (Leaf x)       = x
 flatten (Branch _ l r) = flatten l <> flatten r
 
 numLeaves :: BIHTree -> Int
 numLeaves (Branch _ l r) = numLeaves l + numLeaves r
-numLeaves _ = 1
+numLeaves _              = 1
 
 longestLeaf :: Tree a (Vector b) -> Int
 longestLeaf (Branch _ l r) = max (longestLeaf l) (longestLeaf r)
-longestLeaf (Leaf l) = V.length l
+longestLeaf (Leaf l)       = V.length l
 
 makeBIH :: [Triangle] -> BIH
 makeBIH tris =

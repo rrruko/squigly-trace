@@ -22,17 +22,17 @@ import           BIH
 import           Color
 import           Geometry
 
-import           Control.Monad (guard)
-import           Data.Data (Data)
-import           Data.Massiv.Array (Array, Ix2(..), Comp(..), D(..), S(..),
-                     computeAs, makeArray)
+import           Control.Monad        (guard)
+import           Data.Data            (Data)
+import           Data.Massiv.Array    (Array, Comp (..), D (..), Ix2 (..),
+                                       S (..), computeAs, makeArray)
 import           Data.Massiv.Array.IO
-import           Data.Maybe (fromMaybe)
-import           Data.Typeable (Typeable)
+import           Data.Maybe           (fromMaybe)
+import           Data.Typeable        (Typeable)
 import           Data.Word
-import           Graphics.ColorSpace (Word8)
-import qualified Graphics.ColorSpace as M
-import           Linear.Metric (dot, norm, normalize)
+import           Graphics.ColorSpace  (Word8)
+import qualified Graphics.ColorSpace  as M
+import           Linear.Metric        (dot, norm, normalize)
 import           Linear.V3
 import           Linear.Vector
 import           System.Random.TF

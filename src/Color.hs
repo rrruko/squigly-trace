@@ -24,9 +24,9 @@ module Color
 -- so that mat clamps its args to [0,1] and emit to [0,inf)
 -- though maybe faces shouldn't have mat and emit in the first place
 
-import Control.Lens.Operators ((<&>))
-import Data.List (genericLength)
-import Linear.V3
+import           Control.Lens.Operators ((<&>))
+import           Data.List              (genericLength)
+import           Linear.V3
 
 -- |Datatype for light and material colors.
 type RGB = V3
@@ -77,9 +77,9 @@ average cs = sum cs <&> (/ genericLength cs)
 
 data Material = Mat {
     reflective :: Float, -- ^ 0 = diffuse, 1 = reflective
-    surfColor :: RGB Float, -- ^ surface color
-    emissive :: Float, -- ^ multiplied by emit color
-    emitColor :: RGB Float -- ^ color of light the material emits
+    surfColor  :: RGB Float, -- ^ surface color
+    emissive   :: Float, -- ^ multiplied by emit color
+    emitColor  :: RGB Float -- ^ color of light the material emits
 } deriving (Show)
 
 diffuse :: RGB Float -> Material
