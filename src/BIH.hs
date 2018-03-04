@@ -109,15 +109,22 @@ intersectBIH' _ (Leaf geom) ray =
             else Just $ minimumBy (comparing dist) intersections
 
 intersectBIH' bbox (Branch (BIHN ax lmax rmin) l r) ray
-    | intersectsLeft && intersectsRight =
-        let intersections = catMaybes $
-                if leftToRight then [intersectBIH' left l ray, intersectBIH' right r ray]
-                               else [intersectBIH' right r ray, intersectBIH' left l ray]
-        in  minimumByMay (comparing dist) intersections
+    | not (intersectsBB bbox ray) = Nothing
+    | intersectsLeft && intersectsRight = case near of
+        Just n | isClose n -> near
+        Just n  -> minimumByMay (comparing dist) intersections
+        Nothing -> far
     | intersectsLeft  = intersectBIH' left l ray
     | intersectsRight = intersectBIH' right r ray
     | otherwise       = Nothing
-        where leftToRight = projectToAxis ax (direction ray) > 0
+        where intersections = catMaybes [near, far]
+              isClose v
+                  | leftToRight = projectToAxis ax (intersectPoint v) < rmin
+                  | otherwise   = projectToAxis ax (intersectPoint v) > lmax
+              [near, far]
+                  | leftToRight = [intersectBIH' left l ray, intersectBIH' right r ray]
+                  | otherwise   = [intersectBIH' right r ray, intersectBIH' left l ray]
+              leftToRight = projectToAxis ax (direction ray) > 0
               intersectsLeft  = intersectsBB left ray
               intersectsRight = intersectsBB right ray
               left =
