@@ -45,15 +45,15 @@ data Camera = Camera { position :: V3 Float, rotation :: Matrix Float }
     deriving (Show)
 
 data Ray = Ray {
-    vertex    :: V3 Float,
-    direction :: V3 Float
+    vertex    :: !(V3 Float),
+    direction :: !(V3 Float)
 } deriving (Show)
 
 data Triangle = Triangle {
-    tFirst   :: V3 Float,
-    tSecond  :: V3 Float,
-    tThird   :: V3 Float,
-    material :: Material
+    tFirst   :: !(V3 Float),
+    tSecond  :: !(V3 Float),
+    tThird   :: !(V3 Float),
+    material :: !Material
 }
 
 data Axis = X | Y | Z
@@ -72,9 +72,9 @@ instance Show a => Show (Scene a) where
 
 -- |Clump of data describing a successful intersection test.
 data Intersection = Intersection {
-    intersectPoint :: V3 Float, -- ^ The point where the intersection happened
-    dist           :: Float, -- ^ The distance from the ray's origin to @`intersectPoint`@
-    surface        :: Triangle -- ^ The object hit, because we need its texture later
+    intersectPoint :: !(V3 Float), -- ^ The point where the intersection happened
+    dist           :: !Float, -- ^ The distance from the ray's origin to @`intersectPoint`@
+    surface        :: !Triangle -- ^ The object hit, because we need its texture later
 } deriving (Show)
 
 -- |All squigly-trace triangles are double-sided, which means a triangle is
@@ -153,9 +153,7 @@ a `to` b = Ray a (b - a)
 -- extents on each axis.
 -- For example, a cube centered at the origin with side length 1 is
 -- (V3 -0.5 -0.5 -0.5, V3 0.5 0.5 0.5)
-data Bounds = Bounds {-# UNPACK #-} !(V3 Float)
-                     {-# UNPACK #-} !(V3 Float)
-                     deriving Show
+data Bounds = Bounds !(V3 Float) !(V3 Float) deriving Show
 
 getBounds :: [V3 Float] -> Bounds
 getBounds verts =

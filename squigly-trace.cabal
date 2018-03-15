@@ -42,6 +42,7 @@ executable squigly-trace
   ghc-options:         -O2
                        -threaded
                        -rtsopts
+                       -funbox-strict-fields
                        -with-rtsopts=-N
                        -Wall
                        -Wcompat
