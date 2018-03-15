@@ -1,7 +1,7 @@
 # squigly-trace
 A cute ray tracer written in Haskell.
 
-![example](example.png)
+![example](render/example.png)
 
 The goal of this project is to write an efficient raytracer that can handle
 complex scenes. There are already a lot of C++ raytracers, so this one is in
