@@ -140,9 +140,9 @@ raycast :: Scene a -> Ray -> RGB Float
 raycast (Scene geom isect) ray = fromMaybe black $ do
     inter <- isect geom ray
     let Mat {..} = material $ surface inter
-        heaven = V3 0 3 (-1)
-        shadowRay = intersectPoint inter `to` heaven
-        distanceToHeaven = norm (intersectPoint inter - heaven)
+        hardCodedLight = V3 0 3 (-1)
+        shadowRay = intersectPoint inter `to` hardCodedLight
+        distanceToHeaven = norm (intersectPoint inter - hardCodedLight)
     guard $ maybe True
         (\pos -> dist pos > distanceToHeaven)
         (isect geom shadowRay)
