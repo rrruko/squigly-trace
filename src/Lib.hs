@@ -7,12 +7,17 @@
 --
 -----------------------------------------------------------------------------
 
-{-# LANGUAGE DeriveDataTypeable #-}
-{-# LANGUAGE MultiWayIf         #-}
-{-# LANGUAGE RecordWildCards    #-}
+{-# LANGUAGE DeriveDataTypeable         #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE MultiWayIf                 #-}
+{-# LANGUAGE RecordWildCards            #-}
 
 module Lib
     ( Settings(..)
+    , CameraPath(..)
+    , DebugPath(..)
+    , ObjPath(..)
+    , SavePath(..)
     , raytrace
     , raycast
     , render
@@ -37,15 +42,25 @@ import           Linear.V3
 import           Linear.Vector
 import           System.Random.TF
 import           System.Random.TF.Gen
+import           System.Console.CmdArgs.Default (Default)
+
+newtype SavePath   = SavePath   { unSavePath   :: FilePath }
+    deriving (Show, Data, Default)
+newtype ObjPath    = ObjPath    { unObjPath    :: FilePath }
+    deriving (Show, Data, Default)
+newtype CameraPath = CameraPath { unCameraPath :: FilePath }
+    deriving (Show, Data, Default)
+newtype DebugPath  = DebugPath  { unDebugPath  :: FilePath }
+    deriving (Show, Data, Default)
 
 data Settings = Settings
     { samples    :: Int
     , dimensions :: (Int, Int)
-    , savePath   :: FilePath
-    , objPath    :: FilePath
-    , cameraPath :: FilePath
+    , savePath   :: SavePath
+    , objPath    :: ObjPath
+    , cameraPath :: CameraPath
     , debug      :: Bool
-    , debugPath  :: FilePath
+    , debugPath  :: DebugPath
     , cast       :: Bool
     } deriving (Show, Data, Typeable)
 
@@ -59,7 +74,7 @@ render scene cam Settings {..} =
         shader = renderPixel scene cam samples cast dims
         buf = makeArray Par dims shader :: Array D Ix2 Pixel
         img = computeAs S buf
-    in  img `seq` writeImage savePath img
+    in  img `seq` writeImage (unSavePath savePath) img
     -- ^ evaluate it before trying to write it
 
 -- | For each pixel, cast @sampleCount@ rays and average the results.

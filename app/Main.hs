@@ -2,7 +2,7 @@ module Main where
 
 import BIH
 import Geometry               (Scene (..), Triangle (..), naiveIntersect)
-import Lib                    (Settings (..), render)
+import Lib
 import Obj                    (loadCamera, trisFromObj)
 
 import Control.Monad          (when)
@@ -16,15 +16,15 @@ squigly = Settings
         &= help "How many samples per pixel to trace"
     , dimensions = (540, 540) &= name "d"
         &= help "Dimensions of the resulting image"
-    , savePath = "./render/result.png" &= typFile &= name "p"
+    , savePath   = SavePath "./render/result.png" &= typFile &= name "p"
         &= help "Where to save the output"
-    , objPath = "./data/scene.obj" &= typFile
+    , objPath    = ObjPath "./data/scene.obj" &= typFile
         &= help "File to load .obj from"
-    , cameraPath = "./data/camera" &= typFile &= name "c"
+    , cameraPath = CameraPath "./data/camera" &= typFile &= name "c"
         &= help "File to load camera data from"
     , debug = def
         &= help "Run in debug mode"
-    , debugPath = def &= typFile
+    , debugPath  = DebugPath def &= typFile
         &= help "File to write debug info to"
     , cast = def
         &= help "Raycast instead of raytracing (i.e. don't bounce rays)"
@@ -35,7 +35,7 @@ squigly = Settings
 main :: IO ()
 main = do
     settings <- cmdArgs squigly
-    cam <- loadCamera $ cameraPath settings
+    cam <- loadCamera . unCameraPath $ cameraPath settings
     scene <- sceneFromBIH <$> loadBIH settings
     putStrLn "Rendering scene..."
     startTime <- getCurrentTime
@@ -57,7 +57,7 @@ sceneFromBIH bih = Scene bih intersectBIH
 
 loadTris :: Settings -> IO [Triangle]
 loadTris settings = do
-    obj <- readFile (objPath settings)
+    obj <- readFile (unObjPath $ objPath settings)
     trisFromObj (debug settings) obj
 
 loadBIH :: Settings -> IO BIH
@@ -66,10 +66,10 @@ loadBIH settings = do
     let bih = makeBIH tris
     let btree = tree bih
     when (debug settings) $ do
-        let bihSavePath = debugPath settings
+        let bihSavePath = unDebugPath $ debugPath settings
         writeFile bihSavePath (show bih)
         putStrLn $ "Wrote BIH to " ++ bihSavePath
         putStrLn $ "BIH height is " ++ show (height btree)
         putStrLn $ "Length of longest leaf is " ++ show (longestLeaf btree)
         putStrLn $ "Number of leaves is " ++ show (numLeaves btree)
-    return bih
+    pure bih

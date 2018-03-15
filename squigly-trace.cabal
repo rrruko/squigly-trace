@@ -33,6 +33,7 @@ library
                      , parsec
                      , parallel
                      , vector
+                     , cmdargs
   default-language:    Haskell2010
 
 executable squigly-trace

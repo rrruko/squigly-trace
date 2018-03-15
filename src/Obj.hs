@@ -47,8 +47,8 @@ or something.
 
 -- |Load the material referenced by a .obj file and generate triangles.
 trisFromObj :: Bool -> String -> IO [Triangle]
-trisFromObj debug str = do
-    let Right (mtllib', objs) = parse loadObjFile "" str
+trisFromObj debug objContents = do
+    let Right (mtllib', objs) = parse loadObjFile "" objContents
     mtlFile <- readFile ("./data/" ++ mtllib')
     let Right mats = parse loadMtlFile "" mtlFile
     let triangles = makeScene objs mats
