@@ -142,9 +142,9 @@ raycast (Scene geom isect) ray = fromMaybe black $ do
     let Mat {..} = material $ surface inter
         hardCodedLight = V3 0 3 (-1)
         shadowRay = intersectPoint inter `to` hardCodedLight
-        distanceToHeaven = norm (intersectPoint inter - hardCodedLight)
+        distanceToLight = norm (intersectPoint inter - hardCodedLight)
     guard $ maybe True
-        (\pos -> dist pos > distanceToHeaven)
+        (\pos -> dist pos > distanceToLight)
         (isect geom shadowRay)
     pure $ (2 / distanceToHeaven) *^ surfColor
 
