@@ -15,12 +15,11 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     BIH, Color, Geometry, Lib, Obj
+  exposed-modules:     BIH, Color, Geometry, Lib, Obj, V3
   build-depends:       base >= 4.7 && < 5
                      , JuicyPixels
                      , lens
                      , vector
-                     , linear
                      , bytestring
                      , bmp
                      , massiv
@@ -52,7 +51,6 @@ executable squigly-trace
   build-depends:       base
                      , squigly-trace
                      , lens
-                     , linear
                      , time
                      , cmdargs
   default-language:    Haskell2010

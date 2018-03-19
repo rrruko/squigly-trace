@@ -26,6 +26,7 @@ module Lib
 import           BIH
 import           Color
 import           Geometry
+import           V3
 
 import           Control.Monad        (guard)
 import           Data.Data            (Data)
@@ -37,9 +38,6 @@ import           Data.Typeable        (Typeable)
 import           Data.Word
 import           Graphics.ColorSpace  (Word8)
 import qualified Graphics.ColorSpace  as M
-import           Linear.Metric        (dot, norm, normalize)
-import           Linear.V3
-import           Linear.Vector
 import           System.Random.TF
 import           System.Random.TF.Gen
 import           System.Console.CmdArgs.Default (Default)
@@ -92,15 +90,17 @@ renderPixel scene cam sampleCount cast dims@(w :. h) ix@(y :. x) =
 
 -- | Scale unbounded floating-point color to 3-byte RGB color.
 -- Use atan instead of the more standard log.
-rgbFloatToPixelRGB :: RGB Float -> Pixel
+rgbFloatToPixelRGB :: RGB -> Pixel
 rgbFloatToPixelRGB inColor@(V3 r g b) =
     let maxComponent = max (max r g) b
         minComponent = min (min r g) b
         avg x y      = 0.5 * (x + y)
         lightness    = avg maxComponent minComponent
         intensity    = atan lightness / (pi / 2)
-        scaledTo1    = (intensity / maxComponent) *^ inColor
-        V3 outR outG outB = min 255 . floor . (* 255) <$> scaledTo1
+        V3 s1x s1y s1z = (intensity / maxComponent) *^ inColor
+        outR = min 255 (floor (s1x * 255))
+        outG = min 255 (floor (s1y * 255))
+        outB = min 255 (floor (s1z * 255))
     in  M.PixelRGB outR outG outB
 
 -- | Called once per pixel.
@@ -124,7 +124,7 @@ makeRay (w :. h) (y :. x) cam =
 -- the "original color" is determined later in time by bouncing the ray.
 -- If a ray bounces enough times without hitting a light source, we can assume
 -- it's black.
-raytrace :: TFGen -> Scene a -> Ray -> Int -> RGB Float
+raytrace :: TFGen -> Scene a -> Ray -> Int -> RGB
 raytrace gen scene@(Scene geom isect) ray bounces = fromMaybe black $ do
     inter <- isect geom ray
     let Mat {..} = material $ surface inter
@@ -136,7 +136,7 @@ raytrace gen scene@(Scene geom isect) ray bounces = fromMaybe black $ do
 
 -- I'm not interested in properly implementing raycasting right now so there's
 -- just a single light here at a hardcoded position.
-raycast :: Scene a -> Ray -> RGB Float
+raycast :: Scene a -> Ray -> RGB
 raycast (Scene geom isect) ray = fromMaybe black $ do
     inter <- isect geom ray
     let Mat {..} = material $ surface inter
@@ -146,7 +146,7 @@ raycast (Scene geom isect) ray = fromMaybe black $ do
     guard $ maybe True
         (\pos -> dist pos > distanceToLight)
         (isect geom shadowRay)
-    pure $ (2 / distanceToHeaven) *^ surfColor
+    pure $ (2 / distanceToLight) *^ surfColor
 
 -- | Bounce a ray off a surface, either sending it in a random direction or
 -- reflecting it like a mirror with a probability dependent on the material.
@@ -175,7 +175,7 @@ reflectRay :: Ray -> Intersection -> Ray
 reflectRay ray inter =
     let dn = normalize $ normal (surface inter)
         di = direction ray
-        newDir = di - dn ^* (2 * (dn `dot` di))
+        newDir = di - ((2 * (dn `dot` di)) *^ dn)
     in  Ray (intersectPoint inter) newDir
 
 randomR :: (Float, Float) -> TFGen -> (Float, TFGen)
@@ -187,7 +187,7 @@ randomR (lo, hi) g =
 
 -- | Turn a random number generator into a vector of length 1 with
 -- an equal chance of any angle.
-randomVector :: TFGen -> V3 Float
+randomVector :: TFGen -> V3
 randomVector gen =
     let (u, gen2) = randomR (0,1) gen
         (v, _)    = randomR (0,1) gen2

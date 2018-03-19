@@ -24,14 +24,14 @@ module Color
 -- so that mat clamps its args to [0,1] and emit to [0,inf)
 -- though maybe faces shouldn't have mat and emit in the first place
 
-import           Control.Lens.Operators ((<&>))
+import           V3
+
 import           Data.List              (genericLength)
-import           Linear.V3
 
 -- |Datatype for light and material colors.
 type RGB = V3
 
-rgb :: a -> a -> a -> RGB a
+rgb :: Float -> Float -> Float -> RGB
 rgb = V3
 
 {-
@@ -41,16 +41,16 @@ instance Show a => Show (HSL a) where
     show (HSL h s l) = unwords ["HSL", show h, show s, show l]
 -}
 
-black :: Num a => RGB a
+black :: RGB
 black = rgb 0 0 0
 
-gray :: Fractional a => RGB a
+gray :: RGB
 gray = rgb 0.3 0.3 0.3
 
-white :: Num a => RGB a
+white :: RGB
 white = rgb 1 1 1
 
-noEmit :: Num a => RGB a
+noEmit :: RGB
 noEmit = rgb 0 0 0
 
 {-
@@ -72,21 +72,21 @@ toHSL (RGB r g b) =
     in  HSL h s l
 -}
 
-average :: Fractional a => [RGB a] -> RGB a
-average cs = sum cs <&> (/ genericLength cs)
+average :: [RGB] -> RGB
+average cs = (1 / genericLength cs) *^ sum cs
 
 data Material = Mat {
     reflective :: Float, -- ^ 0 = diffuse, 1 = reflective
-    surfColor  :: RGB Float, -- ^ surface color
+    surfColor  :: RGB,   -- ^ surface color
     emissive   :: Float, -- ^ multiplied by emit color
-    emitColor  :: RGB Float -- ^ color of light the material emits
+    emitColor  :: RGB    -- ^ color of light the material emits
 } deriving (Show)
 
-diffuse :: RGB Float -> Material
+diffuse :: RGB -> Material
 diffuse col = Mat 0 col 0 0
 
-emission :: RGB Float -> Material
+emission :: RGB -> Material
 emission col = Mat 0 0 1 col
 
-whiteLight :: Float -> RGB Float -> Material
+whiteLight :: Float -> RGB -> Material
 whiteLight = Mat 0 0

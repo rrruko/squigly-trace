@@ -12,9 +12,9 @@ module Obj
 
 import           Color              (Material (..), RGB)
 import           Geometry           hiding (vertex)
+import           V3
 
 import           Control.Monad      (void, when)
-import           Linear.V3
 import           Text.Parsec
 import           Text.Parsec.String
 
@@ -77,18 +77,20 @@ makeScene objs mats =
     in  concatMap (makeTris allVerts) matches
 
 -- |Convert the object to a list of triangles all having the given material.
-makeTris :: [V3 Float] -> (Object, (String, Material)) -> [Triangle]
+makeTris :: [V3] -> (Object, (String, Material)) -> [Triangle]
 makeTris vs (obj, mat) = map makeTri $ faces obj
-    where makeTri (V3 a b c) =
+    where makeTri (Face a b c) =
               Triangle (vs !! (a-1))
                        (vs !! (b-1))
                        (vs !! (c-1))
                        (snd mat)
 
+data Face = Face { _i1, _i2, _i3 :: Int } deriving Show
+
 data Object = Object {
-    verts :: [V3 Float],
+    verts :: [V3],
     mtl   :: String,
-    faces :: [V3 Int]
+    faces :: [Face]
 } deriving Show
 
 loadObjFile :: Parser (String, [Object])
@@ -104,10 +106,10 @@ objectName :: Parser String
 objectName = char 'o' *> spaces
     *> many1 (alphaNum <|> oneOf "._") <* spaces
 
-vertex :: Parser (V3 Float)
+vertex :: Parser V3
 vertex = char 'v' *> spaces *> fmap swapYZ vec3
 
-swapYZ :: V3 Float -> V3 Float
+swapYZ :: V3 -> V3
 swapYZ (V3 x y z) = V3 x z y
 
 fractional :: Parser Float
@@ -130,11 +132,16 @@ word = many1 (noneOf " \t\n\r\f\v") <* spaces
 parseS :: Parser ()
 parseS = void (try (string "s on") <|> string "s off") <* spaces
 
-face :: Parser (V3 Int)
-face = fmap readInt <$> (char 'f' *> spaces *>
-    (V3 <$> numToken <*> numToken <*> numToken))
-        where readInt x = read x :: Int
-              numToken = many1 digit <* spaces
+face :: Parser Face
+face = do
+    char 'f'
+    spaces
+    x <- numToken
+    y <- numToken
+    z <- numToken
+    pure (Face x y z)
+    where readInt x = read x :: Int
+          numToken = readInt <$> (many1 digit <* spaces)
 
 loadMtlFile :: Parser [(String, Material)]
 loadMtlFile = many loadMtl
@@ -153,11 +160,12 @@ loadMtl = do
     spaces
     pure (name, Mat ref refColor emit emitCol)
 
-rgbColor :: Parser (RGB Float)
+rgbColor :: Parser RGB
 rgbColor = vec3
 
-vec3 :: Parser (V3 Float)
-vec3 = V3
-    <$> (fractional <* spaces)
-    <*> (fractional <* spaces)
-    <*> (fractional <* spaces)
+vec3 :: Parser V3
+vec3 = do
+    x <- fractional <* spaces
+    y <- fractional <* spaces
+    z <- fractional <* spaces
+    pure (V3 x y z)

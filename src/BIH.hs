@@ -13,6 +13,7 @@ module BIH
     ) where
 
 import           Geometry
+import           V3
 
 import           Data.List
 import           Data.Maybe
@@ -20,7 +21,6 @@ import           Data.Ord       (comparing)
 import           Data.Semigroup
 import           Data.Vector    (Vector)
 import qualified Data.Vector    as V
-import           Linear.V3
 import           Safe           (maximumDef, minimumByMay, minimumDef)
 
 data Tree a b = Leaf b | Branch a (Tree a b) (Tree a b) deriving (Show)

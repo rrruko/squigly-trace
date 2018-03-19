@@ -1,6 +1,6 @@
 {-|
 Module      : Geometry
-Description : Geometric types based on Linear.V3
+Description : Geometric types
 Maintainer  : rukokarasu@gmail.com
 Stability   : experimental
 -}
@@ -31,28 +31,25 @@ module Geometry
     ) where
 
 import           Color         (Material)
+import           V3
 
-import           Control.Lens  ((^.))
 import           Data.List     hiding (intersect)
 import           Data.Matrix   (Matrix, fromList, (!))
 import           Data.Maybe    (catMaybes)
 import           Data.Ord      (comparing)
-import           Linear.Metric (dot, norm)
-import           Linear.V3
-import           Linear.Vector ((*^))
 
-data Camera = Camera { position :: V3 Float, rotation :: Matrix Float }
+data Camera = Camera { position :: V3, rotation :: Matrix Float }
     deriving (Show)
 
 data Ray = Ray {
-    vertex    :: !(V3 Float),
-    direction :: !(V3 Float)
+    vertex    :: !V3,
+    direction :: !V3
 } deriving (Show)
 
 data Triangle = Triangle {
-    tFirst   :: !(V3 Float),
-    tSecond  :: !(V3 Float),
-    tThird   :: !(V3 Float),
+    tFirst   :: !V3,
+    tSecond  :: !V3,
+    tThird   :: !V3,
     material :: !Material
 }
 
@@ -72,22 +69,22 @@ instance Show a => Show (Scene a) where
 
 -- |Clump of data describing a successful intersection test.
 data Intersection = Intersection {
-    intersectPoint :: !(V3 Float), -- ^ The point where the intersection happened
+    intersectPoint :: !V3, -- ^ The point where the intersection happened
     dist           :: !Float, -- ^ The distance from the ray's origin to @`intersectPoint`@
     surface        :: !Triangle -- ^ The object hit, because we need its texture later
 } deriving (Show)
 
 -- |All squigly-trace triangles are double-sided, which means a triangle is
 -- treated exactly the same if its normal is multiplied by -1.
-normal :: Triangle -> V3 Float
+normal :: Triangle -> V3
 normal (Triangle a b c _) = (b - a) `cross` (c - a)
 
-vertices :: Triangle -> [V3 Float]
+vertices :: Triangle -> [V3]
 vertices tri = [tFirst tri, tSecond tri, tThird tri]
 
 -- |Returns its vector argument rotated by the euler angles alp, bet, and gam.
 -- Maybe using quaternions would be better.
-rotate :: Float -> Float -> Float -> V3 Float -> V3 Float
+rotate :: Float -> Float -> Float -> V3 -> V3
 rotate alp bet gam vert = rotVert vert (rotMatrixRads alp bet gam)
 
 rotMatrixRads :: Float -> Float -> Float -> Matrix Float
@@ -104,10 +101,10 @@ rotMatrixRads alp bet gam = foldr1 (*) . map (fromList 3 3) $
       0,        cos gam,  -sin gam,
       0,        sin gam,  cos gam]]
 
-rotVert :: V3 Float -> Matrix Float -> V3 Float
-rotVert vert matr = toV3 (fromV3 vert * matr)
-    where toV3 m  = V3 (m ! (1,1)) (m ! (1,2)) (m ! (1,3))
-          fromV3 (V3 x y z) = fromList 1 3 [x, y, z]
+rotVert :: V3 -> Matrix Float -> V3
+rotVert vert matr = toV (fromV vert * matr)
+    where toV m  = V3 (m ! (1,1)) (m ! (1,2)) (m ! (1,3))
+          fromV (V3 x y z) = fromList 1 3 [x, y, z]
 
 -- |Try to intersect every triangle with a ray, without even trying to optimize.
 naiveIntersect :: [Triangle] -> Ray -> Maybe Intersection
@@ -146,22 +143,23 @@ mollerTrumbore ray tri
 
 -- | @a \`to\` b@ makes a Ray that points from @a@ to @b@.
 {-# INLINE to #-}
-to :: V3 Float -> V3 Float -> Ray
+to :: V3 -> V3 -> Ray
 a `to` b = Ray a (b - a)
 
 -- |An axis-aligned bounding box is uniquely defined by its minimum and maximum
 -- extents on each axis.
 -- For example, a cube centered at the origin with side length 1 is
 -- (V3 -0.5 -0.5 -0.5, V3 0.5 0.5 0.5)
-data Bounds = Bounds !(V3 Float) !(V3 Float) deriving Show
+data Bounds = Bounds !V3 !V3 deriving Show
 
-getBounds :: [V3 Float] -> Bounds
+getBounds :: [V3] -> Bounds
 getBounds verts =
-    let xProject = map (^._x) verts
-        yProject = map (^._y) verts
-        zProject = map (^._z) verts
-        V3 minX minY minZ = minimum <$> V3 xProject yProject zProject
-        V3 maxX maxY maxZ = maximum <$> V3 xProject yProject zProject
+    let xProject = map _x verts
+        yProject = map _y verts
+        zProject = map _z verts
+        (minX, maxX) = (minimum xProject, maximum xProject)
+        (minY, maxY) = (minimum yProject, maximum yProject)
+        (minZ, maxZ) = (minimum zProject, maximum zProject)
     in  Bounds (V3 minX minY minZ) (V3 maxX maxY maxZ)
 
 -- |Whether a ray intersects with a bounding box.
@@ -180,14 +178,14 @@ intersectsBB (Bounds (V3 lx ly lz) (V3 hx hy hz)) (Ray (V3 vx vy vz) (V3 dirx di
 
 -- |The average of a list of vectors. If the vectors represent vertices, this
 -- gets their center of mass.
-averagePoints :: [V3 Float] -> V3 Float
-averagePoints verts = fmap (/genericLength verts) (sum verts)
+averagePoints :: [V3] -> V3
+averagePoints verts = vmap (/genericLength verts) (sum verts)
 
 -- |The size of an axis-aligned bounding box along the given axis.
 dim :: Axis -> Bounds -> Float
-dim X (Bounds lo hi) = hi ^. _x - lo ^. _x
-dim Y (Bounds lo hi) = hi ^. _y - lo ^. _y
-dim Z (Bounds lo hi) = hi ^. _z - lo ^. _z
+dim X (Bounds lo hi) = _x hi - _x lo
+dim Y (Bounds lo hi) = _y hi - _y lo
+dim Z (Bounds lo hi) = _z hi - _z lo
 
 -- |The longest axis of an axis-aligned bounding box.
 longestAxis :: Bounds -> Axis
@@ -199,7 +197,7 @@ boundingBox :: [Triangle] -> Bounds
 boundingBox = getBounds . concatMap vertices
 
 -- |Get the X, Y, or Z component of a vector.
-projectToAxis :: Axis -> V3 Float -> Float
+projectToAxis :: Axis -> V3 -> Float
 projectToAxis ax (V3 x y z) =
     case ax of
         X -> x
