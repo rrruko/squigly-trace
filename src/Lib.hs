@@ -125,14 +125,16 @@ makeRay (w :. h) (y :. x) cam =
 -- If a ray bounces enough times without hitting a light source, we can assume
 -- it's black.
 raytrace :: TFGen -> Scene a -> Ray -> Int -> RGB
-raytrace gen scene@(Scene geom isect) ray bounces = fromMaybe black $ do
-    inter <- isect geom ray
-    let Mat {..} = material $ surface inter
-        newRay = bounceRay gen ray inter
-        newGen = snd (next gen)
-        nextBounce = surfColor * raytrace newGen scene newRay (bounces + 1)
-        emitContribution = emissive *^ emitColor
-    pure $ nextBounce + emitContribution
+raytrace gen scene@(Scene geom isect) ray bounces
+    | bounces > 2 = black
+    | otherwise = fromMaybe black $ do
+        inter <- isect geom ray
+        let Mat {..} = material $ surface inter
+            newRay = bounceRay gen ray inter
+            newGen = snd (next gen)
+            nextBounce = surfColor * raytrace newGen scene newRay (bounces + 1)
+            emitContribution = emissive *^ emitColor
+        pure $ nextBounce + emitContribution
 
 -- I'm not interested in properly implementing raycasting right now so there's
 -- just a single light here at a hardcoded position.
