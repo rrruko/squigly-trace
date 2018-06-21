@@ -10,8 +10,7 @@ of writing efficient Haskell programs.
 
 May or may not currently be on hiatus.
 
-Let me know if something is amiss. (In particular, it's terribly slow and I'm
-kind of stuck on fixing that.)
+Let me know if something is amiss. (In particular, it's currently a bit slow.)
 
 # Building
 
